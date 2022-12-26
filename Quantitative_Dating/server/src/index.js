@@ -2,11 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 /*Import Routes*/
 
-import crudRouter from "./routes/crudRoutes";
+var crudRouter = require("./routes/crudRoutes.js");
 
 
 const mongo_user = process.env.DB_USER;

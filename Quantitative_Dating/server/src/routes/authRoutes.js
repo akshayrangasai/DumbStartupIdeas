@@ -1,7 +1,7 @@
 /* Handles all routing for authorization and authnetication - all the passport code and routes will live here */
 
 import { Router } from "express";
-import { passportAuth } from "../src/auth/auth";
+import { passportAuth } from "../auth/auth";
 
 const authRouter = Router();
 

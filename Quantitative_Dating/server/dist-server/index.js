@@ -18,9 +18,8 @@ mongoose.connect(mongoConnString);
 var mongoConnection = mongoose.connection;
 mongoConnection.on('error', console.error.bind(console, 'Console Error'));
 var app = express();
-app.use(cors({
-  origin: process.env.CORS_ORIGIN
-}));
+app.use(cors( /*{origin:process.env.CORS_ORIGIN}*/));
+console.log('Accepting connections from', process.env.CORS_ORIGIN);
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -32,5 +31,9 @@ mongoConnection.once('open', function () {
   app.listen(_PORT, function () {
     return console.log('Listening in port', _PORT);
   });
-  app.use('/matches', crudRouter);
+  app.use('/crud', crudRouter);
+  app.get('/', function (req, res) {
+    console.log('Request');
+    res.send('Hello world');
+  });
 });

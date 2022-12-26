@@ -3,7 +3,8 @@
 var _mongoose = require("mongoose");
 var matchSchema = new _mongoose.Schema({
   matchUser: {
-    type: String,
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     required: true
   },
   /*Pass user id for match - can autopopulate with session data*/

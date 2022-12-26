@@ -24,7 +24,8 @@ mongoConnection.on('error', console.error.bind(console, 'Console Error'));
 
 const app = express();
 
-app.use(cors({origin:process.env.CORS_ORIGIN}))
+app.use(cors(/*{origin:process.env.CORS_ORIGIN}*/))
+console.log('Accepting connections from',process.env.CORS_ORIGIN);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /*Wait for DB connection before running server */
@@ -33,7 +34,8 @@ mongoConnection.once('open',() => {
     
     console.log('Connected to DB');
     app.listen(_PORT, () => console.log('Listening in port', _PORT));
-    app.use('/matches',crudRouter);
+    app.use('/crud',crudRouter);
+    app.get('/', (req,res) => {console.log('Request'); res.send('Hello world');})
 
 
 });

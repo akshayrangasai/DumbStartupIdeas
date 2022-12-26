@@ -1,9 +1,9 @@
-import { Schema , model } from 'mongoose';
+import { Schema , model} from 'mongoose';
 
 const matchSchema = new Schema(
     {
     
-        matchUser : {type : String, required : true },
+        matchUser : {type : Schema.Types.ObjectId, ref: 'user', required : true },
         /*Pass user id for match - can autopopulate with session data*/
         matchName : {type : String, required : true },
         matchDate: {type : Date, required : true },

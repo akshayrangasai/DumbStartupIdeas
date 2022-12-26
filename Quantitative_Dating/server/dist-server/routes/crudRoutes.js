@@ -3,7 +3,21 @@
 var _express = require("express");
 var _auth = require("../auth/auth");
 var _matches = require("../crud/matches");
+var _user = require("../crud/user");
+var _dates = require("../crud/dates");
 var crudRouter = (0, _express.Router)();
-crudRouter.get('/all/', _matches.getAllMatches);
-crudRouter.post('/newMatch/', _matches.newMatch);
+
+/*Matches Routing*/
+crudRouter.get('/matches/all/', _matches.getAllMatches);
+crudRouter.post('/matches/newMatch/', _matches.newMatch);
+crudRouter.get('/matches/allMatchNames/', _matches.allMatchNames);
+
+/* User Routing*/
+
+crudRouter.post('/user/addNew/', _user.newUser);
+
+/* Date Routing*/
+
+crudRouter.post('/date/addNew/', _dates.newDate);
+crudRouter.get('/date/all/', _dates.getAllDates);
 module.exports = crudRouter;

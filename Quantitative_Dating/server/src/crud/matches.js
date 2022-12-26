@@ -1,4 +1,5 @@
-import {matchModel} from "../models/match";
+const matchModel = require("../models/match");
+const userModel = require("../models/user");
 
 const getAllMatches = (req,res) =>
 {
@@ -8,7 +9,7 @@ const getAllMatches = (req,res) =>
     const user = req.body.user;
     
     */
-    matchModel.findAll(/*{matchUser : user}*/)
+    matchModel.find(/*{matchUser : user}*/)
     .then
     (
         (data,err) => res.json(data) 
@@ -24,26 +25,75 @@ const getAllMatches = (req,res) =>
 const newMatch = (req,res) =>
 {
 
-    const matchData = {
-        matchUser: req.body.user || 'akshay@sigmacomputing.com',
-        matchName : req.body.matchName,
-        matchDate: req.body.matchDate,
-        matchSource : req.body.matchSource,
-        matchSourceDetails : req.body.matchSourceDetails,
-        matchNotes: req.body.matchNotes,
-    };
+    userModel.findOne({username:req.body.user || 'akshayrangasai'})
+    .then(
+           (userData,err) => {
+            
+            const userid = userData._id;
+            const matchData = 
+                {
+                matchUser: userid,
+                matchName : req.body.matchName || 'Aditya K Anguria',
+                matchDate: req.body.matchDate || '11/26/1992',
+                matchSource : req.body.matchSource || 'Bumble',
+                matchSourceDetails : req.body.matchSourceDetails || 'Bumble BFF',
+                matchNotes: req.body.matchNotes || 'Hottie',
+                };
 
-    matchModel.insertOne(matchData)
-    .then
-    (
-        (data,err) => res.json(data) 
+            console.log(matchData);
+            matchModel.create(matchData)
+            .then
+            (
+                (data,err) => res.json(data) 
+            )
+            .catch
+            (
+                (err) => console.log(err)
+            )
+        }
     )
     .catch
     (
         (err) => console.log(err)
     );
     
+    
 };
 
 
-module.exports = {getAllMatches, newMatch};
+/* Separate End Point to Creat a list that we can hit for our date API*/
+const allMatchNames = (req,res) =>
+{
+
+    userModel.findOne({username:req.body.user || 'akshayrangasai'})
+    .then
+    (
+        (userData, err) => 
+        {
+            const query = 
+            {
+                matchUser : userData._id
+            };
+            console.log(query);
+            matchModel.find(query, "_id matchName")
+            .then
+            (
+                (data,err) => res.json(data) 
+            )
+            .catch
+            (
+                (err) => console.log(err)
+            );
+
+        }
+    )
+    .catch
+    (
+        (err) => console.log(err)
+    )
+    
+};
+
+
+
+module.exports = {getAllMatches, newMatch, allMatchNames};

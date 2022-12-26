@@ -4,7 +4,8 @@ var _mongoose = require("mongoose");
 var userSchema = new _mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -12,6 +13,11 @@ var userSchema = new _mongoose.Schema({
   },
   email: {
     type: String,
+    required: true,
+    unique: true
+  },
+  createdAt: {
+    type: Date,
     required: true
   }
 });

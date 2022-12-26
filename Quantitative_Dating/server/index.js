@@ -4,6 +4,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+/*Import Routes*/
+
+import crudRouter from "./routes/crudRoutes";
+
 
 const mongo_user = process.env.DB_USER;
 const mongo_pwd = process.env.DB_PWD;
@@ -17,11 +21,19 @@ mongoose.connect(mongoConnString);
 const mongoConnection = mongoose.connection;
 
 mongoConnection.on('error', console.error.bind(console, 'Console Error'));
-mongoConnection.once('open',() => console.log('Connected to DB'));
 
 const app = express();
 
 app.use(cors({origin:process.env.CORS_ORIGIN}))
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(_PORT, () => console.log('Listening in port', _PORT));
+/*Wait for DB connection before running server */
+
+mongoConnection.once('open',() => {
+    
+    console.log('Connected to DB');
+    app.listen(_PORT, () => console.log('Listening in port', _PORT));
+    app.use('/matches',crudRouter);
+
+
+});

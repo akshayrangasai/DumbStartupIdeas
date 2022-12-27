@@ -2,6 +2,10 @@
 
 var _mongoose = require("mongoose");
 var dateSchema = new _mongoose.Schema({
+  /* dateUser :
+  Should we add a user here so we can just get a list of all dates for the user?
+  */
+
   dateMatch: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: 'matchModel',

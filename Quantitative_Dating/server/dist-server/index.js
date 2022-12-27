@@ -5,10 +5,15 @@ var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var mongoStore = require('connect-mongo');
+var passport = require('passport');
+;
 /*Import Routes*/
 
 var crudRouter = require("./routes/crudRoutes.js");
+var authRouter = require('./routes/authRoutes');
 var mongo_user = process.env.DB_USER;
 var mongo_pwd = process.env.DB_PWD;
 var mongo_url = process.env.DB_URL;
@@ -27,11 +32,30 @@ app.use(bodyParser.urlencoded({
 /*Wait for DB connection before running server */
 
 mongoConnection.once('open', function () {
+  /* Middleware for sessions */
+
+  app.use(cookieParser());
+  app.use(session({
+    secret: 'cookie_secret',
+    name: 'kaas',
+    store: mongoStore.create({
+      client: mongoConnection.client
+    }),
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  /* Middleware Ends */
+
   console.log('Connected to DB');
   app.listen(_PORT, function () {
     return console.log('Listening in port', _PORT);
   });
   app.use('/crud', crudRouter);
+  app.use('/auth', authRouter);
   app.get('/', function (req, res) {
     console.log('Request');
     res.send('Hello world');

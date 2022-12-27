@@ -17,8 +17,8 @@ crudRouter.post('/user/addNew/', newUser);
 
 /* Date Routing*/
 
-crudRouter.post('/date/addNew/', newDate);
-crudRouter.get('/date/all/', getAllDates);
+crudRouter.post('/dates/addNew/', newDate);
+crudRouter.get('/dates/all/', getAllDates);
 
 
 module.exports = crudRouter;

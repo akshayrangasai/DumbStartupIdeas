@@ -63,7 +63,7 @@ const authRouter = Router();
 
 authRouter.get('/google/', passport.authenticate('google', {scope : ['email','profile','https://www.googleapis.com/auth/gmail.compose'], accessType: 'offline'}));
 authRouter.get('/google/callback', passport.authenticate('google',{
-    successRedirect: '/crud/recepient/all',
+    successRedirect: process.env.CLIENT_URL,
     failureRedirect: '/google/'
 }));
 authRouter.get('/logout', function(req, res, next){

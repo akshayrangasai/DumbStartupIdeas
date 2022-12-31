@@ -10,7 +10,7 @@ const newOccasion = (req,res) =>
     createOrFindRecepient(req,res)
     .then(
            (recepientData,err) => {
-            findUser(req.body.fromUser).then(
+            findUser(req.user.doc.email).then(
                 
                 (userData) =>{
                 const recepientid = recepientData._id;

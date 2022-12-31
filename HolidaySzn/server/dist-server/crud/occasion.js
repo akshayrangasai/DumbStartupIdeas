@@ -8,7 +8,7 @@ var occasionModel = require("../models/occasion");
 
 var newOccasion = function newOccasion(req, res) {
   (0, _recepient.createOrFindRecepient)(req, res).then(function (recepientData, err) {
-    (0, _user.findUser)(req.body.fromUser).then(function (userData) {
+    (0, _user.findUser)(req.user.doc.email).then(function (userData) {
       var recepientid = recepientData._id;
       var occasionData = {
         fromUser: userData._id,

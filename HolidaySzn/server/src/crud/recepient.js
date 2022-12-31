@@ -3,7 +3,8 @@ import { findUser } from "./user";
 
 const findAllRecepients = (req,res) =>
 {
-    let userEmail = req.body.fromUser || 'test@dumbstartupideas.com'; 
+    //console.log();
+    let userEmail = req.user.doc.email; 
     findUser( userEmail ).then
                     (
                         (user) => 
@@ -45,7 +46,7 @@ const createOrFindRecepient = (req,res) =>
 {
 
     return new Promise( (resolve, reject) => {
-        let userEmail = req.body.useremail || 'test@dumbstartupideas.com'; 
+        let userEmail = req.user.doc.email; 
         recepientModel.findOne({toEmail:req.body.toEmail || 'akshayrangasai.d@gmail.com'})
         .then(
             (recepientData,err) => {

@@ -8,7 +8,7 @@ const userSchema = new Schema(
         email : {type : String, required : true, unique : true },
         createdAt : {type : Date, required : true},
         accessToken : {type : String, required : true},
-        refreshToken : {type : String},
+        refreshToken : {type : String, required : true},
 
     }
       

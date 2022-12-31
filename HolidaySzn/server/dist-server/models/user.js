@@ -21,7 +21,8 @@ var userSchema = new _mongoose.Schema({
     required: true
   },
   refreshToken: {
-    type: String
+    type: String,
+    required: true
   }
 });
 userSchema.plugin(findOrCreate);

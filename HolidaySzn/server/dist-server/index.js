@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoStore = require('connect-mongo');
 var passport = require('passport');
-;
+
 /*Import Routes*/
 
 var crudRouter = require("./routes/crudRoutes.js");

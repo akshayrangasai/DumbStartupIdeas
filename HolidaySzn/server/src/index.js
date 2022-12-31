@@ -7,7 +7,8 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 const mongoStore = require('connect-mongo');
 const passport = require('passport');
-;
+
+
 /*Import Routes*/
 
 var crudRouter = require("./routes/crudRoutes.js");

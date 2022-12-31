@@ -22,13 +22,16 @@ var StrategyParams = {
   passReqToCallback: true
 };
 passport.serializeUser(function (user, done) {
+  //console.log(user);
   done(null, user);
 });
 passport.deserializeUser(function (obj, done) {
+  //console.log(obj);
   done(null, obj);
 });
 var passportCallBack = function passportCallBack(req, accessToken, refreshToken, profile, done) {
-  console.log(profile);
+  //console.log(profile);
+
   _user["default"].findOrCreate({
     email: profile.email
   }, {
@@ -36,7 +39,7 @@ var passportCallBack = function passportCallBack(req, accessToken, refreshToken,
     accessToken: accessToken,
     refreshToken: refreshToken,
     createdAt: new Date()
-  }).then(function (err, user) {
+  }).then(function (user, err) {
     return done(err, user);
   });
 };
@@ -46,10 +49,19 @@ passport.use(new GoogleStrategy(StrategyParams, passportCallBack));
 
 var authRouter = (0, _express.Router)();
 authRouter.get('/google/', passport.authenticate('google', {
-  scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.send']
+  scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.compose'],
+  accessType: 'offline'
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
-  successRedirect: '/crud/occasion/create',
-  failureRedirect: '/crud/recepient/all'
+  successRedirect: '/crud/recepient/all',
+  failureRedirect: '/google/'
 }));
+authRouter.get('/logout', function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
 module.exports = authRouter;

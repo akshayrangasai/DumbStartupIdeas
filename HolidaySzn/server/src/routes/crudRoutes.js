@@ -2,7 +2,11 @@ import { Router } from "express";
 import { passportAuth } from "../auth/auth";
 import {newUser} from "../crud/user"
 import { newOccasion } from "../crud/occasion";
-import {findAllRecepients} from "../crud/recepient"
+import {findAllRecepients} from "../crud/recepient";
+
+const ensureLogIn = require('connect-ensure-login');
+var ensureLoggedIn = ensureLogIn.ensureLoggedIn('/auth/google/');
+
 
 const crudRouter = Router();
 
@@ -10,15 +14,15 @@ const crudRouter = Router();
 
 /*Occasion*/
 
-crudRouter.post('/occasion/create/', newOccasion);
+crudRouter.post('/occasion/create/', ensureLoggedIn, newOccasion);
 
 /* Recepients */
 
-crudRouter.get('/recepient/all/', findAllRecepients);
+crudRouter.get('/recepient/all/', ensureLoggedIn,  findAllRecepients);
 
 /* User Routing*/
 
-crudRouter.post('/user/addNew/', newUser);
+//crudRouter.post('/user/addNew/', ensureLoggedIn, newUser);
 
 
 

@@ -72,4 +72,9 @@ authRouter.get('/logout', function(req, res, next){
       res.redirect('/');
     });
   });
+
+
+authRouter.get('/user', (req,res) => {
+    res.json({'user' : req.user.doc.email});
+});
 module.exports = authRouter;

@@ -7,11 +7,13 @@ import "./App.css";
 function App() {
 	const [user, setUser] = useState(null);
 
+  /* Check user exists, if not check with server and then add local storage, if not change stack */
 	const getUser = async () => {
 		try {
-			const url = `${process.env.SERVER_URL}/auth/getUser`;
+			const url = `${process.env.SERVER_URL}/auth/user`;
 			const { data } = await axios.get(url, { withCredentials: true });
-			setUser(data.user._json);
+			setUser(data.user);
+			
 		} catch (err) {
 			console.log(err);
 		}
@@ -23,7 +25,7 @@ function App() {
 
 	return (
 		<div className="container">
-			<Routes>
+      <Routes>
 				<Route
 					exact
 					path="/login"

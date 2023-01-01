@@ -53,7 +53,7 @@ authRouter.get('/google/', passport.authenticate('google', {
   accessType: 'offline'
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
-  successRedirect: "http://localhost:3000",
+  successRedirect: process.env.CLIENT_URL,
   failureRedirect: '/google/'
 }));
 authRouter.get('/logout', function (req, res, next) {

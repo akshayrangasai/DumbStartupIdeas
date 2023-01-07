@@ -7,6 +7,7 @@ const messageBuildSchema = new Schema(
     {
     
         fromUser : {type : Schema.Types.ObjectId, ref: 'user', required : true },
+        occasionId: {type : Schema.Types.ObjectId, ref: 'occasion', required : true },
         name : {type : String, required : true},
         fromEmail: {type : String, required : true},
         toEmail : {type : String, required : true },

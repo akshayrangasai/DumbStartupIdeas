@@ -27,6 +27,7 @@ function _buildMessageFromPrompt() {
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             var messageData = {
               fromUser: messageInfo.fromUser,
+              occasionId: messageInfo.occasionId,
               fromEmail: messageInfo.fromEmail,
               toEmail: messageInfo.toEmail,
               //toPhone : {type : String},
@@ -67,6 +68,7 @@ function _insertMessage() {
           recepient = _context2.sent;
           messageBuilderMessage = {
             fromUser: occasion.fromUser,
+            occasionId: occasion._id,
             name: user.name,
             fromEmail: user.email,
             toEmail: recepient.toEmail,
@@ -83,7 +85,7 @@ function _insertMessage() {
             console.log(prompt);
             buildMessageFromPrompt(prompt, messageInfo).then(function (messageSuccess) {
               console.log("success", messageSuccess);
-              (0, _emailHandler.sendEmail)(messageSuccess.fromEmail, messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
+              //sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
             })["catch"](function (err) {
               return console.log(err);
             });

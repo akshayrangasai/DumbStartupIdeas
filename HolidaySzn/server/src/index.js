@@ -30,9 +30,15 @@ mongoConnection.on('error', console.error.bind(console, 'Console Error'));
 
 const app = express();
 
-app.use(cors(/*{origin:process.env.CORS_ORIGIN}*/))
+app.use(cors(
+    {
+    origin:process.env.CLIENT_URL,
+    credentials:true, 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+    }))
 console.log('Accepting connections from',process.env.CORS_ORIGIN);
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 
 /*Wait for DB connection before running server */
@@ -43,8 +49,8 @@ mongoConnection.once('open',() => {
 
 app.use( cookieParser()); 
 app.use( session({ 
-	secret: 'cookie_secret',
-	name:   'kaas',
+	secret: process.env.COOKIE_SECRET,
+	name:   'greetings.session',
 	store:  mongoStore.create({client:mongoConnection.client}),
 	proxy:  true,
     resave: true,

@@ -64,4 +64,15 @@ authRouter.get('/logout', function (req, res, next) {
     res.redirect('/');
   });
 });
+authRouter.get('/user', function (req, res) {
+  res.json({
+    'user': req.user.doc.email
+  });
+});
+authRouter.get('/user/profile/', function (req, res) {
+  res.json({
+    'user': req.user.doc.name,
+    'email': req.user.doc.email
+  });
+});
 module.exports = authRouter;

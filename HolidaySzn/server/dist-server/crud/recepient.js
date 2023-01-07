@@ -64,3 +64,5 @@ module.exports = {
   findAllRecepients: findAllRecepients,
   findRecepientById: findRecepientById
 };
+
+//mongodb+srv://dumblord@0V2vgSVGC6NkvUUTcluster0.xzyu0mk.mongodb.net/Holiday_szn

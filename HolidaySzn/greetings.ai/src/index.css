@@ -4,3 +4,39 @@ body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
 }
+.messageCard{
+  background : rgba(200, 200, 200, 0.3);
+  margin: 10px auto 10px auto;
+  padding:5px;
+  max-height: 250px;
+  border: 1px 1px 1px 1px #000;
+  display:block;
+  
+}
+.messageCardTitle{
+
+  color: #da1d9b;
+  font-size: 14px;
+  margin:5px;
+
+}
+
+.messageCardValue{
+
+  color: #183f5a;
+  font-size: 13px;
+  margin:5px;
+
+}
+.messageCardSection{
+
+  display: block;
+  margin:5px;
+  border-bottom: #da1d9b 1px;
+
+}
+
+.messageButton
+{
+  margin:5px;
+}

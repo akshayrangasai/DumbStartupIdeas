@@ -94,3 +94,5 @@ const createOrFindRecepient = (req,res) =>
 
 
 module.exports = {createOrFindRecepient, findAllRecepients, findRecepientById};
+
+//mongodb+srv://dumblord@0V2vgSVGC6NkvUUTcluster0.xzyu0mk.mongodb.net/Holiday_szn

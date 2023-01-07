@@ -7,6 +7,7 @@ const messageSchema = new Schema(
     {
     
         fromUser : {type : Schema.Types.ObjectId, ref: 'user', required : true },
+        occasionId: {type : Schema.Types.ObjectId, ref: 'occasion', required : true },
         fromEmail: {type : String, required : true},
         toEmail : {type : String, required : true },
         toPhone : {type : String},

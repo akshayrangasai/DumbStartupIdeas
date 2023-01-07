@@ -10,6 +10,11 @@ var messageBuildSchema = new _mongoose.Schema({
     ref: 'user',
     required: true
   },
+  occasionId: {
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: 'occasion',
+    required: true
+  },
   name: {
     type: String,
     required: true

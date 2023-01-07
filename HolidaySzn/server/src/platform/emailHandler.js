@@ -6,56 +6,74 @@ var sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   
 /* Mailman tells us who will send the email - Sendgrid or gmail - 1 implies sedngrid, 0 implies gmail. Currently configured for Sendgrid on default */
-const mailMan = () => 
+const mailMan = async () => 
 {
     return new Promise((resolve, reject) => {
 
-        resolve(1)
+
+
+
+        resolve(true)
     }
 
     )
 }
 
-const sendEmail = (from, to, subject, message) => {
+const sendEmail = async (from, to, subject, message) => {
 
-    mailMan().then( (SendGrid) => {
+    const sendGrid = await mailMan()
+    if(SendGrid)
+    {
+        try{
 
-        if(SendGrid)
-        {
-            const msg = {
-                to : to,
-                // Change to your recipient
-                from: 'no-reply@dumbstartupideas.com',
-                // Change to your verified sender
-                subject: subject,
-                //text : text,
-                html: message
-            };
+            const response = await sendGridHandler(from, to, subject, message)
+            return new Promise((resolve, reject) => resolve(response))
             
-            sgMail.send(msg)
-            .then(
-                function (response) 
-                {
-                console.log('Email sent to', msg.to, response);
-                }
-                )["catch"]
-                (
-                    function (error) 
-                    {
-                        console.error(error);
-                    }
-                );
-        }
-        else
-        {
-                //sendgmail
-        }
+            }
+            catch(err)
+            {
+                return new Promise((resolve, reject) => reject(err))
+            }
     }
-    ).catch
-    (
-        (err) => console.log(err)
-    );
+    else
+    {
+            //sendgmail
+    }
+}
 
+const gmailHandler = () =>
+{
+
+}
+
+const sendGridHandler = async (from, to, subject, message) =>
+{
+    
+    return new Promise((resolve, reject) =>{
+    const msg = {
+        to : to,
+        // Change to your recipient
+        from: 'no-reply@dumbstartupideas.com',
+        // Change to your verified sender
+        subject: subject,
+        //text : text,
+        html: message
+    };
+    
+    sgMail.send(msg)
+    .then(
+        function (response) 
+        {
+        resolve(response);
+        }
+        )["catch"]
+        (
+            function (error) 
+            {
+                reject(error);
+            }
+        );
+})
 }
 
 module.exports = {sendEmail}

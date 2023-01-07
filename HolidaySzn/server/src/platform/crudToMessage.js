@@ -14,6 +14,7 @@ async function buildMessageFromPrompt(prompt, messageInfo)
     return new Promise((resolve,reject) => {
         const messageData = {
         fromUser : messageInfo.fromUser,
+        occasionId: messageInfo.occasionId,
         fromEmail: messageInfo.fromEmail,
         toEmail : messageInfo.toEmail,
         //toPhone : {type : String},
@@ -37,6 +38,7 @@ async function insertMessage(occasion)
     const messageBuilderMessage =
     {
         fromUser : occasion.fromUser,
+        occasionId: occasion._id,
         name : user.name,
         fromEmail: user.email,
         toEmail : recepient.toEmail,
@@ -60,7 +62,7 @@ async function insertMessage(occasion)
                 (messageSuccess) => 
                 {
                     console.log("success", messageSuccess)
-                    sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
+                    //sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
                 }
                 ).catch((err) => console.log(err))
         }

@@ -85,7 +85,7 @@ function _insertMessage() {
             console.log(prompt);
             buildMessageFromPrompt(prompt, messageInfo).then(function (messageSuccess) {
               console.log("success", messageSuccess);
-              //sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
+              (0, _emailHandler.sendEmail)(messageSuccess.fromEmail, messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
             })["catch"](function (err) {
               return console.log(err);
             });

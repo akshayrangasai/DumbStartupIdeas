@@ -62,7 +62,7 @@ async function insertMessage(occasion)
                 (messageSuccess) => 
                 {
                     console.log("success", messageSuccess)
-                    //sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
+                    sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
                 }
                 ).catch((err) => console.log(err))
         }

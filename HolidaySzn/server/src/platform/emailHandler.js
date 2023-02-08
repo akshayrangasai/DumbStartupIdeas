@@ -2,15 +2,22 @@
 
 require('dotenv').config();
 var sgMail = require('@sendgrid/mail');
+
 //sgMail is for sendgrid email
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const GOOGLE_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_CLIENT = process.env.GOOGLE_CLIENT_ID;
   
 /* Mailman tells us who will send the email - Sendgrid or gmail - 1 implies sedngrid, 0 implies gmail. Currently configured for Sendgrid on default */
 const mailMan = async () => 
 {
     return new Promise((resolve, reject) => {
 
+        
 
+
+        //check if I can send on gmail with current creds, else rotate tokens, if that fails sned via sendgrid
 
 
         resolve(true)
@@ -22,11 +29,14 @@ const mailMan = async () =>
 const sendEmail = async (from, to, subject, message) => {
 
     const sendGrid = await mailMan()
-    if(SendGrid)
+    console.log('email handler called', sendGrid);
+    if(sendGrid)
     {
         try{
+            console.log('SendGrid called', sendGrid);
 
             const response = await sendGridHandler(from, to, subject, message)
+            console.log(response);
             return new Promise((resolve, reject) => resolve(response))
             
             }

@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 
 function Login() {
+	const authURL = process.env.REACT_APP_SERVER_URL+'/auth/google';
 	const googleAuth = () => {
 		var serverURL = "http://localhost:5555/auth/google";
 		serverURL = serverURL.concat(serverURL,"/auth/google");
 		window.open(
-			'http://localhost:5555/auth/google',
+			authURL,
 			"_self"
 		);
 	};

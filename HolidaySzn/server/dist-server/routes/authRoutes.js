@@ -12,7 +12,7 @@ var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 require('dotenv').config();
 var ensureLogIn = require('connect-ensure-login');
-var ensureLoggedIn = ensureLogIn.ensureLoggedIn('/auth/google/');
+var ensureLoggedIn = ensureLogIn.ensureLoggedIn('/auth/null/');
 var googleClientID = process.env.GOOGLE_CLIENT_ID;
 var googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 var baseURL = process.env.BASE_URL;
@@ -61,9 +61,10 @@ authRouter.get('/google/callback', passport.authenticate('google', {
 authRouter.get('/logout', ensureLoggedIn, function (req, res, next) {
   req.logout(function (err) {
     if (err) {
-      return next(err);
+      res.sendStatus(err);
+    } else {
+      res.sendStatus(200);
     }
-    res.redirect('/');
   });
 });
 authRouter.get('/user', ensureLoggedIn, function (req, res) {
@@ -76,5 +77,8 @@ authRouter.get('/user/profile/', ensureLoggedIn, function (req, res) {
     'user': req.user.doc.name,
     'email': req.user.doc.email
   });
+});
+authRouter.get('/null/', function (req, res) {
+  res.sendStatus(500);
 });
 module.exports = authRouter;

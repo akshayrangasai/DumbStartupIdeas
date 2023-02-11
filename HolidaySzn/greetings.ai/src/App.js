@@ -5,6 +5,7 @@ import PublicLanding from "./screens/Public/PublicLanding";
 import UserProfile from "./screens/Authenticated/userProfile";
 //import NewOccasionForm from "./components/createNewOccasion";
 import { NewOccasions, ShowOccasions } from "./screens/Authenticated/Occasion";
+import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import AuthenticatedApp from "./screens/Authenticated/AuthenticatedApp";
 
 import "./App.css";
@@ -23,6 +24,7 @@ function App() {
 		}
 		else
 		{
+
 		try {
 			const serverURL = process.env.REACT_APP_SERVER_URL; 
 			const url = serverURL.concat("/auth/user");
@@ -34,7 +36,8 @@ function App() {
 			}
 		catch(err)
 		{
-		console.log(err);
+		//console.log(err);
+
 		}
 	}
 };
@@ -45,7 +48,11 @@ function App() {
 
 	return (
 		<div className="container">
-		{user ? <AuthenticatedApp user = {user} /> : <PublicLanding />}
+			<ThemeProvider breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']} minBreakpoint="xxs" > 
+				
+				{user ? <AuthenticatedApp user = {user} /> : <PublicLanding />}
+			
+			</ThemeProvider>
 		</div>
 	);
 }

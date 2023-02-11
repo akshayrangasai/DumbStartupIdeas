@@ -24,6 +24,7 @@ function App() {
 		}
 		else
 		{
+
 		try {
 			const serverURL = process.env.REACT_APP_SERVER_URL; 
 			const url = serverURL.concat("/auth/user");
@@ -35,7 +36,8 @@ function App() {
 			}
 		catch(err)
 		{
-		console.log(err);
+		//console.log(err);
+
 		}
 	}
 };

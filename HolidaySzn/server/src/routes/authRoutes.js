@@ -11,7 +11,7 @@ require('dotenv').config();
 
 
 const ensureLogIn = require('connect-ensure-login');
-var ensureLoggedIn = ensureLogIn.ensureLoggedIn('/auth/google/');
+var ensureLoggedIn = ensureLogIn.ensureLoggedIn('/auth/null/');
 
 const googleClientID = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -67,10 +67,14 @@ authRouter.get('/google/callback', passport.authenticate('google',{
     successRedirect: process.env.CLIENT_URL,
     failureRedirect: '/google/'
 }));
+
 authRouter.get('/logout', ensureLoggedIn, function(req, res, next){
     req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
+      if (err) { res.sendStatus(err); }
+      else{
+        res.sendStatus(200);
+      }
+      
     });
   });
 
@@ -82,4 +86,9 @@ authRouter.get('/user', ensureLoggedIn,(req,res) => {
 authRouter.get('/user/profile/', ensureLoggedIn, (req,res) => {
   res.json({'user' : req.user.doc.name, 'email' : req.user.doc.email});
 });
+
+authRouter.get('/null/', (req,res) => {
+  res.sendStatus(403);
+});
+
 module.exports = authRouter;

@@ -24,7 +24,7 @@ var mongoConnection = mongoose.connection;
 mongoConnection.on('error', console.error.bind(console, 'Console Error'));
 var app = express();
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: process.env.CORS_ORIGIN,
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
 }));

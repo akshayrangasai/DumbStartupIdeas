@@ -1,23 +1,14 @@
 .heading {
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 600;
+    margin-top: 30px;
     color: #2c444e;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
-
-.heading::after {
-    content: "";
-    width: 450px;
-    height: 4px;
-    border-radius: 1px;
-    bottom: -20px;
-    background-color: #2c444e;
-    position: absolute;
-}
-
 .form_container {
     display: flex;
     margin-top: 45px;
@@ -123,3 +114,22 @@
     margin-left: 10px;
 }
 
+.navbar_app{
+    min-height: 50px;
+    background-color: #183f5a;
+    display:block;
+    margin-top: 30px;
+    min-width: 750px;
+
+}
+.navbar_app>a{
+    display:block;
+    padding: 10px;
+    margin: auto 10px auto 0px;
+    color:#FFFFFF;
+    font-style: normal;
+    text-decoration: none;
+    font-size: 16px;
+    float:right;
+    
+}

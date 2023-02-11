@@ -1,10 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Login from "./screens/login";
-import UserProfile from "./screens/userProfile";
+import PublicLanding from "./screens/Public/PublicLanding";
+import UserProfile from "./screens/Authenticated/userProfile";
 //import NewOccasionForm from "./components/createNewOccasion";
-import { NewOccasions, ShowOccasions } from "./screens/Occasion";
+import { NewOccasions, ShowOccasions } from "./screens/Authenticated/Occasion";
+import AuthenticatedApp from "./screens/Authenticated/AuthenticatedApp";
 
 import "./App.css";
 //require('dotenv').config();
@@ -44,24 +45,7 @@ function App() {
 
 	return (
 		<div className="container">
-		{user?"Welcome " + user: "Please Login"}
-      <Routes>
-				<Route
-					exact
-					path="/"
-					element={user ? <NewOccasions /> : <Login />}
-				/>
-				<Route
-					exact
-					path="/user"
-					element={user ? <UserProfile /> : <Login />}
-				/>
-				<Route
-					exact
-					path="/occasion"
-					element={user ? <ShowOccasions /> : <Login />}
-				/>
-			</Routes>
+		{user ? <AuthenticatedApp user = {user} /> : <PublicLanding />}
 		</div>
 	);
 }

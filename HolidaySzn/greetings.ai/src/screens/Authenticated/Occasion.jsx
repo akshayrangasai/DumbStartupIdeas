@@ -1,9 +1,9 @@
 import { Link, renderMatches } from "react-router-dom";
 //require('dotenv').config();
-import styles from "./styles.module.css";
+import styles from "../../static/styles.module.css";
 import { useEffect, useState } from "react";
-import { MessageCard } from "../components/displayCard";
-import NewOccasionForm from "../components/createNewOccasion";
+import { MessageCard } from "../../components/displayCard";
+import NewOccasionForm from "../../components/createNewOccasion";
 import axios from "axios";
 
 function ShowOccasions() {

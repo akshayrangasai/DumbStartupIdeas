@@ -1,8 +1,8 @@
 import { Link, renderMatches } from "react-router-dom";
 //require('dotenv').config();
-import styles from "./styles.module.css";
+import styles from "../../static/styles.module.css";
 import { useEffect, useState } from "react";
-import { UserCard } from "../components/displayCard";
+import { UserCard } from "../../components/displayCard";
 import axios from "axios";
 
 function UserProfile() {

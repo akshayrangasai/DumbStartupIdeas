@@ -2,6 +2,7 @@
 
 var _express = require("express");
 var _user = _interopRequireDefault(require("../models/user"));
+var _userAuthManager = require("../middleware/userAuthManager");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 /* Handles all routing for authorization and authnetication - all the passport code and routes will live here */
 
@@ -34,14 +35,8 @@ passport.deserializeUser(function (obj, done) {
 var passportCallBack = function passportCallBack(req, accessToken, refreshToken, profile, done) {
   //console.log(profile);
 
-  _user["default"].findOrCreate({
-    email: profile.email
-  }, {
-    name: profile.given_name,
-    accessToken: accessToken,
-    refreshToken: refreshToken,
-    createdAt: new Date()
-  }).then(function (user, err) {
+  (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken, profile).then(function (user, err) {
+    //console.log(user,err)
     return done(err, user);
   });
 };
@@ -56,7 +51,7 @@ authRouter.get('/google/', passport.authenticate('google', {
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
   successRedirect: process.env.CLIENT_URL,
-  failureRedirect: '/google/'
+  failureRedirect: '/null/'
 }));
 authRouter.get('/logout', ensureLoggedIn, function (req, res, next) {
   req.logout(function (err) {
@@ -68,17 +63,27 @@ authRouter.get('/logout', ensureLoggedIn, function (req, res, next) {
   });
 });
 authRouter.get('/user', ensureLoggedIn, function (req, res) {
-  res.json({
-    'user': req.user.doc.email
-  });
+  //console.log(req.user)
+  try {
+    res.json({
+      'user': req.user.email
+    });
+  } catch (err) {
+    res.send(err);
+  }
 });
 authRouter.get('/user/profile/', ensureLoggedIn, function (req, res) {
-  res.json({
-    'user': req.user.doc.name,
-    'email': req.user.doc.email
-  });
+  try {
+    res.json({
+      'user': req.user.name,
+      'email': req.user.email
+    });
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+  }
 });
 authRouter.get('/null/', function (req, res) {
-  res.sendStatus(500);
+  res.sendStatus(403);
 });
 module.exports = authRouter;

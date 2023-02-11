@@ -3,6 +3,7 @@
 import { Router } from "express";
 import user from '../models/user';
 const passport = require('passport');
+import {createOrModifyUser} from '../middleware/userAuthManager';
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 /* Passport Setup */ 
@@ -41,13 +42,12 @@ passport.serializeUser(function(user, done) {
 const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
     //console.log(profile);
 
-user.findOrCreate({email: profile.email},{name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date()})
-.then
-(
+  createOrModifyUser(accessToken, refreshToken, profile).then(
     (user, err) =>
-    {
+      {
+        //console.log(user,err)
         return done(err,user);
-    }
+      }
 );
 
 }
@@ -63,9 +63,10 @@ passport.use(new GoogleStrategy(StrategyParams,passportCallBack));
 const authRouter = Router();
 
 authRouter.get('/google/', passport.authenticate('google', {scope : ['email','profile','https://www.googleapis.com/auth/gmail.compose'], accessType: 'offline'}));
+
 authRouter.get('/google/callback', passport.authenticate('google',{
     successRedirect: process.env.CLIENT_URL,
-    failureRedirect: '/google/'
+    failureRedirect: '/null/'
 }));
 
 authRouter.get('/logout', ensureLoggedIn, function(req, res, next){
@@ -80,11 +81,27 @@ authRouter.get('/logout', ensureLoggedIn, function(req, res, next){
 
 
 authRouter.get('/user', ensureLoggedIn,(req,res) => {
-    res.json({'user' : req.user.doc.email});
+  //console.log(req.user)
+    try
+    {
+    res.json({'user' : req.user.email});
+    }
+    catch(err)
+    {
+      res.send(err);
+    }
 });
 
 authRouter.get('/user/profile/', ensureLoggedIn, (req,res) => {
-  res.json({'user' : req.user.doc.name, 'email' : req.user.doc.email});
+  try
+  {
+  res.json({'user' : req.user.name, 'email' : req.user.email});
+  }
+  catch(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
 });
 
 authRouter.get('/null/', (req,res) => {

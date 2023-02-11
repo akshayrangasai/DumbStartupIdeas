@@ -18,9 +18,8 @@ function PublicLanding() {
 		);
 	};
 	return (
-		<Container>
+		<Container fluid = "xl">
 			<PublicNav />
-			<h1 className={styles.heading}>Welcome to greetings.ai</h1>
 			<Routes>
 				<Route
 					exact
@@ -31,6 +30,11 @@ function PublicLanding() {
 					exact
 					path="/"
 					element={<LandingContent />}
+				/>
+				<Route
+					exact
+					path="/signup"
+					element={<Login />}
 				/>
 			</Routes>
 			

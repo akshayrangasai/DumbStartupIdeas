@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
-import PublicNav from "./PublicNav";
+import Row from "react-bootstrap/esm/Row";
+import Col from "react-bootstrap/esm/Col";
+import Container from "react-bootstrap/esm/Container";
+import Button from "react-bootstrap/esm/Button";
 //require('dotenv').config();
 import styles from "../../static/styles.module.css";
 
@@ -14,11 +16,21 @@ function Login() {
 		);
 	};
 	return (
-			<div className={styles.form_container}>
-					<button className={styles.google_btn} onClick={googleAuth}>
+			<Container fluid="md">
+				<h1 className={styles.heading}>Get started with greetings</h1>
+				<Row>
+					<Col></Col>
+					<Col></Col>
+					<Col>
+					<Button size="lg" className="mb-2" variant="primary" onClick={googleAuth}>
 						<span>Sign in with Google</span>
-					</button>
-			</div>
+					</Button>
+					</Col>
+					<Col></Col>
+					<Col></Col>
+				
+				</Row>
+			</Container>
 	);
 }
 

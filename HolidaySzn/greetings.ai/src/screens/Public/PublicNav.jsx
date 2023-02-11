@@ -3,22 +3,20 @@ import styles from "../../static/styles.module.css";
 import Container from "react-bootstrap/esm/Container";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
-
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/esm/Row";
 function PublicNav(props)
 {
     return(
-        <Container>
+        <Container fluid="md">
             <Navbar expand="lg" variant="light" bg="light">
-                <Container>
                     <Navbar.Brand href = "/">greetings.ai</Navbar.Brand>
-                </Container>
-                <Container>
-                    <Nav className = "me-auto">
-                        <Nav.Link href = "/login">Login</Nav.Link>
-                        <Nav.Link href = "/about">About</Nav.Link>
-                        <Nav.Link href = "/examples">Examples</Nav.Link>
+                    <Nav className = "justify-content-right" activeKey={props.pathname}>
+                        <Nav.Link href = "/login" col="red">Login</Nav.Link>
+                        <Nav.Link href = "/signup">Signup</Nav.Link>
+                        <Nav.Link href = "/examples" variant="pills">Examples</Nav.Link>
                     </Nav>
-            </Container>
+            
         </Navbar>
         </Container>
 

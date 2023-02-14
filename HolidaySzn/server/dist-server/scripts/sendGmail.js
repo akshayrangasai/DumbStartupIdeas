@@ -17,9 +17,10 @@ var redirectURL = process.env.BASE_URL + '/auth/google/';
 //redirectURL = concat(process.env.BASE_URL,redirectURL);
 
 var authClient = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, redirectURL);
-authClient.setCredentials({
-  refresh_token: "1//01_9sQApfW0GRCgYIARAAGAESNwF-L9IrNUcDAH3_Nq6-6GwHfafLMVrOXePhlQe-lG9yGMDQ3okaaxt1fVgpQcipNiTGbuvWWPk"
-});
+
+/*authClient.setCredentials({
+  refresh_token : "1//01_9sQApfW0GRCgYIARAAGAESNwF-L9IrNUcDAH3_Nq6-6GwHfafLMVrOXePhlQe-lG9yGMDQ3okaaxt1fVgpQcipNiTGbuvWWPk"
+});*/
 function constructMessage(_x) {
   return _constructMessage.apply(this, arguments);
 }
@@ -52,77 +53,56 @@ function _constructMessage() {
   }));
   return _constructMessage.apply(this, arguments);
 }
-function applyRefreshToken(_x2) {
-  return _applyRefreshToken.apply(this, arguments);
+function sendMessage(_x2) {
+  return _sendMessage.apply(this, arguments);
 }
-function _applyRefreshToken() {
-  _applyRefreshToken = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(email) {
+function _sendMessage() {
+  _sendMessage = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(messageData) {
+    var encodedMessage;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          return _context2.abrupt("return", new Promise(function (resolve, reject) {
-            (0, _userAuthManager.getRefreshToken)(email).then(function (refreshToken) {
-              ;
-              console.log('Returned Refresh Token', refreshToken);
-              authClient.setCredentials({
-                refresh_token: refreshToken
-              });
-              resolve(authClient);
-            })["catch"](function (err) {
-              return reject(err);
+          _context2.next = 2;
+          return constructMessage(messageData);
+        case 2:
+          encodedMessage = _context2.sent;
+          (0, _userAuthManager.getRefreshToken)(messageData.fromEmail).then(function (refreshToken) {
+            authClient.setCredentials({
+              refresh_token: refreshToken
             });
-          }));
-        case 1:
+            console.log(refreshToken, authClient);
+            var gmail = google.gmail({
+              version: 'v1',
+              auth: authClient
+            });
+            gmail.users.messages.send({
+              userId: 'me',
+              requestBody: {
+                raw: encodedMessage
+              }
+            }).then(function (res) {
+              console.log(res.data);
+              return res.data;
+            })["catch"](function (err) {
+              return console.log(err);
+            });
+          });
+          //const localAuthClient = await applyRefreshToken(messageData.fromEmail);
+          //console.log(localAuthClient);
+
+          //const accessToken = process.env.EXAMPLE_GOOGLE_ACCESS_TOKEN;
+          //const authorization = "Bearer ";
+        case 4:
         case "end":
           return _context2.stop();
       }
     }, _callee2);
-  }));
-  return _applyRefreshToken.apply(this, arguments);
-}
-function sendMessage(_x3) {
-  return _sendMessage.apply(this, arguments);
-}
-function _sendMessage() {
-  _sendMessage = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(messageData) {
-    var gmail, encodedMessage, res;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
-        case 0:
-          //const localAuthClient = await applyRefreshToken(messageData.fromEmail);
-          //console.log(localAuthClient);
-          //const accessToken = process.env.EXAMPLE_GOOGLE_ACCESS_TOKEN;
-          //const authorization = "Bearer ";
-          gmail = google.gmail({
-            version: 'v1',
-            auth: authClient
-          });
-          _context3.next = 3;
-          return constructMessage(messageData);
-        case 3:
-          encodedMessage = _context3.sent;
-          _context3.next = 6;
-          return gmail.users.messages.send({
-            userId: 'me',
-            requestBody: {
-              raw: encodedMessage
-            }
-          });
-        case 6:
-          res = _context3.sent;
-          console.log(res.data);
-          return _context3.abrupt("return", res.data);
-        case 9:
-        case "end":
-          return _context3.stop();
-      }
-    }, _callee3);
   }));
   return _sendMessage.apply(this, arguments);
 }
 var mData = {
   "fromEmail": "akshayrangasai.d@gmail.com",
   "toEmail": "akshayrangasai.d@gmail.com",
-  "message": " today\n\nAkshay Rangasai, your birthday's here\nA day to celebrate and cheer\nYour friends and family all around\nTo wish you joy and happiness abound\n\nYour kindness and your gentle heart\nWill always keep us close apart\nYour intelligence and wit so sharp\nWill always make us laugh and carp \n\nSo on this special day of yours \nWe toast to you with open doors \nWe wish you luck, we wish you health \nAnd all the joys that life can bring to wealth \nHappy Birthday Akshay Rangasai!"
+  "message": " Today\n\nAkshay Rangasai, <br \>your birthday's here<br \>>A day to celebrate and cheer<br \>>Your friends and family all around\nTo wish you joy and happiness abound\n\nYour kindness and your gentle heart\nWill always keep us close apart\nYour intelligence and wit so sharp\nWill always make us laugh and carp \n\nSo on this special day of yours \nWe toast to you with open doors \nWe wish you luck, we wish you health \nAnd all the joys that life can bring to wealth \nHappy Birthday Akshay Rangasai!"
 };
 sendMessage(mData);

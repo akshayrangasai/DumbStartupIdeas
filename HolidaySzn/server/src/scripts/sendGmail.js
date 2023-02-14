@@ -1,23 +1,30 @@
 
-require('dotenv').config();
-const {google} = require('googleapis');
+require('dotenv').config({path: __dirname+'/../../.env'});
+import {getRefreshToken} from '../middleware/userAuthManager';
+const {google} = require('googleapis');  
 
-async function sendMessage(messageData){
+//console.log(process.env);
 
-    const accessToken = process.env.EXAMPLE_GOOGLE_ACCESS_TOKEN;
-    const authorization = "Bearer ";
-    const gmail = google.gmail(
-        {version: 'v1',
-        headers : {
-            Authorization : authorization.concat(accessToken)
-        }
+var redirectURL = process.env.BASE_URL+'/auth/google/';
+    //redirectURL = concat(process.env.BASE_URL,redirectURL);
+
+var authClient = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        redirectURL
+    );
+
+    authClient.setCredentials({
+      refresh_token : "1//01_9sQApfW0GRCgYIARAAGAESNwF-L9IrNUcDAH3_Nq6-6GwHfafLMVrOXePhlQe-lG9yGMDQ3okaaxt1fVgpQcipNiTGbuvWWPk"
     });
-       
+
+async function constructMessage(messageData)
+{
 var fromHeader = "From:";
 var toHeader = "To:";
 var subjectString = "Subject:";
 const toEmail = toHeader.concat(messageData.toEmail);
-const fromEmail = fromHeader.concat("Akshay Rangasai<",messageData.fromEmail,">");
+const fromEmail = fromHeader.concat("<",messageData.fromEmail,">");
 const contentType = 'Content-Type: text/html; charset=utf-8';
 const mimeVersion = 'MIME-Version: 1.0';
 const subject = '🤘 Hello 🤘';
@@ -43,6 +50,52 @@ const encodedMessage = Buffer.from(finalMessage)
 .replace(/\//g, '_')
 .replace(/=+$/, '');
 
+return encodedMessage;
+
+}    
+
+
+async function applyRefreshToken(email){
+
+  return new Promise((resolve, reject) =>{
+  
+  
+  getRefreshToken(email).then(
+    
+  (refreshToken) =>{;
+  console.log('Returned Refresh Token',refreshToken);
+
+  authClient.setCredentials({
+    refresh_token : refreshToken
+  });
+
+  resolve(authClient);
+}).catch(err => reject(err))
+
+}
+  );
+}
+
+async function sendMessage(messageData){
+
+
+  //const localAuthClient = await applyRefreshToken(messageData.fromEmail);
+  //console.log(localAuthClient);
+
+    //const accessToken = process.env.EXAMPLE_GOOGLE_ACCESS_TOKEN;
+    //const authorization = "Bearer ";
+    
+    const gmail = google.gmail(
+      {
+        version:'v1',
+        auth : authClient
+      }
+    );
+
+    const encodedMessage = await constructMessage(messageData);
+       
+
+
 const res = await gmail.users.messages.send({
     userId: 'me',
     requestBody: {
@@ -50,6 +103,7 @@ const res = await gmail.users.messages.send({
     },
   });
   console.log(res.data);
+
   return res.data;
 
 }
@@ -63,4 +117,4 @@ const mData =   {
   
 };
 
-sendMessage(mData);
+sendMessage(mData)

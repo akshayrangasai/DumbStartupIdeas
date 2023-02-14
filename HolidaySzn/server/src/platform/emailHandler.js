@@ -86,4 +86,9 @@ const sendGridHandler = async (from, to, subject, message) =>
 })
 }
 
-module.exports = {sendEmail}
+const errorEmail = (email, error) =>
+{
+    sendGridHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then((data) => console.log(data) );
+}
+
+module.exports = {sendEmail, errorEmail}

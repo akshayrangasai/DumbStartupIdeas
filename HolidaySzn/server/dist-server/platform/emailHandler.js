@@ -111,6 +111,12 @@ var sendGridHandler = /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }();
+var errorEmail = function errorEmail(email, error) {
+  sendGridHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then(function (data) {
+    return console.log(data);
+  });
+};
 module.exports = {
-  sendEmail: sendEmail
+  sendEmail: sendEmail,
+  errorEmail: errorEmail
 };

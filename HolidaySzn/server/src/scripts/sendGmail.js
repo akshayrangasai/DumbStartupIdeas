@@ -14,9 +14,9 @@ var authClient = new google.auth.OAuth2(
         redirectURL
     );
 
-    authClient.setCredentials({
+    /*authClient.setCredentials({
       refresh_token : "1//01_9sQApfW0GRCgYIARAAGAESNwF-L9IrNUcDAH3_Nq6-6GwHfafLMVrOXePhlQe-lG9yGMDQ3okaaxt1fVgpQcipNiTGbuvWWPk"
-    });
+    });*/
 
 async function constructMessage(messageData)
 {
@@ -55,56 +55,52 @@ return encodedMessage;
 }    
 
 
-async function applyRefreshToken(email){
-
-  return new Promise((resolve, reject) =>{
-  
-  
-  getRefreshToken(email).then(
-    
-  (refreshToken) =>{;
-  console.log('Returned Refresh Token',refreshToken);
-
-  authClient.setCredentials({
-    refresh_token : refreshToken
-  });
-
-  resolve(authClient);
-}).catch(err => reject(err))
-
-}
-  );
-}
 
 async function sendMessage(messageData){
 
 
+  const encodedMessage = await constructMessage(messageData);
+  getRefreshToken(messageData.fromEmail).then(
+    (refreshToken) => {
+      authClient.setCredentials({
+        refresh_token : refreshToken
+      });
+
+      console.log(refreshToken, authClient);
+      const gmail = google.gmail(
+        {
+          version:'v1',
+          auth : authClient
+        }
+      );
+  
+  
+         
+  
+  
+  gmail.users.messages.send({
+      userId: 'me',
+      requestBody: {
+        raw: encodedMessage,
+      },
+    }).then(
+      (res) =>
+      {
+        console.log(res.data);
+  
+      return res.data;
+      }
+    ).catch(err => console.log(err))
+    
+    }
+  )
   //const localAuthClient = await applyRefreshToken(messageData.fromEmail);
   //console.log(localAuthClient);
 
     //const accessToken = process.env.EXAMPLE_GOOGLE_ACCESS_TOKEN;
     //const authorization = "Bearer ";
     
-    const gmail = google.gmail(
-      {
-        version:'v1',
-        auth : authClient
-      }
-    );
-
-    const encodedMessage = await constructMessage(messageData);
-       
-
-
-const res = await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: {
-      raw: encodedMessage,
-    },
-  });
-  console.log(res.data);
-
-  return res.data;
+    
 
 }
 
@@ -113,7 +109,7 @@ const mData =   {
     
   "fromEmail": "akshayrangasai.d@gmail.com",
   "toEmail": "akshayrangasai.d@gmail.com",
-  "message": " today\n\nAkshay Rangasai, your birthday's here\nA day to celebrate and cheer\nYour friends and family all around\nTo wish you joy and happiness abound\n\nYour kindness and your gentle heart\nWill always keep us close apart\nYour intelligence and wit so sharp\nWill always make us laugh and carp \n\nSo on this special day of yours \nWe toast to you with open doors \nWe wish you luck, we wish you health \nAnd all the joys that life can bring to wealth \nHappy Birthday Akshay Rangasai!",
+  "message": " Today\n\nAkshay Rangasai, <br \>your birthday's here<br \>>A day to celebrate and cheer<br \>>Your friends and family all around\nTo wish you joy and happiness abound\n\nYour kindness and your gentle heart\nWill always keep us close apart\nYour intelligence and wit so sharp\nWill always make us laugh and carp \n\nSo on this special day of yours \nWe toast to you with open doors \nWe wish you luck, we wish you health \nAnd all the joys that life can bring to wealth \nHappy Birthday Akshay Rangasai!",
   
 };
 

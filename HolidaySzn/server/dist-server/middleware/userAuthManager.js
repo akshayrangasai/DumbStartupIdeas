@@ -67,26 +67,36 @@ function _getRefreshToken() {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
-            if (mongoose.connection) {
-              console.log('Conne');
-            } else {
-              adhocConnection();
-            }
-            console.log('getRefreshToken', userEmail);
-
-            //const filter = {email: userEmail};
-            //console.log(filter);
-            _user["default"].find({
-              email: userEmail
-            }).then(function (userDetails) {
-              console.log('filter ran');
-              console.log(userDetails);
-              console.log('hit try statement');
-              var refreshToken = userDetails.refreshToken;
-              resolve(refreshToken);
-            })["catch"](function (err) {
-              console.log(err);
+            var mongo_user = process.env.DB_USER;
+            var mongo_pwd = process.env.DB_PWD;
+            var mongo_url = process.env.DB_URL;
+            var mongoConnString = "mongodb+srv://" + mongo_user + ":" + mongo_pwd + "@" + mongo_url;
+            mongoose.connect(mongoConnString);
+            var mongoConnection = mongoose.connection;
+            mongoConnection.on('error', function (err) {
+              console.error.bind(console, 'Console Error');
               reject(err);
+            });
+            mongoConnection.once('open', function () {
+              console.log('getRefreshToken', userEmail);
+
+              //const filter = {email: userEmail};
+              //console.log(filter);
+              _user["default"].findOne({
+                email: userEmail
+              }).then(function (userDetails) {
+                //console.log('filter ran')
+
+                console.log(userDetails);
+
+                //console.log('hit try statement');
+                var refreshToken = userDetails.refreshToken;
+                console.log(refreshToken);
+                resolve(refreshToken);
+              })["catch"](function (err) {
+                console.log(err);
+                reject(err);
+              });
             });
           }));
         case 1:
@@ -96,36 +106,6 @@ function _getRefreshToken() {
     }, _callee2);
   }));
   return _getRefreshToken.apply(this, arguments);
-}
-function adhocConnection() {
-  return _adhocConnection.apply(this, arguments);
-}
-function _adhocConnection() {
-  _adhocConnection = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    var mongo_user, mongo_pwd, mongo_url, mongoConnString, mongoConnection;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
-        case 0:
-          mongo_user = process.env.DB_USER;
-          mongo_pwd = process.env.DB_PWD;
-          mongo_url = process.env.DB_URL;
-          mongoConnString = "mongodb+srv://" + mongo_user + ":" + mongo_pwd + "@" + mongo_url;
-          mongoose.connect(mongoConnString);
-          mongoConnection = mongoose.connection;
-          mongoConnection.on('error', function (err) {
-            console.error.bind(console, 'Console Error');
-            return false;
-          });
-          mongoConnection.once('open', function () {
-            return true;
-          });
-        case 8:
-        case "end":
-          return _context3.stop();
-      }
-    }, _callee3);
-  }));
-  return _adhocConnection.apply(this, arguments);
 }
 module.exports = {
   createOrModifyUser: createOrModifyUser,

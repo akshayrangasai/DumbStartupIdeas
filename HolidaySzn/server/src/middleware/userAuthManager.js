@@ -44,30 +44,35 @@ async function getRefreshToken(userEmail)
 {
     return new Promise(
 
-        (resolve, reject) =>{
-        
-    if(mongoose.connection)
-    {
-        console.log('Conne');
-    }
-    else
-    {   
-        adhocConnection();
-    }
+    (resolve, reject) =>{
+ 
+    const mongo_user = process.env.DB_USER;
+    const mongo_pwd = process.env.DB_PWD;
+    const mongo_url = process.env.DB_URL;
 
+    const mongoConnString = "mongodb+srv://"+mongo_user+":"+mongo_pwd+"@"+mongo_url;
+
+    mongoose.connect(mongoConnString);
+
+    const mongoConnection = mongoose.connection;
+
+    mongoConnection.on('error', (err) => {console.error.bind(console, 'Console Error'); reject(err)});
+
+    mongoConnection.once('open',() => {
     console.log('getRefreshToken',userEmail);
 
     //const filter = {email: userEmail};
     //console.log(filter);
-    user.find({email : userEmail}).then(
+    user.findOne({email : userEmail}).then(
     (userDetails)=>{
 
-        console.log('filter ran')
+    //console.log('filter ran')
     
     console.log(userDetails);
 
-    console.log('hit try statement');
+    //console.log('hit try statement');
     const refreshToken = userDetails.refreshToken;
+    console.log(refreshToken);
     resolve(refreshToken);
     
     }
@@ -75,26 +80,9 @@ async function getRefreshToken(userEmail)
         (err => {console.log(err);reject(err)})
     );
 });
+});
 }
 
-async function adhocConnection()
-{
-
-const mongo_user = process.env.DB_USER;
-const mongo_pwd = process.env.DB_PWD;
-const mongo_url = process.env.DB_URL;
-
-const mongoConnString = "mongodb+srv://"+mongo_user+":"+mongo_pwd+"@"+mongo_url;
-
-mongoose.connect(mongoConnString);
-
-const mongoConnection = mongoose.connection;
-
-mongoConnection.on('error', (err) => {console.error.bind(console, 'Console Error'); return false});
-
-mongoConnection.once('open',() => {return true});
-
-}
 
 
 module.exports = {createOrModifyUser, getRefreshToken};

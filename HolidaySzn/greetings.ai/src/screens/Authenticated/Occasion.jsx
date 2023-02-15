@@ -18,6 +18,7 @@ function ShowOccasions() {
 		(data) => {
 			//console.log(data.data)
 			const mapData = data.data;
+			//console.log(mapData);
 			//const renderValue = mapData.map(function(props,i){ console.log(props); return (<MessageCard props = {props} key = {i} />)});
 			setOccasionRender(mapData);
 		}).catch(

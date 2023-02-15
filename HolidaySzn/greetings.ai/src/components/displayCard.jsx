@@ -2,13 +2,9 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { Navigate } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
 const moment = require('moment');
-/*function MessageCard(props)
-{
-    return(Object.values(props.data))
-}
-*/
+
 function MessageCard(prop)
 {
     
@@ -21,29 +17,30 @@ function MessageCard(prop)
 
     },[]);
     
-    
+    /*
+    Have decided to not have an edit message button just for simplicity of launch. And makes life so much easier for everyone.
+    */
     const deleteMessage = (_id) => {
 
+        return function(){
         console.log('delete called with id', _id)
         const serverURL = process.env.REACT_APP_SERVER_URL;
         const APIendPoint = '/crud/occasion/delete/'
         const urlEndPoint = serverURL.concat(APIendPoint, _id);
         console.log(urlEndPoint);
         axios.get(urlEndPoint,{withCredentials:true}).then(
-            (data) => {return <Navigate to = "/occasion" />}
+            (data) => {alert("Successfully Deleted Message"); window.location.reload(true);}
         ).catch(
             (err) => console.log(err)
         )
 
     }
-    const editRedirect = (_id) => {
-        
     }
     
 
 
     return(
-        <div className = 'messageCard'>
+        <Card fluid="xl" className = "mt-5" md="450">
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Name : </span> <span className = 'messageCardValue'>{props.toName}</span>
             <span className = 'messageCardTitle'>Email : </span> <span className = 'messageCardValue'>{props.toEmail}</span>
@@ -56,13 +53,11 @@ function MessageCard(prop)
             <span className = 'messageCardTitle'><b>Person</b>alization : </span> <span className = 'messageCardValue'>{props.toDetails}</span> 
             <br />
             <span className = 'messageCardTitle'>Occasion Details : </span> <span className = 'messageCardValue'>{props.occasionDetails}</span>
-            <span className = 'messageCardTitle'>Occasion Details : </span> <span className = 'messageCardValue'>{props.occasionId}</span>
             </div>
             <div className = 'messageCardSection'>
-            <Button variant='primary' size = 'sm' onClick={editRedirect(props.occasionId)} className = 'messageButton'>Edit Message</Button>
             <Button variant='danger' size = 'sm' onClick={deleteMessage(props.occasionId)} className = 'messageButton'>Delete Message</Button>
             </div>
-        </div>
+        </Card>
     );
 }
 

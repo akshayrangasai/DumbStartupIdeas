@@ -12,26 +12,26 @@ function AuthenticatedApp(props) {
 	return (
 		<Container>
 		<AuthenticatedNav user={props.user} />
-      <Routes>
+      	<Routes>
 				<Route
 					exact
 					path="/addOccasion"
-					element= {<NewOccasions />}
+					element= {<NewOccasions user = {props.user} />}
 				/>
                 <Route
 					exact
 					path="/"
-					element= {<Dashboard />}
+					element= {<Dashboard user = {props.user} />}
 				/>
 				<Route
 					exact
 					path="/user"
-					element={<UserProfile />}
+					element={<UserProfile user = {props.user}/>}
 				/>
 				<Route
 					exact
 					path="/myOccasions"
-					element={<ShowOccasions />}
+					element={<ShowOccasions user = {props.user} />}
 				/>
 			</Routes>
 		</Container>

@@ -58,52 +58,81 @@ function _createOrModifyUser() {
   }));
   return _createOrModifyUser.apply(this, arguments);
 }
-function getRefreshToken(_x4) {
-  return _getRefreshToken.apply(this, arguments);
+function getConnection() {
+  return _getConnection.apply(this, arguments);
 }
-function _getRefreshToken() {
-  _getRefreshToken = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(userEmail) {
+function _getConnection() {
+  _getConnection = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
-            var mongo_user = process.env.DB_USER;
-            var mongo_pwd = process.env.DB_PWD;
-            var mongo_url = process.env.DB_URL;
-            var mongoConnString = "mongodb+srv://" + mongo_user + ":" + mongo_pwd + "@" + mongo_url;
-            mongoose.connect(mongoConnString);
-            var mongoConnection = mongoose.connection;
-            mongoConnection.on('error', function (err) {
-              console.error.bind(console, 'Console Error');
-              reject(err);
-            });
-            mongoConnection.once('open', function () {
-              console.log('getRefreshToken', userEmail);
-
-              //const filter = {email: userEmail};
-              //console.log(filter);
-              _user["default"].findOne({
-                email: userEmail
-              }).then(function (userDetails) {
-                //console.log('filter ran')
-
-                console.log(userDetails);
-
-                //console.log('hit try statement');
-                var refreshToken = userDetails.refreshToken;
-                console.log(refreshToken);
-                resolve(refreshToken);
-              })["catch"](function (err) {
-                console.log(err);
+            if (mongoose.connection.readyState == 0) {
+              var mongo_user = process.env.DB_USER;
+              var mongo_pwd = process.env.DB_PWD;
+              var mongo_url = process.env.DB_URL;
+              var mongoConnString = "mongodb+srv://" + mongo_user + ":" + mongo_pwd + "@" + mongo_url;
+              mongoose.connect(mongoConnString);
+              var mongoConnection = mongoose.connection;
+              mongoConnection.on('error', function (err) {
+                console.error.bind(console, 'Console Error');
                 reject(err);
               });
-            });
+              mongoConnection.once('open', function () {
+                resolve(mongoConnection);
+              });
+            } else {
+              resolve(mongoose.connection);
+            }
           }));
         case 1:
         case "end":
           return _context2.stop();
       }
     }, _callee2);
+  }));
+  return _getConnection.apply(this, arguments);
+}
+function getRefreshToken(_x4) {
+  return _getRefreshToken.apply(this, arguments);
+}
+function _getRefreshToken() {
+  _getRefreshToken = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(userEmail) {
+    var mongoConn;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          console.log('get rr called');
+          console.log('getRefreshToken', userEmail);
+          _context3.next = 4;
+          return getConnection();
+        case 4:
+          mongoConn = _context3.sent;
+          console.log(mongoConn);
+          return _context3.abrupt("return", new Promise(function (resolve, reject) {
+            //const filter = {email: userEmail};
+            //console.log(filter);
+            _user["default"].findOne({
+              email: userEmail
+            }).then(function (userDetails) {
+              //console.log('filter ran')
+
+              console.log(userDetails);
+
+              //console.log('hit try statement');
+              var refreshToken = userDetails.refreshToken;
+              console.log(refreshToken);
+              resolve(refreshToken);
+            })["catch"](function (err) {
+              console.log(err);
+              reject(err);
+            });
+          }));
+        case 7:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
   }));
   return _getRefreshToken.apply(this, arguments);
 }

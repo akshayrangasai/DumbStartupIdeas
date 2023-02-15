@@ -65,8 +65,11 @@ async function sendMessage(messageData){
       authClient.setCredentials({
         refresh_token : refreshToken
       });
-
-      console.log(refreshToken, authClient);
+      
+      /*const oauth2 = google.oauth2('v2');
+      oauth2.userinfo.get({auth:authClient}).then((data) =>
+      console.log(data)).catch(err => console.log(err));
+      */
       const gmail = google.gmail(
         {
           version:'v1',
@@ -91,7 +94,7 @@ async function sendMessage(messageData){
       return res.data;
       }
     ).catch(err => console.log(err))
-    
+   
     }
   )
   //const localAuthClient = await applyRefreshToken(messageData.fromEmail);

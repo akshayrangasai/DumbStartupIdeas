@@ -70,7 +70,11 @@ function _sendMessage() {
             authClient.setCredentials({
               refresh_token: refreshToken
             });
-            console.log(refreshToken, authClient);
+
+            /*const oauth2 = google.oauth2('v2');
+            oauth2.userinfo.get({auth:authClient}).then((data) =>
+            console.log(data)).catch(err => console.log(err));
+            */
             var gmail = google.gmail({
               version: 'v1',
               auth: authClient

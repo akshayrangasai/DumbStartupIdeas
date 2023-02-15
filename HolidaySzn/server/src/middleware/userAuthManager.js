@@ -39,31 +39,52 @@ async function createOrModifyUser(accessToken, refreshToken, profile)
 
 }
 
+async function getConnection()
+{
+    return new Promise(
+        (resolve, reject) =>
+        {
+            if(mongoose.connection.readyState == 0)
+            {
+                const mongo_user = process.env.DB_USER;
+                const mongo_pwd = process.env.DB_PWD;
+                const mongo_url = process.env.DB_URL;
+
+                const mongoConnString = "mongodb+srv://"+mongo_user+":"+mongo_pwd+"@"+mongo_url;
+
+                mongoose.connect(mongoConnString);
+
+                const mongoConnection = mongoose.connection;
+
+                mongoConnection.on('error', (err) => {console.error.bind(console, 'Console Error'); reject(err)});
+
+                mongoConnection.once('open',() => {resolve(mongoConnection)});
+
+            }
+            else
+            {
+                resolve(mongoose.connection);
+
+            }
+            
+        }
+    )
+}
 
 async function getRefreshToken(userEmail)
 {
-    return new Promise(
-
-    (resolve, reject) =>{
- 
-    const mongo_user = process.env.DB_USER;
-    const mongo_pwd = process.env.DB_PWD;
-    const mongo_url = process.env.DB_URL;
-
-    const mongoConnString = "mongodb+srv://"+mongo_user+":"+mongo_pwd+"@"+mongo_url;
-
-    mongoose.connect(mongoConnString);
-
-    const mongoConnection = mongoose.connection;
-
-    mongoConnection.on('error', (err) => {console.error.bind(console, 'Console Error'); reject(err)});
-
-    mongoConnection.once('open',() => {
+    console.log('get rr called');
     console.log('getRefreshToken',userEmail);
 
+    const mongoConn = await getConnection();
+    console.log(mongoConn);
+
+    return new Promise(
+    (resolve, reject) => {
     //const filter = {email: userEmail};
     //console.log(filter);
     user.findOne({email : userEmail}).then(
+    
     (userDetails)=>{
 
     //console.log('filter ran')
@@ -79,8 +100,7 @@ async function getRefreshToken(userEmail)
     ).catch(
         (err => {console.log(err);reject(err)})
     );
-});
-});
+    })
 }
 
 

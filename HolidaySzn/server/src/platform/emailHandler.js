@@ -1,34 +1,60 @@
 /* Generic email handler where we can use either sendgrid or the user gmail to send email. Instead of hanving email code everywhere, we can just use email handler to send emails*/
-
 require('dotenv').config();
 var sgMail = require('@sendgrid/mail');
+import {getRefreshToken} from '../middleware/userAuthManager';
+const {google} = require('googleapis');
 
 //sgMail is for sendgrid email
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const GOOGLE_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_CLIENT = process.env.GOOGLE_CLIENT_ID;
+
+var redirectURL = process.env.BASE_URL+'/auth/google/';
+    //redirectURL = concat(process.env.BASE_URL,redirectURL);
+
+var authClient = new google.auth.OAuth2(
+        GOOGLE_CLIENT,
+        GOOGLE_SECRET,
+        redirectURL
+    );
   
+
+
 /* Mailman tells us who will send the email - Sendgrid or gmail - 1 implies sedngrid, 0 implies gmail. Currently configured for Sendgrid on default */
-const mailMan = async () => 
+const mailMan = async (from) => 
 {
     return new Promise((resolve, reject) => {
 
         
+        getRefreshToken(from).then(
+            (refreshToken) => {
+              authClient.setCredentials({
+                refresh_token : refreshToken
+              });
+              
+              const oauth2 = google.oauth2('v2');
+              
+              oauth2.userinfo.get({auth:authClient}).then(
+                (data) => resolve(false)
+              )
 
-
-        //check if I can send on gmail with current creds, else rotate tokens, if that fails sned via sendgrid
-
-
-        resolve(true)
+             }).catch(
+                err => {
+                    console.log("Gmail Token Error", err);
+                    resolve(true)
+                }
+             ); 
     }
 
     )
 }
 
 const sendEmail = async (from, to, subject, message) => {
+    console.log('Send Email Called');
 
-    const sendGrid = await mailMan()
+    const sendGrid = await mailMan(from);
+
     console.log('email handler called', sendGrid);
     if(sendGrid)
     {
@@ -47,13 +73,61 @@ const sendEmail = async (from, to, subject, message) => {
     }
     else
     {
-            //sendgmail
+        try{
+            console.log('Gmail called', sendGrid);
+
+            const response = await gmailHandler(from, to, subject, message);
+            console.log(response);
+            return new Promise((resolve, reject) => resolve(response))
+            
+            }
+            catch(err)
+            {
+                return new Promise((resolve, reject) => reject(err))
+            }
+            
     }
 }
 
-const gmailHandler = () =>
+const gmailHandler = async (from, to, subject, message) =>
 {
+    
+    const encodedMessage = await constructMessage(from,to,subject,message);
 
+    return new Promise(
+    (resolve, reject) => {
+
+        getRefreshToken(from).then(
+        (refreshToken) => {
+            authClient.setCredentials({
+            refresh_token : refreshToken
+            });
+            
+
+            const gmail = google.gmail(
+            {
+                version:'v1',
+                auth : authClient
+            }
+            ); 
+        gmail.users.messages.send({
+            userId: 'me',
+            requestBody: {
+            raw: encodedMessage,
+            },
+        }).then(
+            (res) =>
+            {
+            resolve(res.data);
+        
+            //return res.data;
+            }
+        ).catch(err => {console.log(err); reject(err)})
+        
+        }
+        )
+    }
+    )
 }
 
 const sendGridHandler = async (from, to, subject, message) =>
@@ -86,4 +160,46 @@ const sendGridHandler = async (from, to, subject, message) =>
 })
 }
 
-module.exports = {sendEmail}
+const errorEmail = (email, error) =>
+{
+    sendGridHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then((data) => console.log(data) );
+}
+
+
+async function constructMessage(from, to, subject, message)
+{
+var fromHeader = "From:";
+var toHeader = "To:";
+var subjectString = "Subject:";
+const toEmail = toHeader.concat(to);
+const fromEmail = fromHeader.concat("<",from,">");
+const contentType = 'Content-Type: text/html; charset=utf-8';
+const mimeVersion = 'MIME-Version: 1.0';
+const subject_message = subject || '🤘 Greetings 🤘';
+const utf8Subject = `=?utf-8?B?${Buffer.from(subject_message).toString('base64')}?=`;
+const subjectToSend = subjectString.concat(utf8Subject);
+//const message = message;
+
+const messageParts = [
+    fromEmail,
+    toEmail,
+    contentType,
+    mimeVersion,
+    subjectToSend,
+    '',
+    message
+];
+
+const finalMessage = messageParts.join('\n');
+
+const encodedMessage = Buffer.from(finalMessage)
+.toString('base64')
+.replace(/\+/g, '-')
+.replace(/\//g, '_')
+.replace(/=+$/, '');
+
+return encodedMessage;
+
+}  
+
+module.exports = {sendEmail, errorEmail}

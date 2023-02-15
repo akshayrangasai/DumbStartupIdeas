@@ -13,7 +13,7 @@ const newOccasion = (req,res) =>
     createOrFindRecepient(req,res)
     .then(
            (recepientData,err) => {
-            findUser(req.user.doc.email).then(
+            findUser(req.user.email).then(
                 
                 (userData) =>{
                 
@@ -76,7 +76,7 @@ const deleteOccasion = (req,res)=>
 
 const allOccasions = async (req,res) =>
 {
-    let userEmail = req.user.doc.email; 
+    let userEmail = req.user.email; 
     const user = await findUser( userEmail );
     const occasionData = {fromUser : user._id}
     const data = await occasionModel.find(occasionData)                   

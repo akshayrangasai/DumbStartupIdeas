@@ -4,7 +4,7 @@ var _user = require("./user");
 var recepientModel = require("../models/recepient");
 var findAllRecepients = function findAllRecepients(req, res) {
   //console.log();
-  var userEmail = req.user.doc.email;
+  var userEmail = req.user.email;
   (0, _user.findUser)(userEmail).then(function (user) {
     var recepientData = {
       fromUser: user._id
@@ -30,7 +30,7 @@ var findRecepientById = function findRecepientById(Id) {
 };
 var createOrFindRecepient = function createOrFindRecepient(req, res) {
   return new Promise(function (resolve, reject) {
-    var userEmail = req.user.doc.email;
+    var userEmail = req.user.email;
     recepientModel.findOne({
       toEmail: req.body.toEmail || 'akshayrangasai.d@gmail.com'
     }).then(function (recepientData, err) {

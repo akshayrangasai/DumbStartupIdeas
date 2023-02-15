@@ -1,7 +1,8 @@
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import styles from '../../static/styles.module.css'
+import styles from '../../static/styles.module.css';
+import Login from "./login";
 function LandingContent()
 {
 
@@ -16,9 +17,19 @@ function LandingContent()
             <p></p>
             <p></p>
             <p></p>
-            <p>Ever missed your anniversary or a friend's birthday and had to deal with their absolute disappointment in you?</p><p>
-            We have, and that is why greetings.ai</p>
-
+            <Container>
+                Ever missed your anniversary or a friend's birthday and had to deal with their absolute disappointment in you?
+                <br />
+                We have, and that is why greetings.ai
+            </Container>
+            <Container>
+                <b>greetings.ai</b> is simple. Whenever you find out about an event, just fill out details with descriptions and forget about it. 
+                <br />
+                We'll do the rest.
+            </Container>
+            <Container>
+                <Login />
+            </Container>
             </Col>
             <Col md="2">
             </Col>

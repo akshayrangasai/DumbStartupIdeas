@@ -19,11 +19,12 @@ function LandingContent()
             <p></p>
             <Container>
                 Ever missed your anniversary or a friend's birthday and had to deal with their absolute disappointment in you?
-                <br />
-                We have, and that is why greetings.ai
+                <br /><br />
             </Container>
             <Container>
-                <b>greetings.ai</b> is simple. Whenever you find out about an event, just fill out details with descriptions and forget about it. 
+                <b>greetings.ai</b> 
+                </Container><Container>
+                    Whenever you find out about an event, just fill out details with descriptions and forget about it. 
                 <br />
                 We'll do the rest.
             </Container>

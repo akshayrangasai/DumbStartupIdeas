@@ -73,11 +73,11 @@ async function getConnection()
 
 async function getRefreshToken(userEmail)
 {
-    console.log('get rr called');
-    console.log('getRefreshToken',userEmail);
+    //console.log('get rr called');
+    //console.log('getRefreshToken',userEmail);
 
     const mongoConn = await getConnection();
-    console.log(mongoConn);
+    //console.log(mongoConn);
 
     return new Promise(
     (resolve, reject) => {
@@ -89,11 +89,11 @@ async function getRefreshToken(userEmail)
 
     //console.log('filter ran')
     
-    console.log(userDetails);
+    //console.log(userDetails);
 
     //console.log('hit try statement');
     const refreshToken = userDetails.refreshToken;
-    console.log(refreshToken);
+    //console.log(refreshToken);
     resolve(refreshToken);
     
     }

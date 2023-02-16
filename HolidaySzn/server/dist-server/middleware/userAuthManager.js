@@ -102,13 +102,10 @@ function _getRefreshToken() {
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
-          console.log('get rr called');
-          console.log('getRefreshToken', userEmail);
-          _context3.next = 4;
+          _context3.next = 2;
           return getConnection();
-        case 4:
+        case 2:
           mongoConn = _context3.sent;
-          console.log(mongoConn);
           return _context3.abrupt("return", new Promise(function (resolve, reject) {
             //const filter = {email: userEmail};
             //console.log(filter);
@@ -117,18 +114,18 @@ function _getRefreshToken() {
             }).then(function (userDetails) {
               //console.log('filter ran')
 
-              console.log(userDetails);
+              //console.log(userDetails);
 
               //console.log('hit try statement');
               var refreshToken = userDetails.refreshToken;
-              console.log(refreshToken);
+              //console.log(refreshToken);
               resolve(refreshToken);
             })["catch"](function (err) {
               console.log(err);
               reject(err);
             });
           }));
-        case 7:
+        case 4:
         case "end":
           return _context3.stop();
       }

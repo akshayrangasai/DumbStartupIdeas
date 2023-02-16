@@ -43,6 +43,7 @@ app.use(cors(
 console.log('Accepting connections from',process.env.CORS_ORIGIN);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use('/static/',express.static('static'));
 
 
 /*Wait for DB connection before running server */

@@ -202,4 +202,4 @@ return encodedMessage;
 
 }  
 
-module.exports = {sendEmail, errorEmail}
+module.exports = {sendEmail, errorEmail, sendGridHandler}

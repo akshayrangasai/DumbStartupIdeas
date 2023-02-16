@@ -1,4 +1,4 @@
-
+import messagModel from '../models/messages'
 
 function emailDispatch(req,res){
 
@@ -9,6 +9,7 @@ function emailDispatch(req,res){
 function emailDispatchTest(req,res){
 
     console.log("Dispatch Called", req.body)
+    res.send(req.body)
 
 }
 

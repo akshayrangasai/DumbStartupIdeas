@@ -9,4 +9,6 @@ var passport = require('passport');
 require('dotenv').config();
 var platformRouter = (0, _express.Router)();
 platformRouter.post('/greetingDispatch', _nightlyEmailDispatch.emailDispatch);
+platformRouter.post('/test/dispatch', _nightlyEmailDispatch.emailDispatchTest);
+platformRouter.get('/test/dispatch', _nightlyEmailDispatch.emailDispatchTest);
 module.exports = platformRouter;

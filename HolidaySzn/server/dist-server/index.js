@@ -9,11 +9,13 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoStore = require('connect-mongo');
 var passport = require('passport');
+var cron = require('node-cron');
 
 /*Import Routes*/
 
 var crudRouter = require("./routes/crudRoutes.js");
 var authRouter = require('./routes/authRoutes');
+var platformRouter = require('./routes/platformRoutes');
 var mongo_user = process.env.DB_USER;
 var mongo_pwd = process.env.DB_PWD;
 var mongo_url = process.env.DB_URL;
@@ -61,6 +63,7 @@ mongoConnection.once('open', function () {
   });
   app.use('/crud', crudRouter);
   app.use('/auth', authRouter);
+  app.use('/platform', platformRouter);
   app.get('/', function (req, res) {
     console.log('Request');
     res.send('Hello world');

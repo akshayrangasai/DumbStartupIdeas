@@ -8,11 +8,15 @@ var session = require('express-session');
 const mongoStore = require('connect-mongo');
 const passport = require('passport');
 
+const cron = require('node-cron');
+
 
 /*Import Routes*/
 
 var crudRouter = require("./routes/crudRoutes.js");
 var authRouter = require('./routes/authRoutes');
+var platformRouter = require('./routes/platformRoutes');
+
 
 
 const mongo_user = process.env.DB_USER;
@@ -65,6 +69,7 @@ app.use( passport.session());
     app.listen(_PORT, () => console.log('Listening in port', _PORT));
     app.use('/crud',crudRouter);
     app.use('/auth', authRouter);
+    app.use('/platform',platformRouter)
     app.get('/', (req,res) => {console.log('Request'); res.send('Hello world');})
     
 

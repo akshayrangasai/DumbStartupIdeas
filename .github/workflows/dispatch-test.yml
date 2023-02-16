@@ -16,9 +16,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Send Emails to Greeting Recepients
-        uses: Satak/webrequest-action@v1.2.3
+        uses: satak/webrequest-action@master
         with:
           # Web request URL endpoint
           url: "https://api.greetings.dumbstartupideas.com/platform/test/dispatch"
           method: POST
-          headers: '{"key": "${{ secrets.EMAIL_WEBHOOK_AUTH }}"}'
+          payload: '{"key": "${{ secrets.EMAIL_WEBHOOK_AUTH }}"}'

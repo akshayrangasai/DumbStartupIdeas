@@ -1,9 +1,15 @@
 
 
-function emailDispatch(){
+function emailDispatch(req,res){
 
     console.log("Dispatch Called")
 
 }
 
-module.exports = {emailDispatch}
+function emailDispatchTest(req,res){
+
+    console.log("Dispatch Called", req.body)
+
+}
+
+module.exports = {emailDispatch, emailDispatchTest}

@@ -35,6 +35,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use('/static/', express["static"]('static'));
 
 /*Wait for DB connection before running server */
 

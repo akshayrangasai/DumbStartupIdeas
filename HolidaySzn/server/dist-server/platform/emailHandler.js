@@ -227,5 +227,7 @@ function _constructMessage() {
 }
 module.exports = {
   sendEmail: sendEmail,
-  errorEmail: errorEmail
+  errorEmail: errorEmail,
+  sendGridHandler: sendGridHandler,
+  gmailHandler: gmailHandler
 };

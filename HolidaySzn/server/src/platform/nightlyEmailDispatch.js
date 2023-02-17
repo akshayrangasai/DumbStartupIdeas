@@ -1,4 +1,9 @@
 import messageModel from '../models/messages'
+import user from '../models/user'
+import recepientModel from '../models/recepient'
+import occasionModel from '../models/occasion'
+import {greetingsFormat} from './messageFormatter';
+import {sendEmail} from './emailHandler';
 
 
 async function getMessagesForTheDay(){
@@ -33,12 +38,21 @@ async function emailDispatch(req,res){
 
 async function emailDispatchTest(req,res){
 
+    /*
     console.log("Dispatch Called", req.body)
     res.send(req.body)
+    */
+    
+    const results = await getMessagesForTheDay();
+    const from = await user.findOne({_id:results[0].fromUser})
+    const occasion = await occasionModel.findOne({_id: results[0].occasionId})
+    const to = await recepientModel.findOne({toEmail: results[0].toEmail})
 
-    //const results = await getMessagesForTheDay();
-
-    //res.send(results)
+    console.log(from,to,occasion)
+    const formattedResult = await greetingsFormat(results[0].message);
+    //console.log(formattedResult)
+    //const resulted = await gmailHandler("akshayrangasai.d@gmail.com", "akshayrangasai.d@gmail.com", "test email",formattedResult)
+    res.send(formattedResult || "lol");
 
 }
 

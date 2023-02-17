@@ -1,20 +1,10 @@
 require('dotenv').config();
 const ejs = require('ejs');
 var fs = require('fs');
+const path = require('path');
 
-class messageFormatter{
 
-    constructor(channel, wrapper){
-
-        /*
-        Wrapper tells me if I should get the entire HTML file before and after. 
-        We will create a template function and inject this message if wrapper is true, else we just send formatted message
-        */
-        this.channel = "email" || channel;
-        this.wrapper = true || wrapper;
-    }
-
-    async errorFormat(err, channel = this.channel, wrapper = this.wrapper){
+    async function errorFormat(err, channel = "email", wrapper = true){
 
         /*
         Make changes based on channel as we add more channels
@@ -22,32 +12,56 @@ class messageFormatter{
         */
 
         err = err.replace(/(?:\r\n|\r|\n)/g, '<br>');
-        const finalMessage = wrapper? await this.wrappedMessage(greeting, "error"):greeting;
+        const finalMessage = wrapper? await wrappedMessage(greeting, "error"):greeting;
         return finalMessage;
         
 
     }
 
-    async greetingsFormat(greeting)
+    async function greetingsFormat(greeting)
     {
-        greeting = greeting.replace(/(?:\r\n|\r|\n)/g, '<br>');
-        const finalMessage = wrapper? await this.wrappedMessage(greeting, "greeting"):greeting;
+        
+
+        console.log(typeof(greeting))
+        greeting = greeting.replace(/(?:\r\n|\r|\n)/g, "<br>");
+        console.log(greeting)
+        const finalMessage = await wrappedMessage(greeting, "greeting");
+
+        return new Promise((resolve, reject) =>
+        {
+            //console.log("greetings Format", greeting);
+            resolve(finalMessage)
+        })
+        /*
+        
+        
         return finalMessage;
+        */
     }
 
-    async wrappedMessage(message, msgtype)
+    async function wrappedMessage(message, msgtype)
     {
-        if(msgtype = "error")
+        console.log("wrapping",  msgtype)
+        return new Promise((resolve, reject)=>{
+        if(msgtype == "error")
         {
-
+            console.log(__dirname,+'/templates/error.ejs');
+            let htmlContent = fs.readFileSync(__dirname,+'/templates/error.ejs','utf8');
+            let htmlRendered = ejs.render(htmlContent, {greeting : message, greetingsurl : process.env.CLIENT_URL});
+            resolve(htmlRendered);   
 
         }
         else
         {
-            let htmlContent = fs.readFileSync(__dirname,+'/templates/greeting.ejs','utf8');
+            const filePath = path.join(process.cwd(), '/src/templates/greeting.ejs');
+            console.log(filePath);
+            let htmlContent = fs.readFileSync(filePath,'utf8');
             let htmlRendered = ejs.render(htmlContent, {greeting : message, greetingsurl : process.env.CLIENT_URL});
-            return htmlRendered;   
+            resolve(htmlRendered);   
+        
         }
-
+    })
     }
-}
+
+
+module.exports = {greetingsFormat}

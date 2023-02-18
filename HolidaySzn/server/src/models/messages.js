@@ -7,13 +7,18 @@ const messageSchema = new Schema(
     {
     
         fromUser : {type : Schema.Types.ObjectId, ref: 'user', required : true },
-        occasionId: {type : Schema.Types.ObjectId, ref: 'occasion', required : true },
+        occasionId: {type : Schema.Types.ObjectId, ref: 'occasionModel', required : true },
         fromEmail: {type : String, required : true},
+        fromName : {type : String, required : true},
         toEmail : {type : String, required : true },
+        toName : {type : String, required : true},
         toPhone : {type : String},
         occasionDate: {type : Date, required : true },
+        emailSubject: {type : String, required : true},
         message:  {type : String , required : true },
-        sentStatus : {type: Boolean, required: true}
+        formattedMessage : {type : String , required : true },
+        sentStatus : {type: Boolean, required: true},
+        formatting : {type: Boolean}
     }
       
     );

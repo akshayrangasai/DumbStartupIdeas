@@ -12,14 +12,22 @@ var messageSchema = new _mongoose.Schema({
   },
   occasionId: {
     type: _mongoose.Schema.Types.ObjectId,
-    ref: 'occasion',
+    ref: 'occasionModel',
     required: true
   },
   fromEmail: {
     type: String,
     required: true
   },
+  fromName: {
+    type: String,
+    required: true
+  },
   toEmail: {
+    type: String,
+    required: true
+  },
+  toName: {
     type: String,
     required: true
   },
@@ -30,13 +38,24 @@ var messageSchema = new _mongoose.Schema({
     type: Date,
     required: true
   },
+  emailSubject: {
+    type: String,
+    required: true
+  },
   message: {
+    type: String,
+    required: true
+  },
+  formattedMessage: {
     type: String,
     required: true
   },
   sentStatus: {
     type: Boolean,
     required: true
+  },
+  formatting: {
+    type: Boolean
   }
 });
 var messageModel = (0, _mongoose.model)('messageModel', messageSchema);

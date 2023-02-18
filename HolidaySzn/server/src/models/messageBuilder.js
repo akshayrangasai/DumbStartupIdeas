@@ -7,20 +7,39 @@ const messageBuildSchema = new Schema(
     {
     
         fromUser : {type : Schema.Types.ObjectId, ref: 'user', required : true },
-        occasionId: {type : Schema.Types.ObjectId, ref: 'occasion', required : true },
+        occasionId: {type : Schema.Types.ObjectId, ref: 'occasionModel', required : true },
         name : {type : String, required : true},
         fromEmail: {type : String, required : true},
+        fromName : {type : String, required : true},
         toEmail : {type : String, required : true },
+        toName : {type : String, required : true},
         toPhone : {type : String},
         toName : {type : String, required : true },
         occasionDate: {type : Date, required : true },
         toDetails : {type : String },
         occasionName : {type : String, required: true},
-        occasionDetails: {type : String} 
+        occasionDetails: {type : String},
+        formatting : {type: Boolean}
     }
       
     );
 
-    const messageBuildModel = model('messageBuildModel',messageBuildSchema);
 
-    module.exports = messageBuildModel;
+/* This model gives us a message in an easy to send format, linked to MessageBuild just for easy reterival 
+const emailMessageSchema = new Schema({
+
+    messageBuilder : {type : Schema.Types.ObjectId, ref : 'messageBuildModel', required : true},
+    fromName: {type : String, required : true},
+    fromEmail: {type : String, required : true},
+    toEmail: {type : String, required : true},
+    toName: {type : String, required : true},
+    subect : {type : String, required : true},
+    emailContent : {type : String, required : true},
+    occasionDate : {type : Date, required : true }
+
+})
+*/
+    const messageBuildModel = model('messageBuildModel',messageBuildSchema);
+    //const emailMessage = model('emailMessage', emailMessageSchema);
+
+    module.exports = messageBuildModel

@@ -54,42 +54,43 @@ var mailMan = /*#__PURE__*/function () {
 }();
 var sendEmail = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(from, to, subject, message) {
-    var sendGrid, response, _response;
+    var sendGrid, response, errorMessage, Errorresponse, _response;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          console.log('Send Email Called');
-          _context2.next = 3;
+          _context2.next = 2;
           return mailMan(from);
-        case 3:
+        case 2:
           sendGrid = _context2.sent;
-          console.log('email handler called', sendGrid);
           if (!sendGrid) {
-            _context2.next = 20;
+            _context2.next = 21;
             break;
           }
-          _context2.prev = 6;
-          console.log('SendGrid called', sendGrid);
-          _context2.next = 10;
+          _context2.prev = 4;
+          _context2.next = 7;
           return sendGridHandler(from, to, subject, message);
-        case 10:
+        case 7:
           response = _context2.sent;
+          errorMessage = "Hello there, <br> There seems to be an error in your greetings gmail credentials, and we weren't able to send your message. Please login to check what's happening to resume services";
+          _context2.next = 11;
+          return sendGridErrorHandler(from, to, "Please check your credentials on greetings", errorMessage);
+        case 11:
+          Errorresponse = _context2.sent;
           console.log(response);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return resolve(response);
           }));
-        case 15:
-          _context2.prev = 15;
-          _context2.t0 = _context2["catch"](6);
+        case 16:
+          _context2.prev = 16;
+          _context2.t0 = _context2["catch"](4);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return reject(_context2.t0);
           }));
-        case 18:
+        case 19:
           _context2.next = 32;
           break;
-        case 20:
-          _context2.prev = 20;
-          console.log('Gmail called', sendGrid);
+        case 21:
+          _context2.prev = 21;
           _context2.next = 24;
           return gmailHandler(from, to, subject, message);
         case 24:
@@ -100,7 +101,7 @@ var sendEmail = /*#__PURE__*/function () {
           }));
         case 29:
           _context2.prev = 29;
-          _context2.t1 = _context2["catch"](20);
+          _context2.t1 = _context2["catch"](21);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return reject(_context2.t1);
           }));
@@ -108,7 +109,7 @@ var sendEmail = /*#__PURE__*/function () {
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[6, 15], [20, 29]]);
+    }, _callee2, null, [[4, 16], [21, 29]]);
   }));
   return function sendEmail(_x2, _x3, _x4, _x5) {
     return _ref2.apply(this, arguments);
@@ -144,7 +145,13 @@ var gmailHandler = /*#__PURE__*/function () {
                 //return res.data;
               })["catch"](function (err) {
                 console.log(err);
-                reject(err);
+                try {
+                  sendGridErrorHandler(from, to, subject, err).then(function (data) {
+                    return reject(err);
+                  });
+                } catch (errormax) {
+                  reject(errormax);
+                }
               });
             });
           }));
@@ -165,17 +172,16 @@ var sendGridHandler = /*#__PURE__*/function () {
         case 0:
           return _context4.abrupt("return", new Promise(function (resolve, reject) {
             var msg = {
-              to: to,
-              // Change to your recipient
+              to: from,
               from: 'no-reply@dumbstartupideas.com',
-              // Change to your verified sender
-              subject: subject,
-              //text : text,
+              subject: "email to " + to + "failed",
+              text: subject,
               html: message
             };
             sgMail.send(msg).then(function (response) {
               resolve(response);
             })["catch"](function (error) {
+              console.log(error);
               reject(error);
             });
           }));
@@ -189,19 +195,49 @@ var sendGridHandler = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
+var sendGridErrorHandler = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(from, to, subject, message) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          return _context5.abrupt("return", new Promise(function (resolve, reject) {
+            var msg = {
+              to: from,
+              from: 'no-reply@dumbstartupideas.com',
+              subject: "Error in your google credentials in greetings",
+              //text : subject,
+              html: message
+            };
+            sgMail.send(msg).then(function (response) {
+              resolve(response);
+            })["catch"](function (error) {
+              console.log(error);
+              reject(error);
+            });
+          }));
+        case 1:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5);
+  }));
+  return function sendGridErrorHandler(_x14, _x15, _x16, _x17) {
+    return _ref5.apply(this, arguments);
+  };
+}();
 var errorEmail = function errorEmail(email, error) {
-  sendGridHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then(function (data) {
+  sendGridErrorHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then(function (data) {
     return console.log(data);
   });
 };
-function constructMessage(_x14, _x15, _x16, _x17) {
+function constructMessage(_x18, _x19, _x20, _x21) {
   return _constructMessage.apply(this, arguments);
 }
 function _constructMessage() {
-  _constructMessage = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(from, to, subject, message) {
+  _constructMessage = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(from, to, subject, message) {
     var fromHeader, toHeader, subjectString, toEmail, fromEmail, contentType, mimeVersion, subject_message, utf8Subject, subjectToSend, messageParts, finalMessage, encodedMessage;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
           fromHeader = "From:";
           toHeader = "To:";
@@ -216,18 +252,17 @@ function _constructMessage() {
           messageParts = [fromEmail, toEmail, contentType, mimeVersion, subjectToSend, '', message];
           finalMessage = messageParts.join('\n');
           encodedMessage = Buffer.from(finalMessage).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-          return _context5.abrupt("return", encodedMessage);
+          return _context6.abrupt("return", encodedMessage);
         case 14:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
-    }, _callee5);
+    }, _callee6);
   }));
   return _constructMessage.apply(this, arguments);
 }
 module.exports = {
   sendEmail: sendEmail,
   errorEmail: errorEmail,
-  sendGridHandler: sendGridHandler,
-  gmailHandler: gmailHandler
+  sendGridErrorHandler: sendGridErrorHandler
 };

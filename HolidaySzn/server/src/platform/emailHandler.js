@@ -51,17 +51,17 @@ const mailMan = async (from) =>
 }
 
 const sendEmail = async (from, to, subject, message) => {
-    console.log('Send Email Called');
+    //console.log('Send Email Called');
 
     const sendGrid = await mailMan(from);
 
-    console.log('email handler called', sendGrid);
+    //console.log('email handler called', sendGrid);
     if(sendGrid)
     {
         try{
-            console.log('SendGrid called', sendGrid);
-
             const response = await sendGridHandler(from, to, subject, message)
+            const errorMessage = "Hello there, <br> There seems to be an error in your greetings gmail credentials, and we weren't able to send your message. Please login to check what's happening to resume services";
+            const Errorresponse = await sendGridErrorHandler(from, to, "Please check your credentials on greetings", errorMessage)
             console.log(response);
             return new Promise((resolve, reject) => resolve(response))
             
@@ -74,8 +74,6 @@ const sendEmail = async (from, to, subject, message) => {
     else
     {
         try{
-            console.log('Gmail called', sendGrid);
-
             const response = await gmailHandler(from, to, subject, message);
             console.log(response);
             return new Promise((resolve, reject) => resolve(response))
@@ -122,7 +120,18 @@ const gmailHandler = async (from, to, subject, message) =>
         
             //return res.data;
             }
-        ).catch(err => {console.log(err); reject(err)})
+        ).catch(err => {
+            
+            console.log(err); 
+            try{
+            sendGridErrorHandler(from, to, subject, err).then(data => reject(err));    
+            }
+            catch(errormax)
+            {
+                reject(errormax)
+            }         
+
+        })
         
         }
         )
@@ -132,15 +141,13 @@ const gmailHandler = async (from, to, subject, message) =>
 
 const sendGridHandler = async (from, to, subject, message) =>
 {
-    
+    //This is an error message
     return new Promise((resolve, reject) =>{
     const msg = {
-        to : to,
-        // Change to your recipient
+        to : from,
         from: 'no-reply@dumbstartupideas.com',
-        // Change to your verified sender
-        subject: subject,
-        //text : text,
+        subject: "email to " + to + "failed",
+        text : subject,
         html: message
     };
     
@@ -154,6 +161,36 @@ const sendGridHandler = async (from, to, subject, message) =>
         (
             function (error) 
             {
+                console.log(error);
+                reject(error);
+            }
+        );
+})
+}
+
+const sendGridErrorHandler = async (from, to, subject, message) =>
+{
+    //This is an error message
+    return new Promise((resolve, reject) =>{
+    const msg = {
+        to : from,
+        from: 'no-reply@dumbstartupideas.com',
+        subject: "Error in your google credentials in greetings",
+        //text : subject,
+        html: message
+    };
+    
+    sgMail.send(msg)
+    .then(
+        function (response) 
+        {
+        resolve(response);
+        }
+        )["catch"]
+        (
+            function (error) 
+            {
+                console.log(error);
                 reject(error);
             }
         );
@@ -162,7 +199,7 @@ const sendGridHandler = async (from, to, subject, message) =>
 
 const errorEmail = (email, error) =>
 {
-    sendGridHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then((data) => console.log(data) );
+    sendGridErrorHandler("no-reply@dumbstartupideas.com", email, "Error in your google credentials for greetings.ai", error).then((data) => console.log(data) );
 }
 
 
@@ -202,4 +239,4 @@ return encodedMessage;
 
 }  
 
-module.exports = {sendEmail, errorEmail, sendGridHandler, gmailHandler}
+module.exports = {sendEmail, errorEmail, sendGridErrorHandler}

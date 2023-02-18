@@ -8,8 +8,19 @@ import { webhookAuthCheck } from "../middleware/checkAuth";
 
 const platformRouter = Router();
 
-platformRouter.post('/greetingDispatch', emailDispatch)
-platformRouter.post('/test/dispatch', webhookAuthCheck, emailDispatchTest)
-platformRouter.get('/test/dispatch', emailDispatchTest)
+if(process.env.NOAUTH_ACCESS)
+if(process.env.NOAUTH_ACCESS == process.env.NODE_ENV)
+{
+    platformRouter.get(process.env.DISPATCH_TEST_URL, emailDispatchTest)
+} 
+
+
+platformRouter.use(webhookAuthCheck)
+
+platformRouter.post('/greetingDispatch',  emailDispatch)
+
+
+
+
 
 module.exports = platformRouter

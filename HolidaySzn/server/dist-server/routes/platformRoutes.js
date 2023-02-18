@@ -9,7 +9,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var passport = require('passport');
 require('dotenv').config();
 var platformRouter = (0, _express.Router)();
+if (process.env.NOAUTH_ACCESS) if (process.env.NOAUTH_ACCESS == process.env.NODE_ENV) {
+  platformRouter.get(process.env.DISPATCH_TEST_URL, _nightlyEmailDispatch.emailDispatchTest);
+}
+platformRouter.use(_checkAuth.webhookAuthCheck);
 platformRouter.post('/greetingDispatch', _nightlyEmailDispatch.emailDispatch);
-platformRouter.post('/test/dispatch', _checkAuth.webhookAuthCheck, _nightlyEmailDispatch.emailDispatchTest);
-platformRouter.get('/test/dispatch', _nightlyEmailDispatch.emailDispatchTest);
 module.exports = platformRouter;

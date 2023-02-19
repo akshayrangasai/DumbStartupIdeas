@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/esm/Row';
+import Toast from 'react-bootstrap/Toast'
 class NewOccasionForm extends React.Component{
 
     constructor(props){
@@ -53,8 +54,11 @@ class NewOccasionForm extends React.Component{
             occasionDetails: null ||,
             occasionName: null ||,
             */
-).then(message => console.log(message));
-        console.log(e.target);
+).then(message => alert('Successfully added greeting! Check your greetings in My Greetings')).catch(
+    (err) => alert('Unable to add your greeting! Try again!')
+);
+        //console.log(e.target);
+        
 
     }
     render(){

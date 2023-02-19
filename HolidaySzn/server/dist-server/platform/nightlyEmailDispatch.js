@@ -23,7 +23,6 @@ function _updateSentEmails() {
         case 0:
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             _finalEmail["default"].create(finalEmailDoc).then(function (data) {
-              console.log(data);
               resolve(data);
             })["catch"](function (err) {
               (0, _emailHandler.errorEmail)("akshayrangasai.d@gmail.com", err);
@@ -152,7 +151,7 @@ function _emailDispatch() {
           updateData = _context3.sent;
           emailsForTheDay.push(updateData);
           if (i == results.length - 1) {
-            console.log(emailsForTheDay);
+            //console.log(emailsForTheDay.length);
             res.send(emailsForTheDay.map(function (data) {
               return data._id;
             }));
@@ -194,23 +193,24 @@ function _emailDispatchTest() {
           emailSubject = messageData.emailSubject;
           emailMessage = messageData.formattedMessage;
           fromEmail = req.user.email;
-          toEmail = req.user.email;
-          _context4.next = 11;
+          toEmail = messageData.toEmail;
+          console.log(toEmail);
+          _context4.next = 12;
           return (0, _emailHandler.sendEmail)(fromEmail, toEmail, emailSubject, emailMessage);
-        case 11:
+        case 12:
           emailSender = _context4.sent;
           res.send(emailSender);
-          _context4.next = 18;
+          _context4.next = 19;
           break;
-        case 15:
-          _context4.prev = 15;
+        case 16:
+          _context4.prev = 16;
           _context4.t0 = _context4["catch"](1);
           res.sendStatus(500);
-        case 18:
+        case 19:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[1, 15]]);
+    }, _callee4, null, [[1, 16]]);
   }));
   return _emailDispatchTest.apply(this, arguments);
 }

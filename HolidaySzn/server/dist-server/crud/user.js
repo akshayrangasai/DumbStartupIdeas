@@ -8,7 +8,8 @@ var newUser = function newUser(req, res) {
     email: req.body.email || 'test@dumbstartupideas.com',
     createdAt: new Date()
   };
-  console.log(userData);
+
+  //console.log(userData);
   userModel.create(userData).then(function (data, err) {
     return res.json(data);
   })["catch"](function (err) {
@@ -20,7 +21,8 @@ var findUser = function findUser(email) {
     var userData = {
       email: email || 'test@dumbstartupideas.com'
     };
-    console.log(userData);
+
+    //console.log(userData);
     userModel.findOne(userData).then(function (data, err) {
       return resolve(data);
     })["catch"](function (err) {

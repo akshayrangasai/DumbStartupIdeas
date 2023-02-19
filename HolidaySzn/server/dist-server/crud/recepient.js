@@ -44,7 +44,8 @@ var createOrFindRecepient = function createOrFindRecepient(req, res) {
             toName: req.body.toName || "Akshay Rangasai",
             toDetails: req.body.toDetails
           };
-          console.log(recepientData);
+
+          //console.log(recepientData);
           recepientModel.create(recepientData).then(function (data, err) {
             return resolve(data);
           })["catch"](function (err) {

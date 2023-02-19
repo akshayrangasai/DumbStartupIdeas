@@ -60,18 +60,18 @@ function _greetingsFormat() {
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          console.log(_typeof(greeting));
+          //console.log(typeof(greeting))
           greeting = greeting.replace(/(?:\r\n|\r|\n)/g, "<br>");
-          console.log(greeting);
-          _context2.next = 5;
+          //console.log(greeting)
+          _context2.next = 3;
           return wrappedMessage(greeting, "greeting");
-        case 5:
+        case 3:
           finalMessage = _context2.sent;
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             //console.log("greetings Format", greeting);
             resolve(finalMessage);
           }));
-        case 7:
+        case 5:
         case "end":
           return _context2.stop();
       }
@@ -87,10 +87,9 @@ function _wrappedMessage() {
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
-          console.log("wrapping", msgtype);
           return _context3.abrupt("return", new Promise(function (resolve, reject) {
             if (msgtype == "error") {
-              console.log(__dirname, +'/templates/error.ejs');
+              //console.log(__dirname,+'/templates/error.ejs');
               var htmlContent = fs.readFileSync(__dirname, +'/templates/error.ejs', 'utf8');
               var htmlRendered = ejs.render(htmlContent, {
                 greeting: message,
@@ -99,7 +98,7 @@ function _wrappedMessage() {
               resolve(htmlRendered);
             } else {
               var filePath = path.join(process.cwd(), '/src/templates/greeting.ejs');
-              console.log(filePath);
+              //console.log(filePath);
               var _htmlContent = fs.readFileSync(filePath, 'utf8');
               var _htmlRendered = ejs.render(_htmlContent, {
                 greeting: message,
@@ -108,7 +107,7 @@ function _wrappedMessage() {
               resolve(_htmlRendered);
             }
           }));
-        case 2:
+        case 1:
         case "end":
           return _context3.stop();
       }

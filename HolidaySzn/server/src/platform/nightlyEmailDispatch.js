@@ -99,6 +99,8 @@ async function emailDispatchTest(req,res){
     let fromEmail = req.user.email;
     let toEmail = messageData.toEmail;
 
+    console.log(toEmail)
+
     const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
     res.send(emailSender);
     }

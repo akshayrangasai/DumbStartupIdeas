@@ -112,9 +112,10 @@ function _insertMessage() {
           messageBuilderModel.create(messageBuilderMessage).then(function (messageInfo) {
             var intro = "Create a poem for my friend ";
             var prompt = intro.concat(messageInfo.toName, " for their ", messageInfo.occasionName, ".  ", messageInfo.toName, " is ", messageInfo.toDetails, " type of person.", messageInfo.occasionDetails ? messageInfo.occasionName + " is special because of " + messageInfo.occasionDetails : "");
-            console.log(prompt);
+            //console.log(prompt);
+
             buildMessageFromPrompt(prompt, messageInfo).then(function (messageSuccess) {
-              console.log("success", messageSuccess);
+              //console.log("success", messageSuccess)
               //sendEmail(messageSuccess.fromEmail,  messageSuccess.toEmail, "Happy birthday from " + messageBuilderMessage.name, messageSuccess.message);
             })["catch"](function (err) {
               return console.log(err);

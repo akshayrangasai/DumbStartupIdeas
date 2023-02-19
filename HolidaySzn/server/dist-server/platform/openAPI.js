@@ -31,8 +31,7 @@ function _getPoemFromPrompt() {
               frequency_penalty: 0.4,
               presence_penalty: 0.0
             }).then(function (response) {
-              console.log(response.data.choices[0].text);
-              resolve(response.data.choices[0].text);
+              /*console.log(response.data.choices[0].text);*/resolve(response.data.choices[0].text);
             });
           }));
         case 3:

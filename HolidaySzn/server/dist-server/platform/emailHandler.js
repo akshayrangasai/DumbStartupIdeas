@@ -63,7 +63,7 @@ var sendEmail = /*#__PURE__*/function () {
         case 2:
           sendGrid = _context2.sent;
           if (!sendGrid) {
-            _context2.next = 21;
+            _context2.next = 20;
             break;
           }
           _context2.prev = 4;
@@ -76,40 +76,39 @@ var sendEmail = /*#__PURE__*/function () {
           return sendGridErrorHandler(from, to, "Please check your credentials on greetings", errorMessage);
         case 11:
           Errorresponse = _context2.sent;
-          console.log(response);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return resolve(response);
           }));
-        case 16:
-          _context2.prev = 16;
+        case 15:
+          _context2.prev = 15;
           _context2.t0 = _context2["catch"](4);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return reject(_context2.t0);
           }));
-        case 19:
-          _context2.next = 32;
+        case 18:
+          _context2.next = 31;
           break;
-        case 21:
-          _context2.prev = 21;
-          _context2.next = 24;
+        case 20:
+          _context2.prev = 20;
+          _context2.next = 23;
           return gmailHandler(from, to, subject, message);
-        case 24:
+        case 23:
           _response = _context2.sent;
-          console.log(_response);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return resolve(_response);
           }));
-        case 29:
-          _context2.prev = 29;
-          _context2.t1 = _context2["catch"](21);
+        case 27:
+          _context2.prev = 27;
+          _context2.t1 = _context2["catch"](20);
+          console.log(_context2.t1);
           return _context2.abrupt("return", new Promise(function (resolve, reject) {
             return reject(_context2.t1);
           }));
-        case 32:
+        case 31:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[4, 16], [21, 29]]);
+    }, _callee2, null, [[4, 15], [20, 27]]);
   }));
   return function sendEmail(_x2, _x3, _x4, _x5) {
     return _ref2.apply(this, arguments);

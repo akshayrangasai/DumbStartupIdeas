@@ -28,7 +28,8 @@ var newOccasion = function newOccasion(req, res) {
         occasionName: req.body.occasionName || "Birthday",
         createdAt: new Date()
       };
-      console.log(occasionData);
+
+      //console.log(occasionData);
       occasionModel.create(occasionData).then(function (data, err) {
         //Send to message builder and build message from it in the platform
         (0, _crudToMessage.insertMessage)(data);
@@ -42,13 +43,12 @@ var newOccasion = function newOccasion(req, res) {
   });
 };
 var deleteOccasion = function deleteOccasion(req, res) {
-  console.log(req.params.id);
+  //console.log(req.params.id)
   var _id = req.params.id;
   messageModel.deleteOne({
     occasionId: _id
   }).then(function (data) {
-    console.log('one delete in');
-    messageBuilderModel.deleteOne({
+    /*console.log('one delete in');*/messageBuilderModel.deleteOne({
       occasionId: _id
     }).then(function (data_2) {
       return occasionModel.deleteOne({
@@ -131,18 +131,18 @@ var sentOccasions = /*#__PURE__*/function () {
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
-          console.log('sent occasions');
+          //console.log('sent occasions');
           userEmail = req.user.email;
-          _context3.next = 4;
+          _context3.next = 3;
           return (0, _user.findUser)(userEmail);
-        case 4:
+        case 3:
           user = _context3.sent;
           occasionData = {
             fromUser: user._id
           };
-          _context3.next = 8;
+          _context3.next = 7;
           return finalEmailModel.find(occasionData);
-        case 8:
+        case 7:
           data = _context3.sent;
           //console.log(data);                
           allOccasions = data.map(function (occasionArray) {
@@ -157,7 +157,7 @@ var sentOccasions = /*#__PURE__*/function () {
             return returnDict;
           }); //console.log(allOccasions)
           res.json(allOccasions);
-        case 11:
+        case 10:
         case "end":
           return _context3.stop();
       }
@@ -168,7 +168,7 @@ var sentOccasions = /*#__PURE__*/function () {
   };
 }();
 var getMessageForOccasion = function getMessageForOccasion(req, res) {
-  console.log(req.params.id);
+  //console.log(req.params.id)
   var _id = req.params.id;
   messageModel.findOne({
     occasionId: _id

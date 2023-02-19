@@ -19,7 +19,7 @@ function ShowOccasions() {
 		(data) => {
 			//console.log(data.data)
 			const mapData = data.data;
-			console.log(mapData);
+			//console.log(mapData);
 			//const renderValue = mapData.map(function(props,i){ console.log(props); return (<MessageCard props = {props} key = {i} />)});
 			setOccasionRender(mapData);
 		}).catch(
@@ -39,7 +39,18 @@ function ShowOccasions() {
 			<Row>
 			<h1 className={styles.heading}>My Scheduled Greetings</h1>
 			</Row>
-			{occasionRender?occasionRender.map(function(props,i){ console.log(props); return (<MessageCard data = {props} key = {i} />)}):"Nothing here yet"}
+			{occasionRender?occasionRender.map(function(props,i){ 
+				if(i)
+				{ 
+					console.log(props)
+					return (<MessageCard data = {props} key = {i} />)
+				}
+				else
+				{ return <div>"No Greetings Scheduled Yet. Click on Add Occasion to get started!"</div>
+				}
+			})
+			:<div>"No Greetings Scheduled Yet. Click on Add Occasion to get started!"</div>
+			}
 			
 		</div>
 	);
@@ -65,9 +76,9 @@ function SentOccasions() {
 		(data) => {
 			//console.log(data.data)
 			const mapData = data.data;
-			//console.log(mapData);
+			console.log("mappy");
 			//const renderValue = mapData.map(function(props,i){ console.log(props); return (<MessageCard props = {props} key = {i} />)});
-			setOccasionRender(mapData);
+			mapData.length>0?setOccasionRender(mapData):setOccasionRender(null);
 		}).catch(
 			(err)=> {
 				console.log(err);
@@ -87,7 +98,7 @@ function SentOccasions() {
 				<h1 className={styles.heading}>My Sent Greetings</h1>
 			</Row>
 			
-			{occasionRender?occasionRender.map(function(props,i){ console.log(props); return (<EmailCard data = {props} key = {i} />)}):"No Greetings Sent Yet. We'll send them as soon as the day arrives!"}
+			{occasionRender?occasionRender.map(function(props,i){ console.log(props); return (<EmailCard data = {props} key = {i} />)}):<div>"No Greetings Sent Yet. We'll send them as soon as the day arrives!"</div>}
 			
 		</div>
 	);

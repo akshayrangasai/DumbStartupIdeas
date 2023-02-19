@@ -4,6 +4,7 @@ import Col from "react-bootstrap/esm/Col";
 import styles from '../../static/styles.module.css';
 import Button from "react-bootstrap/esm/Button";
 import Login from "./login";
+import { Link } from "react-router-dom";
 function LandingContent()
 {
 
@@ -59,10 +60,18 @@ function LandingContent()
                 <Button size="lg" className="mb-2" variant="primary" onClick={googleAuth}>
 						<span>Sign in (up) Now</span>
 					</Button>
+                    <br />
+                <strong>Temporary Alert</strong>The app will throw a warning screen as you sign up as it is under verification from the google team. Click on continue and do not forget to give the app access to sending emails to use it!
+                
             </Container>
             </Col>
             <Col md="2">
             </Col>
+            </Row>
+            <Row>
+                <center>
+            <span><a href = "/privacy">privacy policy</a></span>
+            </center>
             </Row>
         </Container>
     );

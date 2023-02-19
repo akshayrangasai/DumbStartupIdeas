@@ -6,6 +6,7 @@ import Container from "react-bootstrap/esm/Container";
 import LandingContent from "./LandingContent";
 //require('dotenv').config();
 import styles from "../../static/styles.module.css";
+import PrivacyPolicy from "./PrivacyPolicy";
 
 function PublicLanding() {
 	const authURL = process.env.REACT_APP_SERVER_URL+'/auth/google';
@@ -25,6 +26,11 @@ function PublicLanding() {
 					exact
 					path="/login"
 					element= {<Login />}
+				/>
+				<Route
+					exact
+					path="/privacy"
+					element= {<PrivacyPolicy />}
 				/>
 				<Route
 					exact

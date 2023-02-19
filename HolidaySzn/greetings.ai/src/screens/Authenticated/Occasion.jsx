@@ -40,15 +40,9 @@ function ShowOccasions() {
 			<h1 className={styles.heading}>My Scheduled Greetings</h1>
 			</Row>
 			{occasionRender?occasionRender.map(function(props,i){ 
-				if(i)
-				{ 
-					console.log(props)
 					return (<MessageCard data = {props} key = {i} />)
 				}
-				else
-				{ return <div>"No Greetings Scheduled Yet. Click on Add Occasion to get started!"</div>
-				}
-			})
+				)
 			:<div>"No Greetings Scheduled Yet. Click on Add Occasion to get started!"</div>
 			}
 			

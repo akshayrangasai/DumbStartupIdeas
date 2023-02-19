@@ -78,7 +78,7 @@ function SentOccasions() {
 			const mapData = data.data;
 			console.log("mappy");
 			//const renderValue = mapData.map(function(props,i){ console.log(props); return (<MessageCard props = {props} key = {i} />)});
-			mapData.length>0?setOccasionRender(mapData):setOccasionRender(null);
+			setOccasionRender(mapData);
 		}).catch(
 			(err)=> {
 				console.log(err);

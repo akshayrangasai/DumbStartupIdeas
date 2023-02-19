@@ -72,7 +72,7 @@ function MessageCard(prop)
                     alert('Check your email for a test email!')
                 }
             ).catch(
-                (err) => alert('Unable to send test email! Check your email settings')
+                (err) => alert('Unable to send test email! Check your email settings or login again with email permissions set!')
             )
     
         }

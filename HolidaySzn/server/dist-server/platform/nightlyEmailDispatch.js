@@ -179,31 +179,38 @@ function emailDispatchTest(_x4, _x5) {
 }
 function _emailDispatchTest() {
   _emailDispatchTest = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
+    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
-          emailDispatch(req, res);
-          /*
-          console.log("Dispatch Called", req.body)
-          res.send(req.body)
-          */
-
-          /*const results = await getMessagesForTheDay();
-          const from = await user.findOne({_id:results[0].fromUser})
-          const occasion = await occasionModel.findOne({_id: results[0].occasionId})
-          const to = await recepientModel.findOne({toEmail: results[0].toEmail})
-           console.log(from,to,occasion)
-          const formattedResult = await greetingsFormat(results[0].message);
-          //console.log(formattedResult)
-          const resulted = await sendEmail("akshayrangasai.d@gmail.com", "akshayrangasai.d@gmail.com", "Happy " +occasion.occasionName + " " + to.toName,formattedResult)
-          console.log(resulted)
-          res.send(formattedResult || "lol");
-          */
-        case 1:
+          occasionId = req.params.id;
+          _context4.prev = 1;
+          _context4.next = 4;
+          return _messages["default"].findOne({
+            occasionId: occasionId
+          });
+        case 4:
+          messageData = _context4.sent;
+          emailSubject = messageData.emailSubject;
+          emailMessage = messageData.formattedMessage;
+          fromEmail = req.user.email;
+          toEmail = req.user.email;
+          _context4.next = 11;
+          return (0, _emailHandler.sendEmail)(fromEmail, toEmail, emailSubject, emailMessage);
+        case 11:
+          emailSender = _context4.sent;
+          res.send(emailSender);
+          _context4.next = 18;
+          break;
+        case 15:
+          _context4.prev = 15;
+          _context4.t0 = _context4["catch"](1);
+          res.sendStatus(500);
+        case 18:
         case "end":
           return _context4.stop();
       }
-    }, _callee4);
+    }, _callee4, null, [[1, 15]]);
   }));
   return _emailDispatchTest.apply(this, arguments);
 }

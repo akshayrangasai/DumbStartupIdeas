@@ -89,7 +89,25 @@ async function emailDispatch(req,res){
 
 async function emailDispatchTest(req,res){
 
-    emailDispatch(req,res);
+    const occasionId = req.params.id;
+
+    try{
+    const messageData = await messageModel.findOne({occasionId: occasionId});
+
+    let emailSubject = messageData.emailSubject;
+    let emailMessage = messageData.formattedMessage;
+    let fromEmail = req.user.email;
+    let toEmail = req.user.email;
+
+    const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
+    res.send(emailSender);
+    }
+    catch(err)
+    {
+        res.sendStatus(500);
+    }
+
+    //emailDispatch(req,res);
     /*
     console.log("Dispatch Called", req.body)
     res.send(req.body)

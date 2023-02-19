@@ -59,6 +59,27 @@ function MessageCard(prop)
 
     }
 
+    const testMessage = (occasionId) => {
+
+        return function(){
+            const serverURL = process.env.REACT_APP_SERVER_URL;
+            const APIendPoint = '/platform/test/message/';
+            const urlEndPoint = serverURL.concat(APIendPoint, occasionId);
+            console.log(urlEndPoint);
+            axios.get(urlEndPoint,{withCredentials:true}).then(
+                (data) => {
+                    //console.log(data.data);
+                    alert('Check your email for a test email!')
+                }
+            ).catch(
+                (err) => alert('Unable to send test email! Check your email settings')
+            )
+    
+        }
+        
+
+    }
+
     return(
         <Card fluid="xl" className = "mt-5" md="450">
             <div className = 'messageCardSection'>
@@ -77,6 +98,7 @@ function MessageCard(prop)
             <div className = 'messageCardSection'>
             <Button variant='primary' size = 'sm' onClick={previewMessage(props.occasionId)} className = 'messageButton'>Preview Message</Button>
             <Button variant='danger' size = 'sm' onClick={deleteMessage(props.occasionId)} className = 'messageButton'>Delete Message</Button>
+            <Button variant='secondary' size = 'sm' onClick={testMessage(props.occasionId)} className = 'messageButton'>Test Email</Button>
             </div>
         </Card>
     );

@@ -36,19 +36,19 @@ function AuthenticatedNav(props)
     */
     return(
         <Container fluid="md">
-            <Navbar expand="lg" variant="light" bg="light">
+            <Navbar expand="sm" variant="light" bg="light">
                     <Navbar.Brand href = "/">greetings.ai</Navbar.Brand>
                     <Nav className = "justify-content-end" activeKey={props.pathname}>
                         
                         
                         <Nav.Link href = "/addOccasion" >Add Occasion</Nav.Link>
-                        <Nav.Link href = "/myGreetings">My Greetings</Nav.Link>
-                        <Nav.Link href = "/myPeople">My People</Nav.Link>
-                        <Nav.Link href = "/sentGreetings">Sent Greetings</Nav.Link>
-                        <Nav.Link href = "#" onClick={logOut}>Logout</Nav.Link>
+                        <Nav.Link href = "/myGreetings"  className="d-none d-lg-block">My Greetings</Nav.Link>
+                        <Nav.Link href = "/myPeople"  className="d-none d-lg-block">My People</Nav.Link>
+                        <Nav.Link href = "/sentGreetings"  className="d-none d-lg-block">Sent Greetings</Nav.Link>
+                        <Nav.Link href = "#" className="d-none d-sm-block" onClick={logOut}>Logout</Nav.Link>
                         </Nav>
                         <Nav className = "ms-auto">
-                        <Nav.Item className="justify-content-right">
+                        <Nav.Item className="justify-content-right d-none d-xl-block">
                             {props.user}
                         </Nav.Item>
                         </Nav>

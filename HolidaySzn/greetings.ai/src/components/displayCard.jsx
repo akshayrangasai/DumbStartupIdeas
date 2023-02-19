@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
 const moment = require('moment');
 
 function MessageCard(prop)
@@ -81,7 +83,7 @@ function MessageCard(prop)
     }
 
     return(
-        <Card fluid="xl" className = "mt-5" md="450">
+        <Card fluid="xl" className = "mt-3" md="450">
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Name : </span> <span className = 'messageCardValue'>{props.toName}</span>
             <span className = 'messageCardTitle'>Email : </span> <span className = 'messageCardValue'>{props.toEmail}</span>
@@ -95,11 +97,11 @@ function MessageCard(prop)
             <br />
             <span className = 'messageCardTitle'>Occasion Details : </span> <span className = 'messageCardValue'>{props.occasionDetails}</span>
             </div>
-            <div className = 'messageCardSection'>
-            <Button variant='primary' size = 'sm' onClick={previewMessage(props.occasionId)} className = 'messageButton'>Preview Message</Button>
-            <Button variant='danger' size = 'sm' onClick={deleteMessage(props.occasionId)} className = 'messageButton'>Delete Message</Button>
-            <Button variant='secondary' size = 'sm' onClick={testMessage(props.occasionId)} className = 'messageButton'>Email NOW!</Button>
-            </div>
+            <Row className='p-3'>
+                <Col className='p-1'><Button variant='primary' size = 'sm' onClick={previewMessage(props.occasionId)} className = 'd-block h-100'>Preview Message</Button></Col>
+                <Col className='p-1'><Button variant='danger' size = 'sm' onClick={deleteMessage(props.occasionId)} className = 'd-block h-100'>Delete Message</Button></Col>
+                <Col className='p-1'><Button variant='secondary' size = 'sm' onClick={testMessage(props.occasionId)} className = 'd-block h-100'>Email NOW!</Button></Col>
+            </Row>
         </Card>
     );
 }
@@ -136,7 +138,7 @@ function EmailCard(prop)
 
 
     return(
-        <Card fluid="xl" className = "mt-5" md="450">
+        <Card fluid="xl" className = "mt-3" md="450">
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Name : </span> <span className = 'messageCardValue'>{props.toName}</span>
             <span className = 'messageCardTitle'>Email : </span> <span className = 'messageCardValue'>{props.toEmail}</span>
@@ -148,7 +150,7 @@ function EmailCard(prop)
             <span className = 'messageCardTitle'>Date : </span> <span className = 'messageCardValue'>{moment.utc(props.occasionDate).format("MMM-DD")}</span>
             </div>
             <div className = 'messageCardSection'>
-            <Button variant='danger' size = 'sm' onClick={() => {openMessage(props.emailContent)}} className = 'messageButton'>Open Sent Message</Button>
+            <Button variant='info' size = 'sm' onClick={() => {openMessage(props.emailContent)}} className = 'messageButton'>Open Sent Message</Button>
             </div>
         </Card>
     );

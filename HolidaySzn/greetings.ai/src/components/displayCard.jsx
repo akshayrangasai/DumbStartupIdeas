@@ -67,7 +67,7 @@ function MessageCard(prop)
             </div>
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Occasion : </span> <span className = 'messageCardValue'>{props.occasionName}</span>
-            <span className = 'messageCardTitle'>Date : </span> <span className = 'messageCardValue'>{moment(props.occasionDate).format("MMM-DD")}</span>
+            <span className = 'messageCardTitle'>Date : </span> <span className = 'messageCardValue'>{moment.utc(props.occasionDate).format("MMM-DD")}</span>
             </div>
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'><b>Person</b>alization : </span> <span className = 'messageCardValue'>{props.toDetails}</span> 
@@ -123,7 +123,7 @@ function EmailCard(prop)
             <span className = 'messageCardTitle'>Subject : </span> <span className = 'messageCardValue'>{props.emailSubject}</span>
             </div>
             <div className = 'messageCardSection'>
-            <span className = 'messageCardTitle'>Date : </span> <span className = 'messageCardValue'>{moment(props.occasionDate).format("MMM-DD")}</span>
+            <span className = 'messageCardTitle'>Date : </span> <span className = 'messageCardValue'>{moment.utc(props.occasionDate).format("MMM-DD")}</span>
             </div>
             <div className = 'messageCardSection'>
             <Button variant='danger' size = 'sm' onClick={() => {openMessage(props.emailContent)}} className = 'messageButton'>Open Sent Message</Button>

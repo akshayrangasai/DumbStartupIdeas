@@ -97,7 +97,7 @@ async function emailDispatchTest(req,res){
     let emailSubject = messageData.emailSubject;
     let emailMessage = messageData.formattedMessage;
     let fromEmail = req.user.email;
-    let toEmail = req.user.email;
+    let toEmail = messageData.toEmail;
 
     const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
     res.send(emailSender);

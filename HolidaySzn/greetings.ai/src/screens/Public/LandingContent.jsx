@@ -21,6 +21,7 @@ function LandingContent()
 
         <Container fluid = "sm">
             <h1 className={styles.heading}>Welcome to greetings.ai</h1>
+            <center><a href = "https://dumbstartupideas.substack.com/p/not-so-artificial-greetings" target="_blank">Origin Story</a></center>
             <Row>
             <Col md="2">
             </Col>

@@ -1,6 +1,7 @@
 const occasionModel = require("../models/occasion");
 const messageModel = require('../models/messages')
-const messageBuilderModel = require('../models/messageBuilder')
+const messageBuilderModel = require('../models/messageBuilder');
+const finalEmailModel = require('../models/finalEmail');
 //const userModel = require("../models/user");
 import { findUser } from "./user";
 import {createOrFindRecepient} from "./recepient";
@@ -106,6 +107,49 @@ const allOccasions = async (req,res) =>
 }
 
 
+const sentOccasions = async (req,res) =>
+{
+    console.log('sent occasions');
+    let userEmail = req.user.email; 
+    const user = await findUser( userEmail );
+    const occasionData = {fromUser : user._id}
+    const data = await finalEmailModel.find(occasionData)                   
+    const allOccasions = await Promise.all(data.map(async (occasionArray) =>
+                            {
+                                return new Promise(
+                                    (resolve, reject) => messageModel.findOne({occasionId: occasionArray.occasionId}).then((messageData) =>
+                                    {
+
+                                        const returnDict = {
+                                            toName : messageData.toName,
+                                            toEmail: messageData.toEmail,
+                                            emailDate : occasionArray.emailDate,
+                                            emailSubject: occasionArray.emailSubject,
+                                            emailContent: occasionArray.emailBody,
+                                        }; 
+                                        //console.log(returnDict);
+                                        resolve(returnDict); 
+                                        
+                                    }))
+                            }));
+    //console.log(allOccasions)
+
+    res.json(allOccasions);
+}
+
+const getMessageForOccasion = (req,res) =>
+{
+    console.log(req.params.id)
+    const _id = req.params.id;
+
+    messageModel.findOne({occasionId:_id}).then(
+        (data) => res.send(data.formattedMessage)
+        
+            ).catch(
+        (err) => res.send(err)
+    )
 
 
-module.exports = {newOccasion, allOccasions, deleteOccasion};
+    //res.json(allOccasions);
+}
+module.exports = {newOccasion, allOccasions, deleteOccasion, sentOccasions, getMessageForOccasion};

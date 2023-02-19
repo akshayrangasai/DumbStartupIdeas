@@ -10,6 +10,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var occasionModel = require("../models/occasion");
 var messageModel = require('../models/messages');
 var messageBuilderModel = require('../models/messageBuilder');
+var finalEmailModel = require('../models/finalEmail');
 //const userModel = require("../models/user");
 
 var newOccasion = function newOccasion(req, res) {
@@ -123,8 +124,89 @@ var allOccasions = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
+var sentOccasions = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
+    var userEmail, user, occasionData, data, allOccasions;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          console.log('sent occasions');
+          userEmail = req.user.email;
+          _context4.next = 4;
+          return (0, _user.findUser)(userEmail);
+        case 4:
+          user = _context4.sent;
+          occasionData = {
+            fromUser: user._id
+          };
+          _context4.next = 8;
+          return finalEmailModel.find(occasionData);
+        case 8:
+          data = _context4.sent;
+          _context4.next = 11;
+          return Promise.all(data.map( /*#__PURE__*/function () {
+            var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(occasionArray) {
+              return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+                while (1) switch (_context3.prev = _context3.next) {
+                  case 0:
+                    return _context3.abrupt("return", new Promise(function (resolve, reject) {
+                      return messageModel.findOne({
+                        occasionId: occasionArray.occasionId
+                      }).then(function (messageData) {
+                        var returnDict = {
+                          toName: messageData.toName,
+                          toEmail: messageData.toEmail,
+                          emailDate: occasionArray.emailDate,
+                          emailSubject: occasionArray.emailSubject,
+                          emailContent: occasionArray.emailBody
+                        };
+                        //console.log(returnDict);
+                        resolve(returnDict);
+                      });
+                    }));
+                  case 1:
+                  case "end":
+                    return _context3.stop();
+                }
+              }, _callee3);
+            }));
+            return function (_x6) {
+              return _ref4.apply(this, arguments);
+            };
+          }()));
+        case 11:
+          allOccasions = _context4.sent;
+          //console.log(allOccasions)
+
+          res.json(allOccasions);
+        case 13:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
+  }));
+  return function sentOccasions(_x4, _x5) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+var getMessageForOccasion = function getMessageForOccasion(req, res) {
+  console.log(req.params.id);
+  var _id = req.params.id;
+  messageModel.findOne({
+    occasionId: _id
+  }).then(function (data) {
+    return res.send(data.formattedMessage);
+  })["catch"](function (err) {
+    return res.send(err);
+  });
+
+  //res.json(allOccasions);
+};
+
 module.exports = {
   newOccasion: newOccasion,
   allOccasions: allOccasions,
-  deleteOccasion: deleteOccasion
+  deleteOccasion: deleteOccasion,
+  sentOccasions: sentOccasions,
+  getMessageForOccasion: getMessageForOccasion
 };

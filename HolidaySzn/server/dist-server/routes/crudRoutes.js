@@ -16,6 +16,8 @@ var crudRouter = (0, _express.Router)();
 crudRouter.post('/occasion/create/', ensureLoggedIn, _occasion.newOccasion);
 crudRouter.get('/occasion/delete/:id/', ensureLoggedIn, _occasion.deleteOccasion);
 crudRouter.get('/occasion/all/', ensureLoggedIn, _occasion.allOccasions);
+crudRouter.get('/occasion/sent/all', ensureLoggedIn, _occasion.sentOccasions);
+crudRouter.get('/occasion/message/:id', ensureLoggedIn, _occasion.getMessageForOccasion);
 /* Recepients */
 
 crudRouter.get('/recepient/all/', ensureLoggedIn, _recepient.findAllRecepients);

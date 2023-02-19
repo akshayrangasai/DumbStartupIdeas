@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import UserProfile from "./userProfile";
 //import NewOccasionForm from "./components/createNewOccasion";
-import { NewOccasions, ShowOccasions } from "./Occasion";
+import { NewOccasions, ShowOccasions, SentOccasions } from "./Occasion";
+import {ShowRecepients} from './Recepient'
 import Container from "react-bootstrap/esm/Container";
 import AuthenticatedNav from "./AuthenticatedNav";
 import Dashboard from "./Dashboard";
@@ -30,8 +31,18 @@ function AuthenticatedApp(props) {
 				/>
 				<Route
 					exact
-					path="/myOccasions"
+					path="/myGreetings"
 					element={<ShowOccasions user = {props.user} />}
+				/>
+				<Route
+					exact
+					path="/myPeople"
+					element={<ShowRecepients user = {props.user} />}
+				/>
+				<Route
+					exact
+					path="/sentGreetings"
+					element={<SentOccasions user = {props.user} />}
 				/>
 			</Routes>
 		</Container>

@@ -77,10 +77,7 @@ class NewOccasionForm extends React.Component{
                                 <Form.Label>Some adjectives to describe this person</Form.Label>
                                 <Form.Control type="textarea" name = 'toDetails' placeholder="Most beautiful, talented and entreprneurial person in the world" onChange={this.onChange} />
                                 <br />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                                <br />
+                                
                                 <Form.Label>What is the greeting for?</Form.Label>
                                 <Form.Control type="text" name = 'occasionName' placeholder="Birthday" onChange={this.onChange} />
                                 <br />

@@ -30,15 +30,21 @@ function AuthenticatedNav(props)
 		);
 	}
     
+    /*
+    If I ever want a user profile in the future
+    <Nav.Link href = "/user">My Profile</Nav.Link>
+    */
     return(
         <Container fluid="md">
             <Navbar expand="lg" variant="light" bg="light">
                     <Navbar.Brand href = "/">greetings.ai</Navbar.Brand>
                     <Nav className = "justify-content-end" activeKey={props.pathname}>
                         
-                        <Nav.Link href = "/user">My Profile</Nav.Link>
+                        
                         <Nav.Link href = "/addOccasion" >Add Occasion</Nav.Link>
-                        <Nav.Link href = "/myOccasions">My Occasions</Nav.Link>
+                        <Nav.Link href = "/myGreetings">My Greetings</Nav.Link>
+                        <Nav.Link href = "/myPeople">My People</Nav.Link>
+                        <Nav.Link href = "/sentGreetings">Sent Greetings</Nav.Link>
                         <Nav.Link href = "#" onClick={logOut}>Logout</Nav.Link>
                         </Nav>
                         <Nav className = "ms-auto">

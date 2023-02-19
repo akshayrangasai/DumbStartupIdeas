@@ -11,7 +11,7 @@ async function updateSentEmails(finalEmailDoc)
 {
     return new Promise(
         (resolve, reject) => {
-    finalEmailModel.create(finalEmailDoc).then(data => {console.log(data);resolve(data)}).catch(err => {errorEmail("akshayrangasai.d@gmail.com", err);reject(err)});
+    finalEmailModel.create(finalEmailDoc).then(data => {resolve(data)}).catch(err => {errorEmail("akshayrangasai.d@gmail.com", err);reject(err)});
 })
 }
 async function getMessagesForTheDay(){
@@ -73,7 +73,7 @@ async function emailDispatch(req,res){
         
         if(i == results.length -1)
         {
-            console.log(emailsForTheDay);
+            //console.log(emailsForTheDay.length);
             res.send(emailsForTheDay.map(data => {return data._id}));
         }
 

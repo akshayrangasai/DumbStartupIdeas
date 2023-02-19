@@ -65,7 +65,7 @@ const createOrFindRecepient = (req,res) =>
                                 toDetails : req.body.toDetails  
                             };
 
-                        console.log(recepientData);
+                        //console.log(recepientData);
                         recepientModel.create(recepientData)
                         .then
                         (

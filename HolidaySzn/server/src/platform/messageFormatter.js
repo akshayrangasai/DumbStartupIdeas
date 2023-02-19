@@ -22,9 +22,9 @@ const path = require('path');
     {
         
 
-        console.log(typeof(greeting))
+        //console.log(typeof(greeting))
         greeting = greeting.replace(/(?:\r\n|\r|\n)/g, "<br>");
-        console.log(greeting)
+        //console.log(greeting)
         const finalMessage = await wrappedMessage(greeting, "greeting");
 
         return new Promise((resolve, reject) =>
@@ -41,11 +41,11 @@ const path = require('path');
 
     async function wrappedMessage(message, msgtype)
     {
-        console.log("wrapping",  msgtype)
+        //console.log("wrapping",  msgtype)
         return new Promise((resolve, reject)=>{
         if(msgtype == "error")
         {
-            console.log(__dirname,+'/templates/error.ejs');
+            //console.log(__dirname,+'/templates/error.ejs');
             let htmlContent = fs.readFileSync(__dirname,+'/templates/error.ejs','utf8');
             let htmlRendered = ejs.render(htmlContent, {greeting : message, greetingsurl : process.env.CLIENT_URL});
             resolve(htmlRendered);   
@@ -54,7 +54,7 @@ const path = require('path');
         else
         {
             const filePath = path.join(process.cwd(), '/src/templates/greeting.ejs');
-            console.log(filePath);
+            //console.log(filePath);
             let htmlContent = fs.readFileSync(filePath,'utf8');
             let htmlRendered = ejs.render(htmlContent, {greeting : message, greetingsurl : process.env.CLIENT_URL});
             resolve(htmlRendered);   

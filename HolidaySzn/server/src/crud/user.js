@@ -10,7 +10,7 @@ const newUser = (req,res) =>
         createdAt : new Date()
     };
 
-    console.log(userData);
+    //console.log(userData);
     userModel.create(userData)
     .then
     (
@@ -32,7 +32,7 @@ const findUser = (email) =>
             email: email || 'test@dumbstartupideas.com',
         };
 
-        console.log(userData);
+        //console.log(userData);
         userModel.findOne(userData)
         .then
         (

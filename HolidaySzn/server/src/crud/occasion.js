@@ -32,7 +32,7 @@ const newOccasion = (req,res) =>
                         createdAt : new Date()
                     };
 
-                console.log(occasionData);
+                //console.log(occasionData);
                 occasionModel.create(occasionData)
                 .then
                 (
@@ -60,11 +60,11 @@ const newOccasion = (req,res) =>
 
 const deleteOccasion = (req,res)=>
 {
-    console.log(req.params.id)
+    //console.log(req.params.id)
     const _id = req.params.id;
 
     messageModel.deleteOne({occasionId:_id}).then(
-        (data) => {console.log('one delete in');messageBuilderModel.deleteOne({occasionId:_id}).then(
+        (data) => {/*console.log('one delete in');*/messageBuilderModel.deleteOne({occasionId:_id}).then(
             (data_2) => occasionModel.deleteOne({_id : _id}).then(
                 (resdata) => res.json(resdata)
             )
@@ -110,7 +110,7 @@ const allOccasions = async (req,res) =>
 
 const sentOccasions = async (req,res) =>
 {
-    console.log('sent occasions');
+    //console.log('sent occasions');
     let userEmail = req.user.email; 
     const user = await findUser( userEmail );
     const occasionData = {fromUser : user._id}
@@ -139,7 +139,7 @@ const sentOccasions = async (req,res) =>
 
 const getMessageForOccasion = (req,res) =>
 {
-    console.log(req.params.id)
+    //console.log(req.params.id)
     const _id = req.params.id;
 
     messageModel.findOne({occasionId:_id}).then(

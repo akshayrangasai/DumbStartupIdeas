@@ -24,7 +24,7 @@ async function getPoemFromPrompt(prompt)
             top_p: 1.0,
             frequency_penalty: 0.4,
             presence_penalty: 0.0,
-        }).then((response) => {console.log(response.data.choices[0].text);resolve(response.data.choices[0].text)})
+        }).then((response) => {/*console.log(response.data.choices[0].text);*/resolve(response.data.choices[0].text)})
     })
     
 

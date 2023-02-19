@@ -62,7 +62,7 @@ const sendEmail = async (from, to, subject, message) => {
             const response = await sendGridHandler(from, to, subject, message)
             const errorMessage = "Hello there, <br> There seems to be an error in your greetings gmail credentials, and we weren't able to send your message. Please login to check what's happening to resume services";
             const Errorresponse = await sendGridErrorHandler(from, to, "Please check your credentials on greetings", errorMessage)
-            console.log(response);
+            //console.log(response);
             return new Promise((resolve, reject) => resolve(response))
             
             }
@@ -75,12 +75,13 @@ const sendEmail = async (from, to, subject, message) => {
     {
         try{
             const response = await gmailHandler(from, to, subject, message);
-            console.log(response);
+            //console.log(response);
             return new Promise((resolve, reject) => resolve(response))
             
             }
             catch(err)
             {
+                console.log(err);
                 return new Promise((resolve, reject) => reject(err))
             }
             

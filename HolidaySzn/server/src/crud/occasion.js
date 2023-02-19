@@ -1,5 +1,6 @@
 const occasionModel = require("../models/occasion");
 const messageModel = require('../models/messages')
+const recepientModel = require('../models/recepient')
 const messageBuilderModel = require('../models/messageBuilder');
 const finalEmailModel = require('../models/finalEmail');
 //const userModel = require("../models/user");
@@ -113,25 +114,24 @@ const sentOccasions = async (req,res) =>
     let userEmail = req.user.email; 
     const user = await findUser( userEmail );
     const occasionData = {fromUser : user._id}
-    const data = await finalEmailModel.find(occasionData)                   
-    const allOccasions = await Promise.all(data.map(async (occasionArray) =>
+    const data = await finalEmailModel.find(occasionData)   
+    //console.log(data);                
+    const allOccasions = data.map((occasionArray) =>
                             {
-                                return new Promise(
-                                    (resolve, reject) => messageModel.findOne({occasionId: occasionArray.occasionId}).then((messageData) =>
-                                    {
-
                                         const returnDict = {
-                                            toName : messageData.toName,
-                                            toEmail: messageData.toEmail,
+                                            toName : occasionArray.toName || null,
+                                            toEmail: occasionArray.toEmail || null,
                                             emailDate : occasionArray.emailDate,
                                             emailSubject: occasionArray.emailSubject,
                                             emailContent: occasionArray.emailBody,
                                         }; 
                                         //console.log(returnDict);
-                                        resolve(returnDict); 
+                                        return returnDict; 
+                                    }
+                                    
                                         
-                                    }))
-                            }));
+                                    
+    );
     //console.log(allOccasions)
 
     res.json(allOccasions);

@@ -8,7 +8,10 @@ const emailSchema = new Schema(
     
         fromUser : {type : Schema.Types.ObjectId, ref: 'user', required : true },
         occasionId: {type : Schema.Types.ObjectId, ref: 'occasionModel', required : true },
+        recepientId: {type : Schema.Types.ObjectId, ref: 'recepientModel', required : true },
         messageId : {type : Schema.Types.ObjectId, ref: 'messageModel', required : true },
+        toName : {type : String, required : true},
+        toEmail: {type : String, required : true},
         emailSubject : {type : String, required : true},
         emailBody :  {type : String, required : true},
         emailDate: {type : Date, required : true },

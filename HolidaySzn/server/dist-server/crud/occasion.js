@@ -9,6 +9,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var occasionModel = require("../models/occasion");
 var messageModel = require('../models/messages');
+var recepientModel = require('../models/recepient');
 var messageBuilderModel = require('../models/messageBuilder');
 var finalEmailModel = require('../models/finalEmail');
 //const userModel = require("../models/user");
@@ -125,65 +126,42 @@ var allOccasions = /*#__PURE__*/function () {
   };
 }();
 var sentOccasions = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
     var userEmail, user, occasionData, data, allOccasions;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
         case 0:
           console.log('sent occasions');
           userEmail = req.user.email;
-          _context4.next = 4;
+          _context3.next = 4;
           return (0, _user.findUser)(userEmail);
         case 4:
-          user = _context4.sent;
+          user = _context3.sent;
           occasionData = {
             fromUser: user._id
           };
-          _context4.next = 8;
+          _context3.next = 8;
           return finalEmailModel.find(occasionData);
         case 8:
-          data = _context4.sent;
-          _context4.next = 11;
-          return Promise.all(data.map( /*#__PURE__*/function () {
-            var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(occasionArray) {
-              return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-                while (1) switch (_context3.prev = _context3.next) {
-                  case 0:
-                    return _context3.abrupt("return", new Promise(function (resolve, reject) {
-                      return messageModel.findOne({
-                        occasionId: occasionArray.occasionId
-                      }).then(function (messageData) {
-                        var returnDict = {
-                          toName: messageData.toName,
-                          toEmail: messageData.toEmail,
-                          emailDate: occasionArray.emailDate,
-                          emailSubject: occasionArray.emailSubject,
-                          emailContent: occasionArray.emailBody
-                        };
-                        //console.log(returnDict);
-                        resolve(returnDict);
-                      });
-                    }));
-                  case 1:
-                  case "end":
-                    return _context3.stop();
-                }
-              }, _callee3);
-            }));
-            return function (_x6) {
-              return _ref4.apply(this, arguments);
+          data = _context3.sent;
+          //console.log(data);                
+          allOccasions = data.map(function (occasionArray) {
+            var returnDict = {
+              toName: occasionArray.toName || null,
+              toEmail: occasionArray.toEmail || null,
+              emailDate: occasionArray.emailDate,
+              emailSubject: occasionArray.emailSubject,
+              emailContent: occasionArray.emailBody
             };
-          }()));
-        case 11:
-          allOccasions = _context4.sent;
-          //console.log(allOccasions)
-
+            //console.log(returnDict);
+            return returnDict;
+          }); //console.log(allOccasions)
           res.json(allOccasions);
-        case 13:
+        case 11:
         case "end":
-          return _context4.stop();
+          return _context3.stop();
       }
-    }, _callee4);
+    }, _callee3);
   }));
   return function sentOccasions(_x4, _x5) {
     return _ref3.apply(this, arguments);

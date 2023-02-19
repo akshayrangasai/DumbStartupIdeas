@@ -15,9 +15,22 @@ var emailSchema = new _mongoose.Schema({
     ref: 'occasionModel',
     required: true
   },
+  recepientId: {
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: 'recepientModel',
+    required: true
+  },
   messageId: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: 'messageModel',
+    required: true
+  },
+  toName: {
+    type: String,
+    required: true
+  },
+  toEmail: {
+    type: String,
     required: true
   },
   emailSubject: {

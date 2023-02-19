@@ -5,6 +5,7 @@ import recepientModel from '../models/recepient'
 import occasionModel from '../models/occasion'
 import {greetingsFormat} from './messageFormatter';
 import {sendEmail, errorEmail} from './emailHandler';
+//const recepientModel = require('../models/recepient');
 
 async function updateSentEmails(finalEmailDoc)
 {
@@ -35,6 +36,8 @@ async function getMessagesForTheDay(){
 async function emailDispatch(req,res){
 
     const results = await getMessagesForTheDay();
+
+    if(results.length>0){
     const emailsForTheDay = new Array();
     for(var i = 0; i< results.length; i++)
     {
@@ -42,16 +45,19 @@ async function emailDispatch(req,res){
         let toEmail = results[i].toEmail;
         let fromName = results[i].fromName;
         let toName = results[i].toName;
-
+        let recepient = await recepientModel.findOne({toEmail: toEmail});
         let emailSubject = results[i].emailSubject;
         let emailMessage = results[i].formattedMessage ? results[i].formattedMessage : await greetingsFormat(results[i].message);
 
         const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
 
         const emailUpdateDic = {
+        recepientId: recepient._id,
         fromUser : results[i].fromUser,
         occasionId: results[i].occasionId,
         messageId : results[i]._id,
+        toName: toName,
+        toEmail : toEmail,
         emailSubject : emailSubject,
         emailBody :  emailMessage,
         emailDate: new Date(),
@@ -72,6 +78,11 @@ async function emailDispatch(req,res){
         }
 
      }
+    }
+    else
+    {
+        res.json({})
+    }
 
 
 }

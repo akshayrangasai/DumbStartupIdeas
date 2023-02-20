@@ -13,6 +13,9 @@ import "./App.css";
 
 function App() {
 	const [user, setUser] = useState(null);
+	const [name, setName] = useState(null);
+	const [canSendEmail, setcanSendEmail] = useState(false);
+	
 	//const [hitUser, sethitUser] = useState(false);
 
   /* Check user exists, if not check with server and then add local storage, if not change stack */
@@ -21,6 +24,9 @@ function App() {
 		if(localStorage.getItem('user'))	
 		{
 		setUser(localStorage.getItem('user'))
+		setcanSendEmail(localStorage.getItem('canSendEmail'))
+		setName(localStorage.getItem('name'))
+		
 		}
 		else
 		{
@@ -31,8 +37,13 @@ function App() {
 			const { data } = await axios.get(url, { withCredentials: true });
 			//console.log(data);
 			setUser(data.user);
+			setName(data.name);
+			setcanSendEmail(data.canSendEmail);
 			console.log(data.user);
 			localStorage.setItem("user", data.user)
+			localStorage.setItem("name", data.name)
+			localStorage.setItem("canSendEmail", data.canSendEmail)
+			
 			}
 		catch(err)
 		{
@@ -50,7 +61,7 @@ function App() {
 		<div className="container">
 			<ThemeProvider breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']} minBreakpoint="xxs" > 
 				
-				{user ? <AuthenticatedApp user = {user} /> : <PublicLanding />}
+				{user ? <AuthenticatedApp user = {user} canSendEmail = {canSendEmail} name = {name}/> : <PublicLanding /> }
 			
 			</ThemeProvider>
 		</div>

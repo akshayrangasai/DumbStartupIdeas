@@ -6,9 +6,12 @@ import Nav from 'react-bootstrap/Nav'
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import axios from "axios";
+import Button from "react-bootstrap/esm/Button";
 function AuthenticatedNav(props)
 {
 
+
+    
     const logOut = () =>
     {
     const serverURL = process.env.REACT_APP_SERVER_URL; 
@@ -17,7 +20,7 @@ function AuthenticatedNav(props)
 	axios.get(url, { withCredentials: true }).then(
 		(data) => {
 			//console.log(data.data)
-			localStorage.removeItem('user');
+			localStorage.clear();
             window.open(
                 '/',
                 "_self"
@@ -30,6 +33,11 @@ function AuthenticatedNav(props)
 		);
 	}
     
+    const relogin =   <Row sm className = "mx-auto text-muted bg-warning text-xl p-1">
+    <center>
+    You can't send emails with your permissions, please <a href = "#" class="text-white bg-danger" onClick={logOut} style = {{textDecoration : 'none'}} >Login</a> again to the app with the right credentials on the login screen
+    </center>
+</Row>
     /*
     If I ever want a user profile in the future
     <Nav.Link href = "/user">My Profile</Nav.Link>
@@ -48,13 +56,14 @@ function AuthenticatedNav(props)
                         <Nav.Link href = "#" className="d-none d-sm-block" onClick={logOut}>Logout</Nav.Link>
                         </Nav>
                         <Nav className = "ms-auto">
-                        <Nav.Item className="justify-content-right d-none d-xl-block">
-                            {props.user}
+                        <Nav.Item className="justify-content-right d-none d-xl-block p-2">
+                            {props.name}
                         </Nav.Item>
                         </Nav>
                     
             
         </Navbar>
+        {props.canSendEmail?"": relogin}
         </Container>
 
     )

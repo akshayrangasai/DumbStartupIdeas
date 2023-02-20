@@ -11,11 +11,15 @@ function MessageCard(prop)
 {
     
     const [props, setProps] = useState(prop.data);
+    const [canSendEmail, setcanSendEmail] = useState(false)
+
 
     useEffect(()=>
     {
         setProps(prop.data);
+        setcanSendEmail(localStorage.getItem('canSendEmail'));
         //console.log(prop.data)
+        //console.log("canSendEmail",prop.canSendEmail)
 
     },[]);
     
@@ -64,6 +68,7 @@ function MessageCard(prop)
     const testMessage = (occasionId) => {
 
         return function(){
+            if(canSendEmail){
             const serverURL = process.env.REACT_APP_SERVER_URL;
             const APIendPoint = '/platform/test/message/';
             const urlEndPoint = serverURL.concat(APIendPoint, occasionId);
@@ -77,7 +82,14 @@ function MessageCard(prop)
                 (err) => alert('Unable to send test email! Check your email settings or login again with email permissions set!')
             )
     
+            }
+            else{
+
+                alert('Please share email send crendentials by logging in again!')
+
+            }
         }
+
         
 
     }
@@ -99,8 +111,8 @@ function MessageCard(prop)
             </div>
             <Row className='p-3'>
                 <Col className='p-1'><Button variant='primary' size = 'sm' onClick={previewMessage(props.occasionId)} className = 'd-block h-100'>Preview Message</Button></Col>
+                <Col className='p-1'><Button variant='primary' disabled = {!canSendEmail} size = 'sm' onClick={testMessage(props.occasionId)} className = 'd-block h-100 text-white'>{canSendEmail?"Email NOW!":"Can't Send Email"}</Button></Col>
                 <Col className='p-1'><Button variant='danger' size = 'sm' onClick={deleteMessage(props.occasionId)} className = 'd-block h-100'>Delete Message</Button></Col>
-                <Col className='p-1'><Button variant='secondary' size = 'sm' onClick={testMessage(props.occasionId)} className = 'd-block h-100'>Email NOW!</Button></Col>
             </Row>
         </Card>
     );

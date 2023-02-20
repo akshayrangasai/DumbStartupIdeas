@@ -12,37 +12,37 @@ import styles from "../../static/styles.module.css";
 function AuthenticatedApp(props) {
 	return (
 		<Container>
-		<AuthenticatedNav user={props.user} />
+		<AuthenticatedNav user={props.user} canSendEmail = {props.canSendEmail} name = {props.name} />
       	<Routes>
 				<Route
 					exact
 					path="/addOccasion"
-					element= {<NewOccasions user = {props.user} />}
+					element= {<NewOccasions user = {props.user} props = {props} />}
 				/>
                 <Route
 					exact
 					path="/"
-					element= {<Dashboard user = {props.user} />}
+					element= {<Dashboard user = {props.user} props = {props}/>}
 				/>
 				<Route
 					exact
 					path="/user"
-					element={<UserProfile user = {props.user}/>}
+					element={<UserProfile user = {props.user} props = {props}/>}
 				/>
 				<Route
 					exact
 					path="/myGreetings"
-					element={<ShowOccasions user = {props.user} />}
+					element={<ShowOccasions user = {props.user} props = {props}/>}
 				/>
 				<Route
 					exact
 					path="/myPeople"
-					element={<ShowRecepients user = {props.user} />}
+					element={<ShowRecepients user = {props.user} props = {props}/>}
 				/>
 				<Route
 					exact
 					path="/sentGreetings"
-					element={<SentOccasions user = {props.user} />}
+					element={<SentOccasions user = {props.user} props = {props}/>}
 				/>
 			</Routes>
 		</Container>

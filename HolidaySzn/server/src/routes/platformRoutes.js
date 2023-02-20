@@ -20,7 +20,7 @@ if(process.env.NOAUTH_ACCESS == process.env.NODE_ENV)
 
 //platformRouter.use(webhookAuthCheck)
 
-platformRouter.post('/greetingDispatch'/*, webhookAuthCheck,*/,  emailDispatch)
+platformRouter.post('/greetingDispatch', webhookAuthCheck,  emailDispatch)
 platformRouter.get('/test/message/:id',  ensureLoggedIn, emailDispatchTest)
 
 

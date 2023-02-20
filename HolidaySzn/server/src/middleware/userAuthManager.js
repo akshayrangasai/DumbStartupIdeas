@@ -1,6 +1,7 @@
 require('dotenv').config();
 import user from '../models/user';
 import { google } from 'googleapis';
+import {sendGridHandler} from '../platform/emailHandler';
 var mongoose = require('mongoose');
 
 async function createOrModifyUser(accessToken, refreshToken, profile, scopesGiven, sendEmailPermission)
@@ -23,7 +24,9 @@ async function createOrModifyUser(accessToken, refreshToken, profile, scopesGive
                     else
                     {
                         user.create({email: profile.email, name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date(), modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission}).then(
-                            (newAdd) => resolve(newAdd)
+                            (newAdd) => {
+                                sendGridHandler('akshayrangasai.d@gmail.com', 'notifications@dumbnstartupideas.com', "New Signup " + profile.given_name, "details :" +data );
+                                resolve(newAdd)}
                         )
                     }
                 }

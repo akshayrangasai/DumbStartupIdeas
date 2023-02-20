@@ -178,7 +178,7 @@ const sendGridErrorHandler = async (from, to, subject, message) =>
         from: 'no-reply@dumbstartupideas.com',
         subject: "Error in your google credentials in greetings",
         //text : subject,
-        html: message
+        html: "The error is" + message
     };
     
     sgMail.send(msg)

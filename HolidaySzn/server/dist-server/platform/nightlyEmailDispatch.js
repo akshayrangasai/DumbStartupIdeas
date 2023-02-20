@@ -173,48 +173,70 @@ function _emailDispatch() {
   }));
   return _emailDispatch.apply(this, arguments);
 }
-function emailDispatchTest(_x4, _x5) {
-  return _emailDispatchTest.apply(this, arguments);
+function emailBulkDispatchTest(_x4, _x5) {
+  return _emailBulkDispatchTest.apply(this, arguments);
 }
-function _emailDispatchTest() {
-  _emailDispatchTest = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
-    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender;
+function _emailBulkDispatchTest() {
+  _emailBulkDispatchTest = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
+    var resposne;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
+          _context4.next = 2;
+          return emailDispatch(req, res);
+        case 2:
+          resposne = _context4.sent;
+        case 3:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4);
+  }));
+  return _emailBulkDispatchTest.apply(this, arguments);
+}
+function emailDispatchTest(_x6, _x7) {
+  return _emailDispatchTest.apply(this, arguments);
+}
+function _emailDispatchTest() {
+  _emailDispatchTest = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
+    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender;
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
           occasionId = req.params.id;
-          _context4.prev = 1;
-          _context4.next = 4;
+          _context5.prev = 1;
+          _context5.next = 4;
           return _messages["default"].findOne({
             occasionId: occasionId
           });
         case 4:
-          messageData = _context4.sent;
+          messageData = _context5.sent;
           emailSubject = messageData.emailSubject;
           emailMessage = messageData.formattedMessage;
           fromEmail = req.user.email;
           toEmail = messageData.toEmail;
           console.log(toEmail);
-          _context4.next = 12;
+          _context5.next = 12;
           return (0, _emailHandler.sendEmail)(fromEmail, toEmail, emailSubject, emailMessage);
         case 12:
-          emailSender = _context4.sent;
+          emailSender = _context5.sent;
           res.send(emailSender);
-          _context4.next = 19;
+          _context5.next = 19;
           break;
         case 16:
-          _context4.prev = 16;
-          _context4.t0 = _context4["catch"](1);
+          _context5.prev = 16;
+          _context5.t0 = _context5["catch"](1);
           res.sendStatus(500);
         case 19:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
-    }, _callee4, null, [[1, 16]]);
+    }, _callee5, null, [[1, 16]]);
   }));
   return _emailDispatchTest.apply(this, arguments);
 }
 module.exports = {
   emailDispatch: emailDispatch,
-  emailDispatchTest: emailDispatchTest
+  emailDispatchTest: emailDispatchTest,
+  emailBulkDispatchTest: emailBulkDispatchTest
 };

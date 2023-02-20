@@ -87,6 +87,10 @@ async function emailDispatch(req,res){
 
 }
 
+async function emailBulkDispatchTest(req,res){
+    const resposne = await emailDispatch(req,res)
+}
+
 async function emailDispatchTest(req,res){
 
     const occasionId = req.params.id;
@@ -129,4 +133,4 @@ async function emailDispatchTest(req,res){
     */
 }
 
-module.exports = {emailDispatch, emailDispatchTest}
+module.exports = {emailDispatch, emailDispatchTest, emailBulkDispatchTest}

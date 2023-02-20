@@ -205,7 +205,7 @@ var sendGridErrorHandler = /*#__PURE__*/function () {
               from: 'no-reply@dumbstartupideas.com',
               subject: "Error in your google credentials in greetings",
               //text : subject,
-              html: message
+              html: "The error is" + message
             };
             sgMail.send(msg).then(function (response) {
               resolve(response);

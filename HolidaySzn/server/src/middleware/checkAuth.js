@@ -10,7 +10,6 @@ function webhookAuthCheck(req,res,next)
     if(req.body.key == process.env.EMAIL_ENDPOINT_PASSWORD)
     {
         next();
-        //res.send("success");
     }
     else
     {

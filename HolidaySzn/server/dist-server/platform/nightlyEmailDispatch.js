@@ -90,45 +90,46 @@ function _emailDispatch() {
           return getMessagesForTheDay();
         case 2:
           results = _context3.sent;
+          console.log("got messages for day");
           if (!(results.length > 0)) {
-            _context3.next = 37;
+            _context3.next = 38;
             break;
           }
           emailsForTheDay = new Array();
           i = 0;
-        case 6:
+        case 7:
           if (!(i < results.length)) {
-            _context3.next = 35;
+            _context3.next = 36;
             break;
           }
           fromEmail = results[i].fromEmail;
           toEmail = results[i].toEmail;
           fromName = results[i].fromName;
           toName = results[i].toName;
-          _context3.next = 13;
+          _context3.next = 14;
           return _recepient["default"].findOne({
             toEmail: toEmail
           });
-        case 13:
+        case 14:
           recepient = _context3.sent;
           emailSubject = results[i].emailSubject;
           if (!results[i].formattedMessage) {
-            _context3.next = 19;
+            _context3.next = 20;
             break;
           }
           _context3.t0 = results[i].formattedMessage;
-          _context3.next = 22;
+          _context3.next = 23;
           break;
-        case 19:
-          _context3.next = 21;
+        case 20:
+          _context3.next = 22;
           return (0, _messageFormatter.greetingsFormat)(results[i].message);
-        case 21:
-          _context3.t0 = _context3.sent;
         case 22:
+          _context3.t0 = _context3.sent;
+        case 23:
           emailMessage = _context3.t0;
-          _context3.next = 25;
+          _context3.next = 26;
           return (0, _emailHandler.sendEmail)(fromEmail, toEmail, emailSubject, emailMessage);
-        case 25:
+        case 26:
           emailSender = _context3.sent;
           emailUpdateDic = {
             recepientId: recepient._id,
@@ -145,9 +146,9 @@ function _emailDispatch() {
             emailLabels: emailSender.labelIds,
             formatting: true
           };
-          _context3.next = 29;
+          _context3.next = 30;
           return updateSentEmails(emailUpdateDic);
-        case 29:
+        case 30:
           updateData = _context3.sent;
           emailsForTheDay.push(updateData);
           if (i == results.length - 1) {
@@ -156,16 +157,16 @@ function _emailDispatch() {
               return data._id;
             }));
           }
-        case 32:
+        case 33:
           i++;
-          _context3.next = 6;
+          _context3.next = 7;
           break;
-        case 35:
-          _context3.next = 38;
+        case 36:
+          _context3.next = 39;
           break;
-        case 37:
-          res.json({});
         case 38:
+          res.json({});
+        case 39:
         case "end":
           return _context3.stop();
       }

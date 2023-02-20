@@ -9,11 +9,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 require('dotenv').config();
 var mongoose = require('mongoose');
-function createOrModifyUser(_x, _x2, _x3) {
+function createOrModifyUser(_x, _x2, _x3, _x4, _x5) {
   return _createOrModifyUser.apply(this, arguments);
 }
 function _createOrModifyUser() {
-  _createOrModifyUser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(accessToken, refreshToken, profile) {
+  _createOrModifyUser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(accessToken, refreshToken, profile, scopesGiven, sendEmailPermission) {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -29,7 +29,9 @@ function _createOrModifyUser() {
                   name: profile.given_name,
                   accessToken: accessToken,
                   refreshToken: refreshToken,
-                  createdAt: new Date()
+                  modifiedAt: new Date(),
+                  scopes: scopesGiven,
+                  canSendEmail: sendEmailPermission
                 }, {
                   "new": true
                 }).then(function (newAdd) {
@@ -41,7 +43,10 @@ function _createOrModifyUser() {
                   name: profile.given_name,
                   accessToken: accessToken,
                   refreshToken: refreshToken,
-                  createdAt: new Date()
+                  createdAt: new Date(),
+                  modifiedAt: new Date(),
+                  scopes: scopesGiven,
+                  canSendEmail: sendEmailPermission
                 }).then(function (newAdd) {
                   return resolve(newAdd);
                 });
@@ -93,7 +98,7 @@ function _getConnection() {
   }));
   return _getConnection.apply(this, arguments);
 }
-function getRefreshToken(_x4) {
+function getRefreshToken(_x6) {
   return _getRefreshToken.apply(this, arguments);
 }
 function _getRefreshToken() {
@@ -117,9 +122,12 @@ function _getRefreshToken() {
               //console.log(userDetails);
 
               //console.log('hit try statement');
-              var refreshToken = userDetails.refreshToken;
+              var resData = {
+                refreshToken: userDetails.refreshToken,
+                canSendEmail: userDetails.refreshToken || false
+              };
               //console.log(refreshToken);
-              resolve(refreshToken);
+              resolve(resData);
             })["catch"](function (err) {
               console.log(err);
               reject(err);

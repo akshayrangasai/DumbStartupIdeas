@@ -27,16 +27,21 @@ var mailMan = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           return _context.abrupt("return", new Promise(function (resolve, reject) {
-            (0, _userAuthManager.getRefreshToken)(from).then(function (refreshToken) {
-              authClient.setCredentials({
-                refresh_token: refreshToken
-              });
-              var oauth2 = google.oauth2('v2');
-              oauth2.userinfo.get({
-                auth: authClient
-              }).then(function (data) {
-                return resolve(false);
-              });
+            (0, _userAuthManager.getRefreshToken)(from).then(function (data) {
+              if (data.canSendEmail) {
+                authClient.setCredentials({
+                  refresh_token: data.refreshToken
+                });
+                var oauth2 = google.oauth2('v2');
+                oauth2.userinfo.get({
+                  auth: authClient
+                }).then(function (data) {
+                  return resolve(false);
+                });
+              } else {
+                resolve(true);
+                console.log(from, "Can't send emails from gmail");
+              }
             })["catch"](function (err) {
               console.log("Gmail Token Error", err);
               resolve(true);
@@ -125,9 +130,9 @@ var gmailHandler = /*#__PURE__*/function () {
         case 2:
           encodedMessage = _context3.sent;
           return _context3.abrupt("return", new Promise(function (resolve, reject) {
-            (0, _userAuthManager.getRefreshToken)(from).then(function (refreshToken) {
+            (0, _userAuthManager.getRefreshToken)(from).then(function (data) {
               authClient.setCredentials({
-                refresh_token: refreshToken
+                refresh_token: data.refreshToken
               });
               var gmail = google.gmail({
                 version: 'v1',

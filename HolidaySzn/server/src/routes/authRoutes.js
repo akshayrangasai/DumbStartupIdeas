@@ -40,9 +40,12 @@ passport.serializeUser(function(user, done) {
   });
 
 const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
-    //console.log(profile);
+    //console.log(req.query.scope.split(' ').indexOf('https://www.googleapis.com/auth/gmail.send'));
 
-  createOrModifyUser(accessToken, refreshToken, profile).then(
+    const scopes = req.query.scope.split(' ');
+    const canSendEmail = scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1;
+    //console.log(canSendEmail)
+  createOrModifyUser(accessToken, refreshToken, profile, scopes , canSendEmail ).then(
     (user, err) =>
       {
         //console.log(user,err)
@@ -62,7 +65,7 @@ passport.use(new GoogleStrategy(StrategyParams,passportCallBack));
 
 const authRouter = Router();
 
-authRouter.get('/google/', passport.authenticate('google', {scope : ['email','profile','https://www.googleapis.com/auth/gmail.compose'], accessType: 'offline'}));
+authRouter.get('/google/', passport.authenticate('google', {scope : ['email','profile','https://www.googleapis.com/auth/gmail.send'], accessType: 'offline'}));
 
 authRouter.get('/google/callback', passport.authenticate('google',{
     successRedirect: process.env.CLIENT_URL,
@@ -84,7 +87,10 @@ authRouter.get('/user', ensureLoggedIn,(req,res) => {
   //console.log(req.user)
     try
     {
-    res.json({'user' : req.user.email});
+    res.json({
+      'user' : req.user.email,
+      'name' : req.user.name,
+      'canSendEmail' : req.user.canSendEmail || false});
     }
     catch(err)
     {
@@ -95,7 +101,13 @@ authRouter.get('/user', ensureLoggedIn,(req,res) => {
 authRouter.get('/user/profile/', ensureLoggedIn, (req,res) => {
   try
   {
-  res.json({'user' : req.user.name, 'email' : req.user.email});
+  res.json({
+    'user' : req.user.email,
+    'name' : req.user.name,
+    'canSendEmail' : req.user.canSendEmail || false,
+    'createdAt' : req.user.createdAt,
+    'scopes': req.user.scopes,
+    'modifiedAt' : req.user.modifiedAt});
   }
   catch(err)
     {

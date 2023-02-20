@@ -16,6 +16,9 @@ var userSchema = new _mongoose.Schema({
     type: Date,
     required: true
   },
+  modifiedAt: {
+    type: Date
+  },
   accessToken: {
     type: String,
     required: true
@@ -23,6 +26,17 @@ var userSchema = new _mongoose.Schema({
   refreshToken: {
     type: String,
     required: true
+  },
+  scopes: {
+    type: Array,
+    required: true
+  },
+  canSendEmail: {
+    type: Boolean,
+    required: true
+  },
+  image: {
+    type: String
   }
 });
 userSchema.plugin(findOrCreate);

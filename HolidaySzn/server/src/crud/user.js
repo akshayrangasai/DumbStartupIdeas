@@ -29,7 +29,7 @@ const findUser = (email) =>
     return new Promise((resolve,reject) => 
     {
         const userData = {
-            email: email || 'test@dumbstartupideas.com',
+            email: email,
         };
 
         //console.log(userData);

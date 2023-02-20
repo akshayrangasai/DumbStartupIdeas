@@ -1,7 +1,7 @@
-/* Generic email handler where we can use either sendgrid or the user gmail to send email. Instead of hanving email code everywhere, we can just use email handler to send emails*/
+/* Generic email handler where we can use either sendgrid or the user gmail to send email. Instead of hanving email code everywhere, we can just use email handler to send emails
 require('dotenv').config();
 var sgMail = require('@sendgrid/mail');
-import {getRefreshToken, getuserEmailPermissions} from '../middleware/userAuthManager';
+import {req.user, getuserEmailPermissions} from '../middleware/userAuthManager';
 const {google} = require('googleapis');
 
 //sgMail is for sendgrid email
@@ -21,12 +21,12 @@ var authClient = new google.auth.OAuth2(
   
 
 
-/* Mailman tells us who will send the email - Sendgrid or gmail - 1 implies sedngrid, 0 implies gmail. Currently configured for Sendgrid on default */
+/* Mailman tells us who will send the email - Sendgrid or gmail - 1 implies sedngrid, 0 implies gmail. Currently configured for Sendgrid on default 
 const mailMan = async (from) => 
 {
     return new Promise((resolve, reject) => {
 
-        getRefreshToken(from).then(
+        req.user(from).then(
             (data) => {
             if(data.canSendEmail){
               authClient.setCredentials({
@@ -39,7 +39,6 @@ const mailMan = async (from) =>
                 (data) => resolve(false)
               )
             }else{
-                
                 resolve(true)
                 console.log(from, "Can't send emails from gmail");
             }
@@ -100,7 +99,7 @@ const gmailHandler = async (from, to, subject, message) =>
     return new Promise(
     (resolve, reject) => {
 
-        getRefreshToken(from).then(
+        req.user(from).then(
         (data) => {
             authClient.setCredentials({
             refresh_token : data.refreshToken
@@ -245,3 +244,5 @@ return encodedMessage;
 }  
 
 module.exports = {sendEmail, errorEmail, sendGridErrorHandler}
+*/
+"use strict";

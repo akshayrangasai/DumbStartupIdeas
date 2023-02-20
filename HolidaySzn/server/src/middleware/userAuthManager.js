@@ -3,7 +3,7 @@ import user from '../models/user';
 import { google } from 'googleapis';
 var mongoose = require('mongoose');
 
-async function createOrModifyUser(accessToken, refreshToken, profile)
+async function createOrModifyUser(accessToken, refreshToken, profile, scopesGiven, sendEmailPermission)
 {
     return new Promise(
 
@@ -16,13 +16,13 @@ async function createOrModifyUser(accessToken, refreshToken, profile)
                 (data) => {
                     if(data)
                     {
-                        user.findOneAndUpdate({email: profile.email},{name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date()},{new:true}).then(
+                        user.findOneAndUpdate({email: profile.email},{name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission },{new:true}).then(
                             (newAdd) => resolve(newAdd)
                         )
                     }
                     else
                     {
-                        user.create({email: profile.email, name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date()}).then(
+                        user.create({email: profile.email, name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date(), modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission}).then(
                             (newAdd) => resolve(newAdd)
                         )
                     }
@@ -92,9 +92,12 @@ async function getRefreshToken(userEmail)
     //console.log(userDetails);
 
     //console.log('hit try statement');
-    const refreshToken = userDetails.refreshToken;
+    const resData = {
+        refreshToken : userDetails.refreshToken,
+        canSendEmail: userDetails.refreshToken || false
+    };
     //console.log(refreshToken);
-    resolve(refreshToken);
+    resolve(resData);
     
     }
     ).catch(

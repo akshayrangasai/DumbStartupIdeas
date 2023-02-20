@@ -33,9 +33,12 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 var passportCallBack = function passportCallBack(req, accessToken, refreshToken, profile, done) {
-  //console.log(profile);
+  //console.log(req.query.scope.split(' ').indexOf('https://www.googleapis.com/auth/gmail.send'));
 
-  (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken, profile).then(function (user, err) {
+  var scopes = req.query.scope.split(' ');
+  var canSendEmail = scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1;
+  //console.log(canSendEmail)
+  (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken, profile, scopes, canSendEmail).then(function (user, err) {
     //console.log(user,err)
     return done(err, user);
   });
@@ -46,7 +49,7 @@ passport.use(new GoogleStrategy(StrategyParams, passportCallBack));
 
 var authRouter = (0, _express.Router)();
 authRouter.get('/google/', passport.authenticate('google', {
-  scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.compose'],
+  scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.send'],
   accessType: 'offline'
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
@@ -66,7 +69,9 @@ authRouter.get('/user', ensureLoggedIn, function (req, res) {
   //console.log(req.user)
   try {
     res.json({
-      'user': req.user.email
+      'user': req.user.email,
+      'name': req.user.name,
+      'canSendEmail': req.user.canSendEmail || false
     });
   } catch (err) {
     res.send(err);
@@ -75,8 +80,12 @@ authRouter.get('/user', ensureLoggedIn, function (req, res) {
 authRouter.get('/user/profile/', ensureLoggedIn, function (req, res) {
   try {
     res.json({
-      'user': req.user.name,
-      'email': req.user.email
+      'user': req.user.email,
+      'name': req.user.name,
+      'canSendEmail': req.user.canSendEmail || false,
+      'createdAt': req.user.createdAt,
+      'scopes': req.user.scopes,
+      'modifiedAt': req.user.modifiedAt
     });
   } catch (err) {
     console.log(err);

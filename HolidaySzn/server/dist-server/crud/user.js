@@ -19,7 +19,7 @@ var newUser = function newUser(req, res) {
 var findUser = function findUser(email) {
   return new Promise(function (resolve, reject) {
     var userData = {
-      email: email || 'test@dumbstartupideas.com'
+      email: email
     };
 
     //console.log(userData);

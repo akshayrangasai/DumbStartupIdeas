@@ -12,7 +12,7 @@ import styles from "../../static/styles.module.css";
 function AuthenticatedApp(props) {
 	return (
 		<Container>
-		<AuthenticatedNav user={props.user} canSendEmail = {props.canSendEmail} name = {props.name} />
+		<AuthenticatedNav user={props.user} canSendEmail = {props.canSendEmail} name = {props.name} image = {props.image}/>
       	<Routes>
 				<Route
 					exact

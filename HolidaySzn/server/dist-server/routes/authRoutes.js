@@ -33,7 +33,7 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 var passportCallBack = function passportCallBack(req, accessToken, refreshToken, profile, done) {
-  //console.log(req.query.scope.split(' ').indexOf('https://www.googleapis.com/auth/gmail.send'));
+  //console.log(profile);
 
   var scopes = req.query.scope.split(' ');
   var canSendEmail = scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1;
@@ -66,12 +66,13 @@ authRouter.get('/logout', ensureLoggedIn, function (req, res, next) {
   });
 });
 authRouter.get('/user', ensureLoggedIn, function (req, res) {
-  //console.log(req.user)
+  console.log(req.user);
   try {
     res.json({
       'user': req.user.email,
       'name': req.user.name,
-      'canSendEmail': req.user.canSendEmail || false
+      'canSendEmail': req.user.canSendEmail || false,
+      'image': req.user.image
     });
   } catch (err) {
     res.send(err);

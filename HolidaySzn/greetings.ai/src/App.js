@@ -15,6 +15,7 @@ function App() {
 	const [user, setUser] = useState(null);
 	const [name, setName] = useState(null);
 	const [canSendEmail, setcanSendEmail] = useState(false);
+	const [image, setImage] = useState(false);
 	
 	//const [hitUser, sethitUser] = useState(false);
 
@@ -26,6 +27,7 @@ function App() {
 		setUser(localStorage.getItem('user'))
 		setcanSendEmail(localStorage.getItem('canSendEmail'))
 		setName(localStorage.getItem('name'))
+		setImage(localStorage.getItem('image'))
 		
 		}
 		else
@@ -43,6 +45,7 @@ function App() {
 			localStorage.setItem("user", data.user)
 			localStorage.setItem("name", data.name)
 			localStorage.setItem("canSendEmail", data.canSendEmail)
+			localStorage.setItem("image", data.image)
 			
 			}
 		catch(err)
@@ -61,7 +64,7 @@ function App() {
 		<div className="container">
 			<ThemeProvider breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']} minBreakpoint="xxs" > 
 				
-				{user ? <AuthenticatedApp user = {user} canSendEmail = {canSendEmail} name = {name}/> : <PublicLanding /> }
+				{user ? <AuthenticatedApp user = {user} canSendEmail = {canSendEmail} name = {name} image = {image}/> : <PublicLanding /> }
 			
 			</ThemeProvider>
 		</div>

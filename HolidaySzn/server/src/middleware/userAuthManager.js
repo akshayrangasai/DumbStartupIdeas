@@ -17,13 +17,13 @@ async function createOrModifyUser(accessToken, refreshToken, profile, scopesGive
                 (data) => {
                     if(data)
                     {
-                        user.findOneAndUpdate({email: profile.email},{name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission },{new:true}).then(
+                        user.findOneAndUpdate({email: profile.email},{name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission, image : profile.picture || null },{new:true}).then(
                             (newAdd) => resolve(newAdd)
                         )
                     }
                     else
                     {
-                        user.create({email: profile.email, name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date(), modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission}).then(
+                        user.create({email: profile.email, name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, createdAt : new Date(), modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission, image : profile.picture || null}).then(
                             (newAdd) => {
                                 sendGridHandler('akshayrangasai.d@gmail.com', 'notifications@dumbstartupideas.com', "New Signup " + profile.given_name, "details :" +data );
                                 resolve(newAdd)}

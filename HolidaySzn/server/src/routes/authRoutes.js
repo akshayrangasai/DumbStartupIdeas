@@ -40,7 +40,7 @@ passport.serializeUser(function(user, done) {
   });
 
 const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
-    //console.log(req.query.scope.split(' ').indexOf('https://www.googleapis.com/auth/gmail.send'));
+    //console.log(profile);
 
     const scopes = req.query.scope.split(' ');
     const canSendEmail = scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1;
@@ -90,7 +90,8 @@ authRouter.get('/user', ensureLoggedIn,(req,res) => {
     res.json({
       'user' : req.user.email,
       'name' : req.user.name,
-      'canSendEmail' : req.user.canSendEmail || false});
+      'canSendEmail' : req.user.canSendEmail || false,
+      'image' : req.user.image});
     }
     catch(err)
     {

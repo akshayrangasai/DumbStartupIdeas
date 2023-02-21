@@ -7,6 +7,7 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import axios from "axios";
 import Button from "react-bootstrap/esm/Button";
+import Image from "react-bootstrap/Image"
 function AuthenticatedNav(props)
 {
 
@@ -57,7 +58,7 @@ function AuthenticatedNav(props)
                         </Nav>
                         <Nav className = "ms-auto">
                         <Nav.Item className="justify-content-right d-none d-xl-block p-2">
-                            {props.name}
+                            {props.name}     <Image src={props.image} roundedCircle width = "40px" className=""/>
                         </Nav.Item>
                         </Nav>
                     

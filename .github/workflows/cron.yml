@@ -1,0 +1,14 @@
+name: Send Greetings At Midnight
+
+# Controls when the workflow will run
+on:
+  schedule: # “End of the day”
+    - cron: "0 0 * * *"
+jobs:
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+    - name: curl
+      uses: wei/curl@v1
+      with:
+        args: -X POST ${{ secrets.DISPATCH_URL }} -d key=${{ secrets.EMAIL_WEBHOOK_AUTH }} -H "ContentType:application/json" 

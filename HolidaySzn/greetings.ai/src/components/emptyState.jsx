@@ -2,8 +2,9 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import NewOccasionForm from './createNewOccasion';
-import getUserProfile from '../middleware/localUserManager';
+import {getUserProfile, getUserProfileName} from '../middleware/localUserManager';
 import { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/esm/Button';
 const moment = require('moment');
 
 function EmptyState(props)
@@ -13,7 +14,7 @@ function EmptyState(props)
     
 
     const getUserName = () => {
-        getUserProfile().then(
+        getUserProfileName().then(
             (data) => setUserName(data)
         ).catch(err => console.log(err))
     }
@@ -28,9 +29,9 @@ function EmptyState(props)
             <Col md = "auto" >
             <Row >
                 Hello {userName || "there"}, <br /><br />
-                You don't have any greetings yet. Use the form below to get started
+                You don't have any greetings yet. <br /> <br />
+                <Button href = "/addOccasion" className='d-block'>Click Here to Get Started</Button>
             </Row>
-            <NewOccasionForm />
             </Col>
             <Col md = {3}></Col>
         </Container>

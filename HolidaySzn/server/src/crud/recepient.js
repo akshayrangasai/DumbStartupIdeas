@@ -47,7 +47,8 @@ const createOrFindRecepient = (req,res) =>
 
     return new Promise( (resolve, reject) => {
         let userEmail = req.user.email; 
-        recepientModel.findOne({toEmail:req.body.toEmail || 'akshayrangasai.d@gmail.com'})
+        let fromUserId = req.user._id;
+        recepientModel.findOne({toEmail:req.body.toEmail, fromUser: fromUserId})
         .then(
             (recepientData,err) => {
                 

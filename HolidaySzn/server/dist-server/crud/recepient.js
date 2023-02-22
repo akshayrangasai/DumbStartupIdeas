@@ -31,8 +31,10 @@ var findRecepientById = function findRecepientById(Id) {
 var createOrFindRecepient = function createOrFindRecepient(req, res) {
   return new Promise(function (resolve, reject) {
     var userEmail = req.user.email;
+    var fromUserId = req.user._id;
     recepientModel.findOne({
-      toEmail: req.body.toEmail || 'akshayrangasai.d@gmail.com'
+      toEmail: req.body.toEmail,
+      fromUser: fromUserId
     }).then(function (recepientData, err) {
       if (!recepientData) {
         (0, _user.findUser)(userEmail).then(function (user) {

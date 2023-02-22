@@ -66,7 +66,7 @@ authRouter.get('/logout', ensureLoggedIn, function (req, res, next) {
   });
 });
 authRouter.get('/user', ensureLoggedIn, function (req, res) {
-  console.log(req.user);
+  //console.log(req.user)
   try {
     res.json({
       'user': req.user.email,

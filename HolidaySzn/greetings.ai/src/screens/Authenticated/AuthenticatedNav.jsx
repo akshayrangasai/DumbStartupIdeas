@@ -54,12 +54,14 @@ function AuthenticatedNav(props)
                         <Nav.Link href = "/myGreetings"  className="d-none d-lg-block">My Greetings</Nav.Link>
                         <Nav.Link href = "/myPeople"  className="d-none d-lg-block">My People</Nav.Link>
                         <Nav.Link href = "/sentGreetings"  className="d-none d-lg-block">Sent Greetings</Nav.Link>
-                        <Nav.Link href = "#" className="d-none d-sm-block" onClick={logOut}>Logout</Nav.Link>
+                        
                         </Nav>
                         <Nav className = "ms-auto">
-                        <Nav.Item className="justify-content-right d-none d-xl-block p-2">
-                            {props.name}     <Image src={props.image} roundedCircle width = "40px" className=""/>
+                        
+                        <Nav.Item className="justify-content-right d-none d-xl-block p-1">
+                        <Nav.Link href = "/profile" ><Image src={props.image} roundedCircle width = "35px" className=""/></Nav.Link>
                         </Nav.Item>
+                        <Nav.Link href = "#" className="d-none justify-content-right d-sm-flex p-2 align-items-center ms-auto" onClick={logOut}>Logout</Nav.Link>    
                         </Nav>
                     
             

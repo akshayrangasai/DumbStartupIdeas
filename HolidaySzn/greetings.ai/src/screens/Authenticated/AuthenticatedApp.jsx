@@ -36,11 +36,6 @@ function AuthenticatedApp(props) {
 				/>
 				<Route
 					exact
-					path="/myPeople"
-					element={<ShowRecepients user = {props.user} props = {props}/>}
-				/>
-				<Route
-					exact
 					path="/sentGreetings"
 					element={<SentOccasions user = {props.user} props = {props}/>}
 				/>

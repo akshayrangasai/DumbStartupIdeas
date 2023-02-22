@@ -52,7 +52,6 @@ function AuthenticatedNav(props)
                         
                         <Nav.Link href = "/addOccasion" >Add Occasion</Nav.Link>
                         <Nav.Link href = "/myGreetings"  className="d-none d-lg-block">My Greetings</Nav.Link>
-                        <Nav.Link href = "/myPeople"  className="d-none d-lg-block">My People</Nav.Link>
                         <Nav.Link href = "/sentGreetings"  className="d-none d-lg-block">Sent Greetings</Nav.Link>
                         
                         </Nav>

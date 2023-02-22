@@ -86,7 +86,8 @@ authRouter.get('/user/profile/', ensureLoggedIn, function (req, res) {
       'canSendEmail': req.user.canSendEmail || false,
       'createdAt': req.user.createdAt,
       'scopes': req.user.scopes,
-      'modifiedAt': req.user.modifiedAt
+      'modifiedAt': req.user.modifiedAt,
+      'image': req.user.image
     });
   } catch (err) {
     console.log(err);

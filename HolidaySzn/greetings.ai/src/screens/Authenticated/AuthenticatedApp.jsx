@@ -26,7 +26,7 @@ function AuthenticatedApp(props) {
 				/>
 				<Route
 					exact
-					path="/user"
+					path="/userProfile"
 					element={<UserProfile user = {props.user} props = {props}/>}
 				/>
 				<Route

@@ -35,11 +35,7 @@ function UserProfile() {
 	return (
 		<div className={styles.container}>
 
-			{
-				userProfile ? userProfile.map(function(obj,i){
-					return <UserCard key = {i} props = {obj} /> ;
-				}):"Waiting for profile details"
-			}
+			User profile is coming soon!
 			
 		</div>
 	);

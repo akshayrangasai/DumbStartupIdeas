@@ -59,7 +59,7 @@ function AuthenticatedNav(props)
                         <Nav className = "ms-auto">
                         
                         <Nav.Item className="justify-content-right d-none d-xl-block p-1">
-                        <Nav.Link href = "/profile" ><Image src={props.image} roundedCircle width = "35px" className=""/></Nav.Link>
+                        <Nav.Link href = "/userProfile" ><Image src={props.image} roundedCircle width = "35px" className=""/></Nav.Link>
                         </Nav.Item>
                         <Nav.Link href = "#" className="d-none justify-content-right d-sm-flex p-2 align-items-center ms-auto" onClick={logOut}>Logout</Nav.Link>    
                         </Nav>

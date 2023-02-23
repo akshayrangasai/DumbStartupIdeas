@@ -11,4 +11,4 @@ jobs:
     - name: curl
       uses: wei/curl@v1
       with:
-        args: -X POST ${{ secrets.DISPATCH_URL }} -d key=${{ secrets.EMAIL_WEBHOOK_AUTH }} -H "ContentType:application/json" 
+        args: -X POST "${{ secrets.DISPATCH_URL }}" -d key="${{ secrets.EMAIL_WEBHOOK_AUTH }}" -H "ContentType:application/json" 

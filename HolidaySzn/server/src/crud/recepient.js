@@ -54,6 +54,7 @@ const createOrFindRecepient = (req,res) =>
                 
                 if(!recepientData)
                 {
+                    /* Switch with session data than an another unnecessary and slow DB read */
                     findUser( userEmail ).then
                     ((user) => {
                         const recepientData = 

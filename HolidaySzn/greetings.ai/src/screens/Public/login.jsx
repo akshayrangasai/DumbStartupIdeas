@@ -2,6 +2,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
+import Image from "react-bootstrap/esm/Image";
 //require('dotenv').config();
 import styles from "../../static/styles.module.css";
 
@@ -23,7 +24,7 @@ function Login() {
 					<Col></Col>
 					<Col>
 					<Button size="lg" className="mb-2" variant="primary" onClick={googleAuth}>
-						<span>Sign in with Google</span>
+						<Image src = "../../public/google_button.png" />
 					</Button>
 					</Col>
 					<Col></Col>

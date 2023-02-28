@@ -3,8 +3,9 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import styles from '../../static/styles.module.css';
 import Button from "react-bootstrap/esm/Button";
-import Login from "./login";
-import { Link } from "react-router-dom";
+import Image from "react-bootstrap/esm/Image";
+const logo = require('../../static/google_button_small.png');
+
 function LandingContent()
 {
 
@@ -58,8 +59,8 @@ function LandingContent()
                     </li>
                 </ol>
                 <br />
-                <Button size="lg" className="mb-2" variant="primary" onClick={googleAuth}>
-						<span>Sign in (up) Now</span>
+                <Button size="lg" className="mb-2" variant="light" onClick={googleAuth}>
+                <Image src = {String(logo)} />
 					</Button>
                     <br />
                 <strong>Temporary Alert</strong>The app will throw a warning screen as you sign up as it is under verification from the google team. Click on continue and do not forget to give the app access to sending emails to use it!

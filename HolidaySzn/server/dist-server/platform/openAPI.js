@@ -22,16 +22,21 @@ function _getPoemFromPrompt() {
           });
           openai = new _openai.OpenAIApi(configuration);
           return _context.abrupt("return", new Promise(function (resolve, reject) {
-            openai.createCompletion({
-              model: "gpt-3.5-turbo-0301",
-              prompt: prompt,
-              temperature: 0.4,
-              max_tokens: 1500,
+            openai.createChatCompletion({
+              model: "gpt-3.5-turbo",
+              messages: [{
+                "role": "user",
+                "content": prompt
+              }],
+              temperature: 0.7,
+              max_tokens: 1600,
               top_p: 1.0,
               frequency_penalty: 0.4,
               presence_penalty: 0.0
             }).then(function (response) {
-              /*console.log(response.data.choices[0].text);*/resolve(response.data.choices[0].text);
+              /*console.log(response.data.choices[0].text);*/resolve(response.data.choices[0].message.content);
+            })["catch"](function (err) {
+              return console.log(err);
             });
           }));
         case 3:

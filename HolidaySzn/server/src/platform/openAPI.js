@@ -16,15 +16,15 @@ async function getPoemFromPrompt(prompt)
     
     return new Promise((resolve,reject) =>
     {
-        openai.createCompletion({
-            model: "text-davinci-003", //need this to be updated to use gpt3.5  - gpt-3.5-turbo-0301
-            prompt: prompt,
-            temperature: 0.4,
-            max_tokens: 1500,
+        openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages : [{"role" : "user", "content" : prompt}],
+            temperature: 0.7,
+            max_tokens: 1600,
             top_p: 1.0,
             frequency_penalty: 0.4,
             presence_penalty: 0.0,
-        }).then((response) => {/*console.log(response.data.choices[0].text);*/resolve(response.data.choices[0].text)})
+        }).then((response) => {/*console.log(response.data.choices[0].text);*/resolve(response.data.choices[0].message.content)}).catch(err => console.log(err));
     })
     
 

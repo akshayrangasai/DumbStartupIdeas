@@ -21,12 +21,16 @@ function MessageCard(prop)
         setProps(prop.data);
         setcanSendEmail(localStorage.getItem('canSendEmail'));
 
-        let eventDate = moment(moment.utc(props.occasionDate).format("MMM-DD")+"-"+moment().year());
-        
+        let eventDate = moment.utc(props.occasionDate);
+        //console.log(eventDate)
         let today = moment();
+        let displayDate = eventDate;
         //console.log(eventDate, today)
         //console.log(eventDate.diff(today,"days"), today.diff(eventDate,"days"))
-        setTimeToEmail(eventDate.diff(today,"days"))
+        
+        displayDate = eventDate.diff(today,"days") <=0 ? moment.utc(props.occasionDate).format("MMM-DD")+"-"+moment().add(1,"years").year(): eventDate.format("MMM-DD-YYYY");
+        //console.log(displayDate);
+        setTimeToEmail(displayDate);
         //console.log(prop.data)
         //console.log("canSendEmail",prop.canSendEmail)
 
@@ -110,7 +114,7 @@ function MessageCard(prop)
             <br />
             <span className = 'messageCardTitle'>Email : </span> <span className = 'messageCardValue'>{props.toEmail}</span>
             <br />
-            <span className = 'messageCardTitle'>Days to Send : </span> <span className = 'messageCardValue'>{timeToEmail<=0?timeToEmail+365:timeToEmail}</span>
+            <span className = 'messageCardTitle'>Scheduled Date : </span> <span className = 'messageCardValue'>{timeToEmail}</span>
             </div>
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Occasion : </span> <span className = 'messageCardValue'>{props.occasionName}</span>

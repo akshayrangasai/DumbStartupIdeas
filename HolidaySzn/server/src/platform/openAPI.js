@@ -17,7 +17,7 @@ async function getPoemFromPrompt(prompt)
     return new Promise((resolve,reject) =>
     {
         openai.createCompletion({
-            model: "text-davinci-003",
+            model: "text-davinci-003", //need this to be updated to use gpt3.5  - gpt-3.5-turbo-0301
             prompt: prompt,
             temperature: 0.4,
             max_tokens: 1500,

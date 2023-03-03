@@ -23,7 +23,7 @@ function _getPoemFromPrompt() {
           openai = new _openai.OpenAIApi(configuration);
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             openai.createCompletion({
-              model: "text-davinci-003",
+              model: "gpt-3.5-turbo-0301",
               prompt: prompt,
               temperature: 0.4,
               max_tokens: 1500,

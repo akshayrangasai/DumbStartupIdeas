@@ -18,8 +18,6 @@ function PublicNav(props)
                     <Navbar.Brand href = "/">greetings.ai</Navbar.Brand>
                     <Nav className = "justify-content-right" activeKey={props.pathname}>
                         
-                        
-                        
                     </Nav>
             
         </Navbar>

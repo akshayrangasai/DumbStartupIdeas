@@ -11,13 +11,22 @@ function MessageCard(prop)
 {
     
     const [props, setProps] = useState(prop.data);
-    const [canSendEmail, setcanSendEmail] = useState(false)
+    const [canSendEmail, setcanSendEmail] = useState(false);
+    const [timeToEmail, setTimeToEmail] = useState(false);
+
 
 
     useEffect(()=>
     {
         setProps(prop.data);
         setcanSendEmail(localStorage.getItem('canSendEmail'));
+
+        let eventDate = moment(moment.utc(props.occasionDate).format("MMM-DD")+"-"+moment().year());
+        
+        let today = moment();
+        //console.log(eventDate, today)
+        //console.log(eventDate.diff(today,"days"), today.diff(eventDate,"days"))
+        setTimeToEmail(eventDate.diff(today,"days"))
         //console.log(prop.data)
         //console.log("canSendEmail",prop.canSendEmail)
 
@@ -98,7 +107,10 @@ function MessageCard(prop)
         <Card fluid="xl" className = "mt-3" md="450">
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Name : </span> <span className = 'messageCardValue'>{props.toName}</span>
+            <br />
             <span className = 'messageCardTitle'>Email : </span> <span className = 'messageCardValue'>{props.toEmail}</span>
+            <br />
+            <span className = 'messageCardTitle'>Days to Send : </span> <span className = 'messageCardValue'>{timeToEmail<=0?timeToEmail+365:timeToEmail}</span>
             </div>
             <div className = 'messageCardSection'>
             <span className = 'messageCardTitle'>Occasion : </span> <span className = 'messageCardValue'>{props.occasionName}</span>
@@ -108,6 +120,7 @@ function MessageCard(prop)
             <span className = 'messageCardTitle'><b>Person</b>alization : </span> <span className = 'messageCardValue'>{props.toDetails}</span> 
             <br />
             <span className = 'messageCardTitle'>Occasion Details : </span> <span className = 'messageCardValue'>{props.occasionDetails}</span>
+            
             </div>
             <Row className='p-3'>
                 <Col className='p-1'><Button variant='primary' size = 'sm' onClick={previewMessage(props.occasionId)} className = 'd-block h-100'>Preview Message</Button></Col>

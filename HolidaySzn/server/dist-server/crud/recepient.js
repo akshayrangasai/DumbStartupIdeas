@@ -37,6 +37,7 @@ var createOrFindRecepient = function createOrFindRecepient(req, res) {
       fromUser: fromUserId
     }).then(function (recepientData, err) {
       if (!recepientData) {
+        /* Switch with session data than an another unnecessary and slow DB read */
         (0, _user.findUser)(userEmail).then(function (user) {
           var recepientData = {
             fromUser: user._id,

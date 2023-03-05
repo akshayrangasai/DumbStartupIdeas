@@ -59,7 +59,12 @@ var emailSchema = new _mongoose.Schema({
   },
   formatting: {
     type: Boolean
+  },
+  autoSend: {
+    type: Boolean
   }
+  //Check if email was sent automatically as dispatch or manually
 });
+
 var finalEmailModel = (0, _mongoose.model)('finalEmailModel', emailSchema);
 module.exports = finalEmailModel;

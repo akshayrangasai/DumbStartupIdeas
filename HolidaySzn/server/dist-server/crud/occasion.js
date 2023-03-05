@@ -76,7 +76,9 @@ var allOccasions = /*#__PURE__*/function () {
             fromUser: user._id
           };
           _context2.next = 7;
-          return occasionModel.find(occasionData);
+          return occasionModel.find(occasionData).sort({
+            occasionDate: 1
+          });
         case 7:
           data = _context2.sent;
           _context2.next = 10;
@@ -151,7 +153,8 @@ var sentOccasions = /*#__PURE__*/function () {
               toEmail: occasionArray.toEmail || null,
               emailDate: occasionArray.emailDate,
               emailSubject: occasionArray.emailSubject,
-              emailContent: occasionArray.emailBody
+              emailContent: occasionArray.emailBody,
+              autoSend: occasionArray.autoSend
             };
             //console.log(returnDict);
             return returnDict;

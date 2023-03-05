@@ -8,6 +8,7 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import axios from "axios";
 import Container from "react-bootstrap/esm/Container";
+import moment from "moment";
 
 function Dashboard() {
 	
@@ -65,12 +66,13 @@ function Dashboard() {
 			<Col>
 			
 			
-			<h1 className={styles.heading}>	<u>Greetings Scheduled </u></h1>
+			<h1 className={styles.heading}>	<u>Upcoming Greetings in {moment().year()} </u></h1>
 			
 			
 			{occasionRender?occasionRender.map(function(props,i){ 
-				if(i<=4) 
+				if(moment().diff(props.occasionDate,"days") <=0 && moment(moment()).endOf('year').diff(props.occasionDate,"days") >=0) 
 				{
+					//console.log()
 					return (<MessageCard data = {props} key = {i} />)
 				}
 				else{
@@ -80,9 +82,9 @@ function Dashboard() {
 			</Col>
 			<Col md={1}></Col>
 			<Col>
-			<h1 className={styles.heading}>	<u>Greetings Sent </u></h1>
+			<h1 className={styles.heading}>	<u>Delievered Greetings in {moment().year()}</u></h1>
 			{sentEmailRender?sentEmailRender.map(function(props,i){ 
-				if(i<=4) 
+				if(moment().diff(props.occasionDate,"days") >0 && moment().diff(props.occasionDate,"days") <=0, moment().startOf('year').diff(props.occasionDate,"days") <0) 
 				{
 					return (<EmailCard data = {props} key = {i} />)
 				}

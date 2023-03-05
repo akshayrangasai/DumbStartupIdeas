@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
+import Container from 'react-bootstrap/esm/Container';
 const moment = require('moment');
 
 function MessageCard(prop)
@@ -126,11 +127,13 @@ function MessageCard(prop)
             <span className = 'messageCardTitle'>Occasion Details : </span> <span className = 'messageCardValue'>{props.occasionDetails}</span>
             
             </div>
+            <Container>
             <Row className='p-3'>
                 <Col className='p-1'><Button variant='primary' size = 'sm' onClick={previewMessage(props.occasionId)} className = 'd-block h-100'>Preview Message</Button></Col>
-                <Col className='p-1'><Button variant='primary' disabled = {!canSendEmail} size = 'sm' onClick={testMessage(props.occasionId)} className = 'd-block h-100 text-white'>{canSendEmail?"Email NOW!":"Can't Send Email"}</Button></Col>
+                <Col className='p-1'><Button variant='primary' disabled = {!canSendEmail} size = 'sm' onClick={testMessage(props.occasionId)} className = 'd-block h-100'>{canSendEmail?"Email recepient now!":"Can't Send Email"}</Button></Col>
                 <Col className='p-1'><Button variant='danger' size = 'sm' onClick={deleteMessage(props.occasionId)} className = 'd-block h-100'>Delete Message</Button></Col>
             </Row>
+            </Container>
         </Card>
     );
 }
@@ -176,7 +179,8 @@ function EmailCard(prop)
             <span className = 'messageCardTitle'>Subject : </span> <span className = 'messageCardValue'>{props.emailSubject}</span>
             </div>
             <div className = 'messageCardSection'>
-            <span className = 'messageCardTitle'>Date : </span> <span className = 'messageCardValue'>{moment.utc(props.occasionDate).format("MMM-DD")}</span>
+            <span className = 'messageCardTitle'>Sent Date : </span> <span className = 'messageCardValue'>{moment.utc(props.emailDate).format("MMM-DD-YY")}</span><br />
+            <span className = 'messageCardTitle'>Sent by AI : </span> <span className = 'messageCardValue'>{String(props.autoSend === undefined ? true: props.autoSend )}</span>
             </div>
             <div className = 'messageCardSection'>
             <Button variant='info' size = 'sm' onClick={() => {openMessage(props.emailContent)}} className = 'messageButton'>Open Sent Message</Button>

@@ -37,7 +37,7 @@ function ShowOccasions() {
 	return (
 		<div className={styles.container}>
 			<Row>
-			<h1 className={styles.heading}>My Scheduled Greetings</h1>
+			<h1 className={styles.heading}>All Greetings</h1>
 			</Row>
 			{occasionRender?occasionRender.map(function(props,i){ 
 					return (<MessageCard data = {props} key = {i}/>)
@@ -70,7 +70,7 @@ function SentOccasions() {
 		(data) => {
 			//console.log(data.data)
 			const mapData = data.data;
-			console.log("mappy");
+			console.log(mapData);
 			//const renderValue = mapData.map(function(props,i){ console.log(props); return (<MessageCard props = {props} key = {i} />)});
 			setOccasionRender(mapData);
 		}).catch(

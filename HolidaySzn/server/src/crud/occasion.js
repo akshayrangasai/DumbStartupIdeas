@@ -81,7 +81,7 @@ const allOccasions = async (req,res) =>
     let userEmail = req.user.email; 
     const user = await findUser( userEmail );
     const occasionData = {fromUser : user._id}
-    const data = await occasionModel.find(occasionData)                   
+    const data = await occasionModel.find(occasionData).sort({occasionDate: 1});                   
     const allOccasions = await Promise.all(data.map(async (occasionArray) =>
                             {
                                 return new Promise(
@@ -124,6 +124,7 @@ const sentOccasions = async (req,res) =>
                                             emailDate : occasionArray.emailDate,
                                             emailSubject: occasionArray.emailSubject,
                                             emailContent: occasionArray.emailBody,
+                                            autoSend : occasionArray.autoSend
                                         }; 
                                         //console.log(returnDict);
                                         return returnDict; 

@@ -18,7 +18,10 @@ const emailSchema = new Schema(
         emailId : {type : String, required : true },
         emailThreadId : {type : String, required : true },
         emailLabels : {type : Array, required : true },
-        formatting : {type: Boolean}
+        formatting : {type: Boolean},
+        autoSend : {type: Boolean}
+        //Check if email was sent automatically as dispatch or manually
+
     }
       
     );

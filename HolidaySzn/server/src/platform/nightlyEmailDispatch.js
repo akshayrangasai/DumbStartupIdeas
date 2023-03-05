@@ -65,7 +65,8 @@ async function emailDispatch(req,res){
         emailId : emailSender.id,
         emailThreadId : emailSender.threadId,
         emailLabels : emailSender.labelIds,
-        formatting : true
+        formatting : true,
+        autoSend: true
 
         }
 
@@ -107,6 +108,28 @@ async function emailDispatchTest(req,res){
     console.log(toEmail)
 
     const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
+    let recepient = await recepientModel.findOne({toEmail: toEmail});
+
+    const emailUpdateDic = {
+        recepientId: recepient._id,
+        fromUser : messageData.fromUser,
+        occasionId: messageData.occasionId,
+        messageId : messageData._id,
+        toName: messageData.toName,
+        toEmail : toEmail,
+        emailSubject : emailSubject,
+        emailBody :  emailMessage,
+        emailDate: new Date(),
+        emailId : emailSender.id,
+        emailThreadId : emailSender.threadId,
+        emailLabels : emailSender.labelIds,
+        formatting : true,
+        autoSend: false
+
+        }
+    
+    let updateData = await updateSentEmails(emailUpdateDic)
+    console.log(updateData);
     res.send(emailSender);
     }
     catch(err)

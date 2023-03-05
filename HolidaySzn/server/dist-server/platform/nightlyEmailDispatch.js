@@ -144,7 +144,8 @@ function _emailDispatch() {
             emailId: emailSender.id,
             emailThreadId: emailSender.threadId,
             emailLabels: emailSender.labelIds,
-            formatting: true
+            formatting: true,
+            autoSend: true
           };
           _context3.next = 30;
           return updateSentEmails(emailUpdateDic);
@@ -200,7 +201,7 @@ function emailDispatchTest(_x6, _x7) {
 }
 function _emailDispatchTest() {
   _emailDispatchTest = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender;
+    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender, recepient, emailUpdateDic, updateData;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
@@ -221,18 +222,45 @@ function _emailDispatchTest() {
           return (0, _emailHandler.sendEmail)(fromEmail, toEmail, emailSubject, emailMessage);
         case 12:
           emailSender = _context5.sent;
-          res.send(emailSender);
+          _context5.next = 15;
+          return _recepient["default"].findOne({
+            toEmail: toEmail
+          });
+        case 15:
+          recepient = _context5.sent;
+          emailUpdateDic = {
+            recepientId: recepient._id,
+            fromUser: messageData.fromUser,
+            occasionId: messageData.occasionId,
+            messageId: messageData._id,
+            toName: messageData.toName,
+            toEmail: toEmail,
+            emailSubject: emailSubject,
+            emailBody: emailMessage,
+            emailDate: new Date(),
+            emailId: emailSender.id,
+            emailThreadId: emailSender.threadId,
+            emailLabels: emailSender.labelIds,
+            formatting: true,
+            autoSend: false
+          };
           _context5.next = 19;
+          return updateSentEmails(emailUpdateDic);
+        case 19:
+          updateData = _context5.sent;
+          console.log(updateData);
+          res.send(emailSender);
+          _context5.next = 27;
           break;
-        case 16:
-          _context5.prev = 16;
+        case 24:
+          _context5.prev = 24;
           _context5.t0 = _context5["catch"](1);
           res.sendStatus(500);
-        case 19:
+        case 27:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[1, 16]]);
+    }, _callee5, null, [[1, 24]]);
   }));
   return _emailDispatchTest.apply(this, arguments);
 }

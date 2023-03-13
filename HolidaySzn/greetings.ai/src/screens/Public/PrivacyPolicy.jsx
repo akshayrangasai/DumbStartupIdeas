@@ -34,7 +34,7 @@ function PrivacyPolicy()
 
 Effective Date: 2/18/2023<br /><br />
 
-At DumbStartupIdeas.com, we value your privacy and understand the importance of protecting your personal information. This Privacy Policy outlines the types of personal information we collect, how we use it, and the steps we take to safeguard your information.
+At DumbStartupIdeas.com, we value your privacy and understand the importance of protecting your personal information. This Privacy Policy outlines the types of personal information we collect, how we use it, and the steps we take to safeguard your information. This application complies with the Google API Services User Data Policy, including the Limited Use requirements.
 <br /><br />
 <b>
 Information We Collect
@@ -62,6 +62,7 @@ You have the right to access, rectify, erase, restrict or object to the processi
 </b><br />
 If you have any questions or concerns about our Privacy Policy, please contact us at privacy@dumbstartupideas.com. We will respond to your request as soon as possible.
 <br /><br />
+Disclosure: Dumbstartupidea's use and transfer of information received from Google APIs to any other app will adhere to <a href = "https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes">Google API Services User Data Policy</a>, including the Limited Use requirements 
 <b>Changes to Privacy Policy
 </b><br />
 We reserve the right to modify or amend this Privacy Policy at any time. Any changes we make to this Privacy Policy will be updated on our website. Your continued use of our service after the changes have been made will constitute your acceptance of the changes.

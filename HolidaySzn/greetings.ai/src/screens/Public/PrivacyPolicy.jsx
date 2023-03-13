@@ -66,9 +66,7 @@ Disclosure: Dumbstartupidea's use and transfer of information received from Goog
 <b>Changes to Privacy Policy
 </b><br />
 We reserve the right to modify or amend this Privacy Policy at any time. Any changes we make to this Privacy Policy will be updated on our website. Your continued use of our service after the changes have been made will constitute your acceptance of the changes.
-                <Button size="lg" className="mb-2" variant="primary" onClick={googleAuth}>
-						<span>Sign in (up) Now</span>
-					</Button>
+              
             </Container>
             </Col>
             <Col md="2">

@@ -51,11 +51,9 @@ function _createOrModifyUser() {
                   canSendEmail: sendEmailPermission,
                   image: profile.picture || null
                 }).then(function (newAdd) {
-                  (0, _emailHandler["default"])('akshayrangasai.d@gmail.com', 'notifications@dumbstartupideas.com', "New Signup " + profile.given_name, "details :" + data).then(function (resp) {
-                    console.log('email sent');
-                    resolve(newAdd);
-                  });
-                  //resolve(newAdd)
+                  //sendEmail('akshayrangasai.d@gmail.com', 'notifications@dumbstartupideas.com', "New Signup " + profile.given_name, "details :" +data ).then(
+                  //  (resp) => {console.log('email sent');resolve(newAdd)});
+                  resolve(newAdd);
                 });
               }
             })["catch"](function (err) {

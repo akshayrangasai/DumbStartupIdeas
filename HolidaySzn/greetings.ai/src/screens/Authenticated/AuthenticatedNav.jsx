@@ -17,11 +17,10 @@ function AuthenticatedNav(props)
     {
     const serverURL = process.env.REACT_APP_SERVER_URL; 
 	const url = serverURL.concat("/auth/logout");
-			
+	localStorage.clear();
 	axios.get(url, { withCredentials: true }).then(
 		(data) => {
 			//console.log(data.data)
-			localStorage.clear();
             window.open(
                 '/',
                 "_self"

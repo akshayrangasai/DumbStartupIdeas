@@ -146,12 +146,21 @@ const gmailHandler = async (from, to, subject, message) =>
 
 const sendGridHandler = async (from, to, subject, message) =>
 {
+    if(!sgMail)
+    {
+        var sgMail = require('@sendgrid/mail');
+    }
+    
+    console.log('email sendgrid function called')
+    
+        
+    
     //This is an error message
     return new Promise((resolve, reject) =>{
     const msg = {
         to : from,
         from: 'no-reply@dumbstartupideas.com',
-        subject: "email to " + to + "failed",
+        subject: subject || "email to " + to + "failed",
         text : subject,
         html: message
     };
@@ -160,6 +169,7 @@ const sendGridHandler = async (from, to, subject, message) =>
     .then(
         function (response) 
         {
+        console.log('email sendgrid success')
         resolve(response);
         }
         )["catch"]
@@ -244,4 +254,5 @@ return encodedMessage;
 
 }  
 
-module.exports = {sendEmail, errorEmail, sendGridErrorHandler}
+module.exports = {sendEmail, errorEmail, sendGridErrorHandler, sendGridHandler}
+export default sendEmail

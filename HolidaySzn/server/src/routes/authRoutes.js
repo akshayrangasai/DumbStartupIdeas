@@ -41,11 +41,12 @@ passport.serializeUser(function(user, done) {
 
 const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
     //console.log(profile);
-
+  
     const scopes = req.query.scope.split(' ');
-    const canSendEmail = scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1;
+    const canSendEmail = refreshToken?scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1:false;
+    //console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
     //console.log(canSendEmail)
-  createOrModifyUser(accessToken, refreshToken, profile, scopes , canSendEmail ).then(
+  createOrModifyUser(accessToken, refreshToken || -1 , profile, scopes , canSendEmail ).then(
     (user, err) =>
       {
         //console.log(user,err)

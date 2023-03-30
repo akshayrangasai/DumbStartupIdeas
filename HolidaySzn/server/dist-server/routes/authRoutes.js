@@ -36,9 +36,10 @@ var passportCallBack = function passportCallBack(req, accessToken, refreshToken,
   //console.log(profile);
 
   var scopes = req.query.scope.split(' ');
-  var canSendEmail = scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1;
+  var canSendEmail = refreshToken ? scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1 : false;
+  //console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
   //console.log(canSendEmail)
-  (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken, profile, scopes, canSendEmail).then(function (user, err) {
+  (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken || -1, profile, scopes, canSendEmail).then(function (user, err) {
     //console.log(user,err)
     return done(err, user);
   });

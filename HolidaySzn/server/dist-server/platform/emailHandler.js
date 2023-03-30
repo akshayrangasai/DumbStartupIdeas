@@ -171,25 +171,33 @@ var gmailHandler = /*#__PURE__*/function () {
 }();
 var sendGridHandler = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(from, to, subject, message) {
+    var sgMail;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
+          if (!sgMail) {
+            sgMail = require('@sendgrid/mail');
+          }
+          console.log('email sendgrid function called');
+
+          //This is an error message
           return _context4.abrupt("return", new Promise(function (resolve, reject) {
             var msg = {
               to: from,
               from: 'no-reply@dumbstartupideas.com',
-              subject: "email to " + to + "failed",
+              subject: subject || "email to " + to + "failed",
               text: subject,
               html: message
             };
             sgMail.send(msg).then(function (response) {
+              console.log('email sendgrid success');
               resolve(response);
             })["catch"](function (error) {
               console.log(error);
               reject(error);
             });
           }));
-        case 1:
+        case 3:
         case "end":
           return _context4.stop();
       }
@@ -268,5 +276,6 @@ function _constructMessage() {
 module.exports = {
   sendEmail: sendEmail,
   errorEmail: errorEmail,
-  sendGridErrorHandler: sendGridErrorHandler
+  sendGridErrorHandler: sendGridErrorHandler,
+  sendGridHandler: sendGridHandler
 };

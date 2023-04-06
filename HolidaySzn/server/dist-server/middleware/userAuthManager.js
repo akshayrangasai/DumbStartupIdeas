@@ -22,6 +22,7 @@ function _createOrModifyUser() {
             var filter = {
               email: profile.email
             };
+            //console.log(filter);
             _user["default"].findOne(filter).then(function (data) {
               if (data) {
                 _user["default"].findOneAndUpdate({
@@ -37,7 +38,7 @@ function _createOrModifyUser() {
                 }, {
                   "new": true
                 }).then(function (newAdd) {
-                  return resolve(newAdd);
+                  resolve(newAdd);
                 });
               } else {
                 _user["default"].create({
@@ -53,6 +54,7 @@ function _createOrModifyUser() {
                 }).then(function (newAdd) {
                   //sendEmail('akshayrangasai.d@gmail.com', 'notifications@dumbstartupideas.com', "New Signup " + profile.given_name, "details :" +data ).then(
                   //  (resp) => {console.log('email sent');resolve(newAdd)});
+
                   resolve(newAdd);
                 });
               }

@@ -49,7 +49,7 @@ const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
   createOrModifyUser(accessToken, refreshToken || -1 , profile, scopes , canSendEmail ).then(
     (user, err) =>
       {
-        //console.log(user,err)
+        err?console.log(err):console.log('Updated User');
         return done(err,user);
       }
 );
@@ -66,7 +66,7 @@ passport.use(new GoogleStrategy(StrategyParams,passportCallBack));
 
 const authRouter = Router();
 
-authRouter.get('/google/', passport.authenticate('google', {scope : ['email','profile','https://www.googleapis.com/auth/gmail.send'], accessType: 'offline'}));
+authRouter.get('/google/', passport.authenticate('google', {scope : ['email','profile','https://www.googleapis.com/auth/gmail.send'], accessType: 'offline', prompt : 'select_account'}));
 
 authRouter.get('/google/callback', passport.authenticate('google',{
     successRedirect: process.env.CLIENT_URL,

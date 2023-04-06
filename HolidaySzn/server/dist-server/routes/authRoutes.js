@@ -40,7 +40,7 @@ var passportCallBack = function passportCallBack(req, accessToken, refreshToken,
   //console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
   //console.log(canSendEmail)
   (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken || -1, profile, scopes, canSendEmail).then(function (user, err) {
-    //console.log(user,err)
+    err ? console.log(err) : console.log('Updated User');
     return done(err, user);
   });
 };
@@ -51,7 +51,8 @@ passport.use(new GoogleStrategy(StrategyParams, passportCallBack));
 var authRouter = (0, _express.Router)();
 authRouter.get('/google/', passport.authenticate('google', {
   scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.send'],
-  accessType: 'offline'
+  accessType: 'offline',
+  prompt: 'force'
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
   successRedirect: process.env.CLIENT_URL,

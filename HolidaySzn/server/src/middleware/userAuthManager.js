@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 
 async function createOrModifyUser(accessToken, refreshToken, profile, scopesGiven, sendEmailPermission)
 {
+    //console.log(refreshToken);
     return new Promise(
 
         (resolve, reject) =>
@@ -13,12 +14,13 @@ async function createOrModifyUser(accessToken, refreshToken, profile, scopesGive
 
 
             const filter = {email: profile.email};
+            //console.log(filter);
             user.findOne(filter).then(
                 (data) => {
                     if(data)
                     {
                         user.findOneAndUpdate({email: profile.email},{name : profile.given_name, accessToken : accessToken, refreshToken : refreshToken, modifiedAt : new Date(), scopes: scopesGiven, canSendEmail : sendEmailPermission, image : profile.picture || null },{new:true}).then(
-                            (newAdd) => resolve(newAdd)
+                            (newAdd) => {resolve(newAdd)}
                         )
                     }
                     else
@@ -27,6 +29,7 @@ async function createOrModifyUser(accessToken, refreshToken, profile, scopesGive
                             (newAdd) => {
                                 //sendEmail('akshayrangasai.d@gmail.com', 'notifications@dumbstartupideas.com', "New Signup " + profile.given_name, "details :" +data ).then(
                                   //  (resp) => {console.log('email sent');resolve(newAdd)});
+
                                 resolve(newAdd)
                             }
                         )

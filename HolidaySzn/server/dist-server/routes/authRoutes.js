@@ -38,7 +38,8 @@ var passportCallBack = function passportCallBack(req, accessToken, refreshToken,
   var scopes = req.query.scope.split(' ');
   var canSendEmail = refreshToken ? scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1 : false;
   //console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
-  //console.log(canSendEmail)
+  console.log(canSendEmail);
+  console.log(refreshToken);
   (0, _userAuthManager.createOrModifyUser)(accessToken, refreshToken || -1, profile, scopes, canSendEmail).then(function (user, err) {
     err ? console.log(err) : console.log('Updated User');
     return done(err, user);
@@ -52,7 +53,7 @@ var authRouter = (0, _express.Router)();
 authRouter.get('/google/', passport.authenticate('google', {
   scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.send'],
   accessType: 'offline',
-  prompt: 'force'
+  prompt: 'select_account'
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
   successRedirect: process.env.CLIENT_URL,

@@ -41,7 +41,7 @@ passport.serializeUser(function(user, done) {
 
 const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
     //console.log(profile);
-  
+    console.log(accessToken, refreshToken, profile);
     const scopes = req.query.scope.split(' ');
     const canSendEmail = refreshToken?scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1:false;
     console.log(accessToken, refreshToken, profile, scopes , canSendEmail )

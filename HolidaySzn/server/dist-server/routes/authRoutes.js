@@ -52,7 +52,8 @@ passport.use(new GoogleStrategy(StrategyParams, passportCallBack));
 var authRouter = (0, _express.Router)();
 authRouter.get('/google/', passport.authenticate('google', {
   scope: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.send'],
-  accessType: 'offline'
+  accessType: 'offline',
+  prompt: 'consent'
 }));
 authRouter.get('/google/callback', passport.authenticate('google', {
   successRedirect: process.env.CLIENT_URL,

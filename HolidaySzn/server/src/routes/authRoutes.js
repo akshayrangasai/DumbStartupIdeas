@@ -47,7 +47,7 @@ const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
     console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
     console.log(canSendEmail)
     //console.log(refreshToken);
-  createOrModifyUser(accessToken, refreshToken || -1 , profile, scopes , canSendEmail ).then(
+  createOrModifyUser(accessToken, refreshToken , profile, scopes , canSendEmail ).then(
     (user, err) =>
       {
         err?console.log(err):console.log('Updated User');

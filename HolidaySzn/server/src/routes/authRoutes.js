@@ -44,7 +44,7 @@ const passportCallBack = (req, accessToken, refreshToken, profile, done) => {
   
     const scopes = req.query.scope.split(' ');
     const canSendEmail = refreshToken?scopes.indexOf('https://www.googleapis.com/auth/gmail.send') > -1:false;
-    //console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
+    console.log(accessToken, refreshToken, profile, scopes , canSendEmail )
     console.log(canSendEmail)
     //console.log(refreshToken);
   createOrModifyUser(accessToken, refreshToken || -1 , profile, scopes , canSendEmail ).then(

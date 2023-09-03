@@ -52,6 +52,9 @@ async function emailDispatch(req,res){
 
         const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
 
+        //below sends a notification that an email has been sent when we run this dispatch automatically
+        const notifySend = await sendEmail(fromEmail, fromEmail, "[greetings.ai] greetings sent to " + toName, emailMessage);
+
         const emailUpdateDic = {
         recepientId: recepient._id,
         fromUser : results[i].fromUser,

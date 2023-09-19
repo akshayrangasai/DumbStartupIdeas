@@ -82,7 +82,7 @@ function emailDispatch(_x2, _x3) {
 }
 function _emailDispatch() {
   _emailDispatch = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
-    var results, emailsForTheDay, i, fromEmail, toEmail, fromName, toName, recepient, emailSubject, emailMessage, emailSender, emailUpdateDic, updateData;
+    var results, emailsForTheDay, i, fromEmail, toEmail, fromName, toName, recepient, emailSubject, emailMessage, emailSender, notificationSubject, notificationMessage, notifySend, emailUpdateDic, updateData;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -92,14 +92,14 @@ function _emailDispatch() {
           results = _context3.sent;
           console.log("got messages for day");
           if (!(results.length > 0)) {
-            _context3.next = 38;
+            _context3.next = 50;
             break;
           }
           emailsForTheDay = new Array();
           i = 0;
         case 7:
           if (!(i < results.length)) {
-            _context3.next = 36;
+            _context3.next = 48;
             break;
           }
           fromEmail = results[i].fromEmail;
@@ -131,6 +131,22 @@ function _emailDispatch() {
           return (0, _emailHandler.sendEmail)(fromEmail, toEmail, emailSubject, emailMessage);
         case 26:
           emailSender = _context3.sent;
+          //below sends a notification that an email has been sent when we run this dispatch automatically
+          notificationSubject = "[greetings.ai] notification for " + toEmail;
+          notificationMessage = "greetings sent to " + toEmail + "with subject " + emailSubject;
+          _context3.prev = 29;
+          _context3.next = 32;
+          return (0, _emailHandler.sendEmail)(fromEmail, fromEmail, notificationSubject, notificationMessage);
+        case 32:
+          notifySend = _context3.sent;
+          console.log(notificationSubject);
+          _context3.next = 39;
+          break;
+        case 36:
+          _context3.prev = 36;
+          _context3.t1 = _context3["catch"](29);
+          console.log(_context3.t1);
+        case 39:
           emailUpdateDic = {
             recepientId: recepient._id,
             fromUser: results[i].fromUser,
@@ -147,9 +163,9 @@ function _emailDispatch() {
             formatting: true,
             autoSend: true
           };
-          _context3.next = 30;
+          _context3.next = 42;
           return updateSentEmails(emailUpdateDic);
-        case 30:
+        case 42:
           updateData = _context3.sent;
           emailsForTheDay.push(updateData);
           if (i == results.length - 1) {
@@ -158,20 +174,20 @@ function _emailDispatch() {
               return data._id;
             }));
           }
-        case 33:
+        case 45:
           i++;
           _context3.next = 7;
           break;
-        case 36:
-          _context3.next = 39;
+        case 48:
+          _context3.next = 51;
           break;
-        case 38:
+        case 50:
           res.json({});
-        case 39:
+        case 51:
         case "end":
           return _context3.stop();
       }
-    }, _callee3);
+    }, _callee3, null, [[29, 36]]);
   }));
   return _emailDispatch.apply(this, arguments);
 }
@@ -201,7 +217,7 @@ function emailDispatchTest(_x6, _x7) {
 }
 function _emailDispatchTest() {
   _emailDispatchTest = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender, recepient, emailUpdateDic, updateData;
+    var occasionId, messageData, emailSubject, emailMessage, fromEmail, toEmail, emailSender, recepient, notificationSubject, notificationMessage, notifySend, emailUpdateDic, updateData;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
@@ -228,6 +244,22 @@ function _emailDispatchTest() {
           });
         case 15:
           recepient = _context5.sent;
+          //below sends a notification that an email has been sent when we run this dispatch automatically
+          notificationSubject = "[greetings.ai] notification for " + toEmail;
+          notificationMessage = "greetings sent to " + toEmail + "with subject " + emailSubject;
+          _context5.prev = 18;
+          _context5.next = 21;
+          return (0, _emailHandler.sendEmail)(fromEmail, fromEmail, notificationSubject, notificationMessage);
+        case 21:
+          notifySend = _context5.sent;
+          console.log(notificationSubject);
+          _context5.next = 28;
+          break;
+        case 25:
+          _context5.prev = 25;
+          _context5.t0 = _context5["catch"](18);
+          console.log(_context5.t0);
+        case 28:
           emailUpdateDic = {
             recepientId: recepient._id,
             fromUser: messageData.fromUser,
@@ -244,23 +276,23 @@ function _emailDispatchTest() {
             formatting: true,
             autoSend: false
           };
-          _context5.next = 19;
+          _context5.next = 31;
           return updateSentEmails(emailUpdateDic);
-        case 19:
+        case 31:
           updateData = _context5.sent;
           console.log(updateData);
           res.send(emailSender);
-          _context5.next = 27;
+          _context5.next = 39;
           break;
-        case 24:
-          _context5.prev = 24;
-          _context5.t0 = _context5["catch"](1);
+        case 36:
+          _context5.prev = 36;
+          _context5.t1 = _context5["catch"](1);
           res.sendStatus(500);
-        case 27:
+        case 39:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[1, 24]]);
+    }, _callee5, null, [[1, 36], [18, 25]]);
   }));
   return _emailDispatchTest.apply(this, arguments);
 }

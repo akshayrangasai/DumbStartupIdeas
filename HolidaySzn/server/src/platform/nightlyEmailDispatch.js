@@ -51,9 +51,10 @@ async function emailDispatch(req, res) {
             const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
 
             //below sends a notification that an email has been sent when we run this dispatch automatically
-            let notificationSubject = "[greetings.ai] greetings sent to " + toName;
+            let notificationSubject = "[greetings.ai] notification";
+            let notificationMessage = "greetings sent to " + toEmail;
             try {
-                const notifySend = await sendEmail(fromEmail, fromEmail, notificationSubject, emailMessage);
+                const notifySend = await sendEmail(fromEmail, fromEmail, notificationSubject, notificationMessage);
                 console.log(notificationSubject);
             }
             catch (e) {
@@ -116,9 +117,10 @@ async function emailDispatchTest(req, res) {
         let recepient = await recepientModel.findOne({ toEmail: toEmail });
 
         //below sends a notification that an email has been sent when we run this dispatch automatically
-        let notificationSubject = "[greetings.ai] manual greetings sent to " + toEmail;
+        let notificationSubject = "[greetings.ai] notification";
+        let notificationMessage = "greetings sent to " + toEmail;
         try {
-            const notifySend = await sendEmail(fromEmail, fromEmail, notificationSubject, emailMessage);
+            const notifySend = await sendEmail(fromEmail, fromEmail, notificationSubject, notificationMessage);
             console.log(notificationSubject);
         }
         catch (e) {

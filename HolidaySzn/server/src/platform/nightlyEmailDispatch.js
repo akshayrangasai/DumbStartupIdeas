@@ -83,6 +83,7 @@ async function emailDispatch(req, res) {
 
             if (i == results.length - 1) {
                 //console.log(emailsForTheDay.length);
+
                 res.send(emailsForTheDay.map(data => { return data._id }));
             }
 
@@ -172,5 +173,7 @@ async function emailDispatchTest(req, res) {
     res.send(formattedResult || "lol");
     */
 }
+
+//Adding a comment here for a push to github to keep the action alive
 
 module.exports = { emailDispatch, emailDispatchTest, emailBulkDispatchTest }

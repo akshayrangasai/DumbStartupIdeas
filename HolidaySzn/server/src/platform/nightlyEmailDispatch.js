@@ -47,9 +47,12 @@ async function emailDispatch(req, res) {
             let recepient = await recepientModel.findOne({ toEmail: toEmail });
             let emailSubject = results[i].emailSubject;
             let emailMessage = results[i].formattedMessage ? results[i].formattedMessage : await greetingsFormat(results[i].message);
-
-            const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
-
+            try {
+                const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
+            }
+            catch (e) {
+                console.log(e);
+            }
             //below sends a notification that an email has been sent when we run this dispatch automatically
             let notificationSubject = "[greetings.ai] notification for " + toEmail;
             let notificationMessage = "greetings sent to " + toEmail + "with subject " + emailSubject;

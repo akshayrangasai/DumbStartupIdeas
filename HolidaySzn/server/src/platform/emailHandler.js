@@ -106,40 +106,41 @@ const gmailHandler = async (from, to, subject, message) => {
                                 throw Error('No access token returned.');
                                 reject('No access token');
                             }
-                        }
-                    ).catch(err => reject(err));
+                            else {
+                                const gmail = google.gmail(
+                                    {
+                                        version: 'v1',
+                                        auth: authClient
+                                    }
+                                );
+                                gmail.users.messages.send({
+                                    userId: 'me',
+                                    requestBody: {
+                                        raw: encodedMessage,
+                                    },
+                                }).then(
+                                    (res) => {
+                                        resolve(res.data);
 
-                    const gmail = google.gmail(
-                        {
-                            version: 'v1',
-                            auth: authClient
-                        }
-                    );
-                    gmail.users.messages.send({
-                        userId: 'me',
-                        requestBody: {
-                            raw: encodedMessage,
-                        },
-                    }).then(
-                        (res) => {
-                            resolve(res.data);
+                                        //return res.data;
+                                    }
+                                ).catch(err => {
 
-                            //return res.data;
-                        }
-                    ).catch(err => {
+                                    console.log(err);
+                                    try {
+                                        sendGridErrorHandler(from, to, subject, err).then(data => reject(err));
+                                    }
+                                    catch (errormax) {
+                                        console.log(errormax);
+                                        sendGridErrorHandler(from, to, subject, errormax).then(data => reject(err));
+                                        reject(errormax)
+                                    }
 
-                        console.log(err);
-                        try {
-                            sendGridErrorHandler(from, to, subject, err).then(data => reject(err));
-                        }
-                        catch (errormax) {
-                            console.log(errormax);
-                            sendGridErrorHandler(from, to, subject, errormax).then(data => reject(err));
-                            reject(errormax)
-                        }
+                                })
+                            }
 
-                    })
-
+                        }
+                    ).catch((err) => { console.log(err); reject(err) });
                 }
             )
         }

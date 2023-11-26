@@ -35,7 +35,7 @@ async function getMessagesForTheDay() {
 async function emailDispatch(req, res) {
 
     const results = await getMessagesForTheDay();
-    console.log("got messages for day", results)
+    console.log("got messages for day, there are ", results.length, " messages")
 
     if (results.length > 0) {
         const emailsForTheDay = new Array();
@@ -48,10 +48,12 @@ async function emailDispatch(req, res) {
             let emailSubject = results[i].emailSubject;
             let emailMessage = results[i].formattedMessage ? results[i].formattedMessage : await greetingsFormat(results[i].message);
             try {
+                console.log(fromEmail, toEmail);
                 const emailSender = await sendEmail(fromEmail, toEmail, emailSubject, emailMessage);
             }
             catch (e) {
                 console.log(e);
+                continue;
             }
             //below sends a notification that an email has been sent when we run this dispatch automatically
             let notificationSubject = "[greetings.ai] notification for " + toEmail;

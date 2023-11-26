@@ -104,9 +104,10 @@ const gmailHandler = async (from, to, subject, message) => {
                             if (!res_token.tokens && !res_token.credentials) {
                                 console.log('No tokens returned for ', from)
                                 throw Error('No access token returned.');
+                                reject('No access token');
                             }
                         }
-                    );
+                    ).catch(err => reject(err));
 
                     const gmail = google.gmail(
                         {

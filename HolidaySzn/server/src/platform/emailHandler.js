@@ -35,12 +35,13 @@ const mailMan = async (from) => {
                     const oauth2 = google.oauth2('v2');
 
                     oauth2.userinfo.get({ auth: authClient }).then(
-                        (data) => resolve(false)
+                        (data) => { console.log("Can send gmail for ", data); resolve(false); }
                     )
                 } else {
 
-                    resolve(true)
+
                     console.log(from, "Can't send emails from gmail");
+                    resolve(true)
                 }
 
             }).catch(

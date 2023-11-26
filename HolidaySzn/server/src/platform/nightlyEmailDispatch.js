@@ -35,7 +35,7 @@ async function getMessagesForTheDay() {
 async function emailDispatch(req, res) {
 
     const results = await getMessagesForTheDay();
-    console.log("got messages for day")
+    console.log("got messages for day", results)
 
     if (results.length > 0) {
         const emailsForTheDay = new Array();

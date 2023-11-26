@@ -36,10 +36,8 @@ const mailMan = async (from) => {
 
                     oauth2.userinfo.get({ auth: authClient }).then(
                         (data) => { console.log("Can send gmail for ", data); resolve(false); }
-                    )
+                    ).catch(err => console.log(err))
                 } else {
-
-
                     console.log(from, "Can't send emails from gmail");
                     resolve(true)
                 }

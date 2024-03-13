@@ -40,11 +40,14 @@ var mailMan = /*#__PURE__*/function () {
                 oauth2.userinfo.get({
                   auth: authClient
                 }).then(function (data) {
-                  return resolve(false);
+                  console.log("Can send gmail for ", data);
+                  resolve(false);
+                })["catch"](function (err) {
+                  return console.log(err);
                 });
               } else {
-                resolve(true);
                 console.log(from, "Can't send emails from gmail");
+                resolve(true);
               }
             })["catch"](function (err) {
               console.log("Gmail Token Error", err);
@@ -138,28 +141,43 @@ var gmailHandler = /*#__PURE__*/function () {
               authClient.setCredentials({
                 refresh_token: data.refreshToken
               });
-              var gmail = google.gmail({
-                version: 'v1',
-                auth: authClient
-              });
-              gmail.users.messages.send({
-                userId: 'me',
-                requestBody: {
-                  raw: encodedMessage
-                }
-              }).then(function (res) {
-                resolve(res.data);
+              authClient.refreshAccessToken().then(function (res_token) {
+                if (!res_token.tokens && !res_token.credentials) {
+                  console.log('No tokens returned for ', from);
+                  throw Error('No access token returned.');
+                  reject('No access token');
+                } else {
+                  var gmail = google.gmail({
+                    version: 'v1',
+                    auth: authClient
+                  });
+                  gmail.users.messages.send({
+                    userId: 'me',
+                    requestBody: {
+                      raw: encodedMessage
+                    }
+                  }).then(function (res) {
+                    resolve(res.data);
 
-                //return res.data;
+                    //return res.data;
+                  })["catch"](function (err) {
+                    console.log(err);
+                    try {
+                      sendGridErrorHandler(from, to, subject, err).then(function (data) {
+                        return reject(err);
+                      });
+                    } catch (errormax) {
+                      console.log(errormax);
+                      sendGridErrorHandler(from, to, subject, errormax).then(function (data) {
+                        return reject(err);
+                      });
+                      reject(errormax);
+                    }
+                  });
+                }
               })["catch"](function (err) {
                 console.log(err);
-                try {
-                  sendGridErrorHandler(from, to, subject, err).then(function (data) {
-                    return reject(err);
-                  });
-                } catch (errormax) {
-                  reject(errormax);
-                }
+                reject(err);
               });
             });
           }));

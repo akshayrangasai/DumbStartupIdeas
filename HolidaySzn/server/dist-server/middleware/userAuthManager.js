@@ -10,6 +10,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 require('dotenv').config();
 var mongoose = require('mongoose');
+var GOOGLE_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+var GOOGLE_CLIENT = process.env.GOOGLE_CLIENT_ID;
+var redirectURL = process.env.BASE_URL + '/auth/google/';
+//redirectURL = concat(process.env.BASE_URL,redirectURL);
+
+var authClient = new _googleapis.google.auth.OAuth2(GOOGLE_CLIENT, GOOGLE_SECRET, redirectURL);
 function createOrModifyUser(_x, _x2, _x3, _x4, _x5) {
   return _createOrModifyUser.apply(this, arguments);
 }
@@ -124,6 +130,13 @@ function _getRefreshToken() {
             _user["default"].findOne({
               email: userEmail
             }).then(function (userDetails) {
+              //Check if refresh token is valid 
+
+              authClient.setCredentials({
+                refresh_token: data.refreshToken
+              });
+              var csEmail = false;
+
               //console.log('filter ran')
 
               //console.log(userDetails);

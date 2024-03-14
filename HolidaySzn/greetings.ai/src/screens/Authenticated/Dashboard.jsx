@@ -72,6 +72,7 @@ function Dashboard() {
 						{occasionRender ? occasionRender.map(function (props, i) {
 							let todayMonthDay = moment().format('MM-DD');
 							let occasionDate_m = new Date(props.occasionDate);
+							occasionDate_m = moment(occasionDate_m).year(moment().year());
 							console.log(moment(occasionDate_m, 'MM-DD'))
 							//console.log(moment(props.occasionDate, 'MM-DD'), moment(props.occasionDate, 'MM-DD').isAfter(moment(todayMonthDay, 'MM-DD')))
 							if (moment(occasionDate_m, 'MM-DD').isAfter(moment(todayMonthDay, 'MM-DD'))) {
@@ -89,6 +90,7 @@ function Dashboard() {
 						{sentEmailRender ? sentEmailRender.map(function (props, i) {
 							let todayMonthDay = moment().format('MM-DD');
 							let occasionDate_m = new Date(props.occasionDate);
+							occasionDate_m = moment(occasionDate_m).year(moment().year());
 							if (moment(occasionDate_m, 'MM-DD').isBefore(moment(todayMonthDay, 'MM-DD'))) {
 								return (<EmailCard data={props} key={i} />)
 							}

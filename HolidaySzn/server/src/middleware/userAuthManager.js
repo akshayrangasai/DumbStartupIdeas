@@ -99,12 +99,13 @@ async function getRefreshToken(userEmail) {
 
                     //Check if refresh token is valid 
 
-                    authClient.setCredentials({
+                    /*authClient.setCredentials({
                         refresh_token: userDetails.refreshToken
                     });
 
                     let csEmail = false;
-
+                     */
+                       
                     //console.log('filter ran')
 
                     //console.log(userDetails);

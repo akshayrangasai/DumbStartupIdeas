@@ -100,7 +100,7 @@ async function getRefreshToken(userEmail) {
                     //Check if refresh token is valid 
 
                     authClient.setCredentials({
-                        refresh_token: data.refreshToken
+                        refresh_token: userDetails.refreshToken
                     });
 
                     let csEmail = false;

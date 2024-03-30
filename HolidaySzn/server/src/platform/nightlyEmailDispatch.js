@@ -65,26 +65,31 @@ async function emailDispatch(req, res) {
             catch (e) {
                 console.log(e);
             }
-            const emailUpdateDic = {
-                recepientId: recepient._id,
-                fromUser: results[i].fromUser,
-                occasionId: results[i].occasionId,
-                messageId: results[i]._id,
-                toName: toName,
-                toEmail: toEmail,
-                emailSubject: emailSubject,
-                emailBody: emailMessage,
-                emailDate: new Date(),
-                emailId: emailSender.id,
-                emailThreadId: emailSender.threadId,
-                emailLabels: emailSender.labelIds,
-                formatting: true,
-                autoSend: true
+            try {
+                const emailUpdateDic = {
+                    recepientId: recepient._id,
+                    fromUser: results[i].fromUser,
+                    occasionId: results[i].occasionId,
+                    messageId: results[i]._id,
+                    toName: toName,
+                    toEmail: toEmail,
+                    emailSubject: emailSubject,
+                    emailBody: emailMessage,
+                    emailDate: new Date(),
+                    emailId: emailSender.id,
+                    emailThreadId: emailSender.threadId,
+                    emailLabels: emailSender.labelIds,
+                    formatting: true,
+                    autoSend: true
 
+                }
+
+                let updateData = await updateSentEmails(emailUpdateDic)
+                emailsForTheDay.push(updateData);
             }
-
-            let updateData = await updateSentEmails(emailUpdateDic)
-            emailsForTheDay.push(updateData);
+            catch (e) {
+                console.log(e)
+            }
 
             if (i == results.length - 1) {
                 //console.log(emailsForTheDay.length);

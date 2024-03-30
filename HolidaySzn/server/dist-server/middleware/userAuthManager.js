@@ -132,10 +132,11 @@ function _getRefreshToken() {
             }).then(function (userDetails) {
               //Check if refresh token is valid 
 
-              authClient.setCredentials({
-                refresh_token: data.refreshToken
+              /*authClient.setCredentials({
+                  refresh_token: userDetails.refreshToken
               });
-              var csEmail = false;
+               let csEmail = false;
+               */
 
               //console.log('filter ran')
 

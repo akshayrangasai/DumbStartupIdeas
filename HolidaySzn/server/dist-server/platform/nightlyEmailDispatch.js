@@ -92,14 +92,14 @@ function _emailDispatch() {
           results = _context3.sent;
           console.log("got messages for day, there are ", results.length, " messages");
           if (!(results.length > 0)) {
-            _context3.next = 58;
+            _context3.next = 64;
             break;
           }
           emailsForTheDay = new Array();
           i = 0;
         case 7:
           if (!(i < results.length)) {
-            _context3.next = 56;
+            _context3.next = 62;
             break;
           }
           fromEmail = results[i].fromEmail;
@@ -139,7 +139,7 @@ function _emailDispatch() {
           _context3.prev = 31;
           _context3.t1 = _context3["catch"](24);
           console.log(_context3.t1);
-          return _context3.abrupt("continue", 53);
+          return _context3.abrupt("continue", 59);
         case 35:
           //below sends a notification that an email has been sent when we run this dispatch automatically
           notificationSubject = "[greetings.ai] notification for " + toEmail;
@@ -157,6 +157,7 @@ function _emailDispatch() {
           _context3.t2 = _context3["catch"](37);
           console.log(_context3.t2);
         case 47:
+          _context3.prev = 47;
           emailUpdateDic = {
             recepientId: recepient._id,
             fromUser: results[i].fromUser,
@@ -173,11 +174,18 @@ function _emailDispatch() {
             formatting: true,
             autoSend: true
           };
-          _context3.next = 50;
+          _context3.next = 51;
           return updateSentEmails(emailUpdateDic);
-        case 50:
+        case 51:
           updateData = _context3.sent;
           emailsForTheDay.push(updateData);
+          _context3.next = 58;
+          break;
+        case 55:
+          _context3.prev = 55;
+          _context3.t3 = _context3["catch"](47);
+          console.log(_context3.t3);
+        case 58:
           if (i == results.length - 1) {
             //console.log(emailsForTheDay.length);
 
@@ -185,20 +193,20 @@ function _emailDispatch() {
               return data._id;
             }));
           }
-        case 53:
+        case 59:
           i++;
           _context3.next = 7;
           break;
-        case 56:
-          _context3.next = 59;
+        case 62:
+          _context3.next = 65;
           break;
-        case 58:
+        case 64:
           res.json({});
-        case 59:
+        case 65:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[24, 31], [37, 44]]);
+    }, _callee3, null, [[24, 31], [37, 44], [47, 55]]);
   }));
   return _emailDispatch.apply(this, arguments);
 }

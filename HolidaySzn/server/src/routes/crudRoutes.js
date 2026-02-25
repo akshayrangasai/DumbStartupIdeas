@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { passportAuth } from "../auth/auth";
 import {newUser} from "../crud/user"
-import { newOccasion, allOccasions, deleteOccasion, sentOccasions, getMessageForOccasion } from "../crud/occasion";
+import { newOccasion, newOccasionFromText, allOccasions, deleteOccasion, sentOccasions, getMessageForOccasion } from "../crud/occasion";
 import {findAllRecepients} from "../crud/recepient";
 
 const ensureLogIn = require('connect-ensure-login');
@@ -15,6 +15,7 @@ const crudRouter = Router();
 /*Occasion*/
 
 crudRouter.post('/occasion/create/', ensureLoggedIn, newOccasion);
+crudRouter.post('/occasion/create-from-text/', ensureLoggedIn, newOccasionFromText);
 crudRouter.get('/occasion/delete/:id/', ensureLoggedIn, deleteOccasion);
 crudRouter.get('/occasion/all/', ensureLoggedIn, allOccasions);
 crudRouter.get('/occasion/sent/all', ensureLoggedIn, sentOccasions);

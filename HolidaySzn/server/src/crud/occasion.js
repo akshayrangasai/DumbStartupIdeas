@@ -5,9 +5,32 @@ const messageBuilderModel = require('../models/messageBuilder');
 const finalEmailModel = require('../models/finalEmail');
 //const userModel = require("../models/user");
 import { findUser } from "./user";
+const { extractOccasionDetailsFromText } = require('../platform/occasionExtractor');
 import {createOrFindRecepient} from "./recepient";
 import {insertMessage} from '../platform/crudToMessage';
 import {findRecepientById} from './recepient';
+
+const newOccasionFromText = async (req, res) => {
+    try {
+        const text = req.body.text;
+
+        if (!text) {
+            return res.status(400).json({ error: "Text is required" });
+        }
+
+        const extractedData = await extractOccasionDetailsFromText(text);
+
+        // Merge extracted data into req.body
+        req.body = { ...req.body, ...extractedData };
+
+        // Call the existing newOccasion function
+        newOccasion(req, res);
+
+    } catch (err) {
+        console.error("Error processing text occasion:", err);
+        res.status(500).json({ error: "Failed to process text description" });
+    }
+};
 
 const newOccasion = (req,res) =>
 {
@@ -16,18 +39,18 @@ const newOccasion = (req,res) =>
     .then(
            (recepientData,err) => {
             findUser(req.user.email).then(
-                
+
                 (userData) =>{
-                
+
                 //console.log(req.body);
-                
+
                 const recepientid = recepientData._id;
-                const occasionData = 
+                const occasionData =
                     {
                         fromUser: userData._id,
                         recepientDetails : recepientid,
                         occasionDate: req.body.occasionDate || new Date(),
-                        occasionDetails: req.body.occasionDetails || null, 
+                        occasionDetails: req.body.occasionDetails || null,
                         occasionName : req.body.occasionName || "Birthday",
                         createdAt : new Date()
                     };
@@ -40,7 +63,7 @@ const newOccasion = (req,res) =>
                         //Send to message builder and build message from it in the platform
                         insertMessage(data);
                         res.json(data);
-                    } 
+                    }
                 )
                 .catch
                 (
@@ -53,8 +76,8 @@ const newOccasion = (req,res) =>
     (
         (err) => console.log(err)
     );
-    
-    
+
+
 };
 
 
@@ -73,15 +96,15 @@ const deleteOccasion = (req,res)=>
         (err) => res.send(err)
     )
 
-    
+
 }
 
 const allOccasions = async (req,res) =>
 {
-    let userEmail = req.user.email; 
+    let userEmail = req.user.email;
     const user = await findUser( userEmail );
     const occasionData = {fromUser : user._id}
-    const data = await occasionModel.find(occasionData).sort({occasionDate: 1});                   
+    const data = await occasionModel.find(occasionData).sort({occasionDate: 1});
     const allOccasions = await Promise.all(data.map(async (occasionArray) =>
                             {
                                 return new Promise(
@@ -96,10 +119,10 @@ const allOccasions = async (req,res) =>
                                             occasionDetails: occasionArray.occasionDetails,
                                             occasionDate: occasionArray.occasionDate,
                                             occasionId: occasionArray._id
-                                        }; 
+                                        };
                                         //console.log(returnDict);
-                                        resolve(returnDict); 
-                                        
+                                        resolve(returnDict);
+
                                     }))
                             }));
     //console.log(allOccasions)
@@ -111,11 +134,11 @@ const allOccasions = async (req,res) =>
 const sentOccasions = async (req,res) =>
 {
     //console.log('sent occasions');
-    let userEmail = req.user.email; 
+    let userEmail = req.user.email;
     const user = await findUser( userEmail );
     const occasionData = {fromUser : user._id}
-    const data = await finalEmailModel.find(occasionData)   
-    //console.log(data);                
+    const data = await finalEmailModel.find(occasionData)
+    //console.log(data);
     const allOccasions = data.map((occasionArray) =>
                             {
                                         const returnDict = {
@@ -125,13 +148,13 @@ const sentOccasions = async (req,res) =>
                                             emailSubject: occasionArray.emailSubject,
                                             emailContent: occasionArray.emailBody,
                                             autoSend : occasionArray.autoSend
-                                        }; 
+                                        };
                                         //console.log(returnDict);
-                                        return returnDict; 
+                                        return returnDict;
                                     }
-                                    
-                                        
-                                    
+
+
+
     );
     //console.log(allOccasions)
 
@@ -145,7 +168,7 @@ const getMessageForOccasion = (req,res) =>
 
     messageModel.findOne({occasionId:_id}).then(
         (data) => res.send(data.formattedMessage)
-        
+
             ).catch(
         (err) => res.send(err)
     )
@@ -153,4 +176,4 @@ const getMessageForOccasion = (req,res) =>
 
     //res.json(allOccasions);
 }
-module.exports = {newOccasion, allOccasions, deleteOccasion, sentOccasions, getMessageForOccasion};
+module.exports = {newOccasion, newOccasionFromText, allOccasions, deleteOccasion, sentOccasions, getMessageForOccasion};
